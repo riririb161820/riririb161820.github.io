@@ -4,6 +4,9 @@ date: 2026-06-11 13:10:00 +0900
 categories: [개발, 자동화]
 tags: [claude-code, github-pages, jekyll, chirpy, adsense, blog-automation]
 description: 클로드 코드로 작업한 내용을 블로그에 자동 발행하려다 티스토리 API 종료를 만났다. GitHub Pages + Jekyll Chirpy + 스킬 조합으로 비용 0원에 해결한 과정.
+image:
+  path: /assets/img/posts/claude-code-blog-automation-pipeline.png
+  alt: 터미널의 코드가 git을 거쳐 블로그 글로 발행되는 자동화 파이프라인
 ---
 
 ## 문제

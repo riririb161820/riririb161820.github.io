@@ -1,0 +1,58 @@
+<svg viewBox="0 0 1200 620" xmlns="http://www.w3.org/2000/svg" font-family="'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR','Segoe UI',sans-serif">
+  <rect width="1200" height="620" rx="22" fill="#f8fafc"/>
+  <text x="600" y="60" text-anchor="middle" font-size="34" font-weight="700" fill="#0f172a">자동 동기화 파이프라인 (양방향 수렴)</text>
+
+  <!-- Mac box -->
+  <rect x="60" y="120" width="300" height="180" rx="16" fill="#ffffff" stroke="#cbd5e1" stroke-width="2.5"/>
+  <text x="210" y="166" text-anchor="middle" font-size="26" font-weight="700" fill="#0f172a">macOS</text>
+  <text x="210" y="210" text-anchor="middle" font-size="20" fill="#475569">스킬 저장</text>
+  <text x="210" y="244" text-anchor="middle" font-size="19" fill="#2563eb">launchd · 3분 간격</text>
+  <text x="210" y="276" text-anchor="middle" font-size="18" fill="#64748b">sync-skills.sh</text>
+
+  <!-- Windows box -->
+  <rect x="840" y="120" width="300" height="180" rx="16" fill="#ffffff" stroke="#cbd5e1" stroke-width="2.5"/>
+  <text x="990" y="166" text-anchor="middle" font-size="26" font-weight="700" fill="#0f172a">Windows</text>
+  <text x="990" y="210" text-anchor="middle" font-size="20" fill="#475569">스킬 저장</text>
+  <text x="990" y="244" text-anchor="middle" font-size="19" fill="#2563eb">작업 스케줄러 · 3분</text>
+  <text x="990" y="276" text-anchor="middle" font-size="18" fill="#64748b">sync-skills.ps1</text>
+
+  <!-- GitHub hub -->
+  <rect x="470" y="140" width="260" height="140" rx="16" fill="#0f172a"/>
+  <text x="600" y="200" text-anchor="middle" font-size="26" font-weight="700" fill="#ffffff">GitHub</text>
+  <text x="600" y="236" text-anchor="middle" font-size="19" fill="#cbd5e1">claude-skills · main</text>
+
+  <!-- arrows mac<->github -->
+  <path d="M 360 196 H 462" stroke="#22c55e" stroke-width="4" fill="none" marker-end="url(#ag)"/>
+  <path d="M 462 232 H 360" stroke="#3b82f6" stroke-width="4" fill="none" marker-end="url(#ab)"/>
+  <!-- arrows github<->windows -->
+  <path d="M 730 196 H 838" stroke="#3b82f6" stroke-width="4" fill="none" marker-end="url(#ab)"/>
+  <path d="M 838 232 H 730" stroke="#22c55e" stroke-width="4" fill="none" marker-end="url(#ag)"/>
+
+  <defs>
+    <marker id="ag" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#22c55e"/></marker>
+    <marker id="ab" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#3b82f6"/></marker>
+  </defs>
+
+  <text x="600" y="330" text-anchor="middle" font-size="18" fill="#16a34a">초록 = push (내 변경 올리기)</text>
+  <text x="600" y="356" text-anchor="middle" font-size="18" fill="#2563eb">파랑 = pull·rebase (상대 변경 받기)</text>
+
+  <!-- bottom: sync script 3 steps -->
+  <rect x="120" y="400" width="960" height="170" rx="16" fill="#ffffff" stroke="#e2e8f0" stroke-width="2"/>
+  <text x="600" y="440" text-anchor="middle" font-size="22" font-weight="700" fill="#0f172a">sync 스크립트가 매 실행마다 하는 일</text>
+
+  <rect x="160" y="466" width="270" height="76" rx="12" fill="#f1f5f9"/>
+  <text x="295" y="500" text-anchor="middle" font-size="21" font-weight="600" fill="#0f172a">① 로컬 변경 커밋</text>
+  <text x="295" y="526" text-anchor="middle" font-size="17" fill="#64748b">git add · commit</text>
+
+  <rect x="465" y="466" width="270" height="76" rx="12" fill="#f1f5f9"/>
+  <text x="600" y="500" text-anchor="middle" font-size="21" font-weight="600" fill="#0f172a">② 원격 변경 흡수</text>
+  <text x="600" y="526" text-anchor="middle" font-size="17" fill="#64748b">fetch · rebase</text>
+
+  <rect x="770" y="466" width="270" height="76" rx="12" fill="#f1f5f9"/>
+  <text x="905" y="500" text-anchor="middle" font-size="21" font-weight="600" fill="#0f172a">③ 올리기</text>
+  <text x="905" y="526" text-anchor="middle" font-size="17" fill="#64748b">git push</text>
+
+  <path d="M 430 504 H 462" stroke="#94a3b8" stroke-width="3" fill="none" marker-end="url(#ag2)"/>
+  <path d="M 735 504 H 767" stroke="#94a3b8" stroke-width="3" fill="none" marker-end="url(#ag2)"/>
+  <defs><marker id="ag2" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker></defs>
+</svg>

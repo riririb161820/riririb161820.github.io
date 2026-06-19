@@ -1,0 +1,32 @@
+name: Instagram Series Auto-Publish
+
+# 블로그→인스타 자동화 시리즈 2~5편을 2일 간격으로 자동 발행.
+# 19:00 KST = 10:00 UTC. 6/21→2편, 6/23→3편, 6/25→4편, 6/27→5편.
+# 컴퓨터·앱이 꺼져 있어도 GitHub 서버가 실행한다.
+
+on:
+  schedule:
+    - cron: "0 10 21,23,25,27 6 *"
+  workflow_dispatch:
+    inputs:
+      ep:
+        description: "발행할 편 번호(2~5) 또는 auto(날짜로 자동)"
+        default: "auto"
+      dry_run:
+        description: "드라이런(컨테이너만 생성, 발행 안 함): 1 또는 0"
+        default: "0"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Publish carousel
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          EP: ${{ github.event.inputs.ep || 'auto' }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || '0' }}
+        run: node tools/insta_publish.mjs

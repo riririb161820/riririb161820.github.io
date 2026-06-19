@@ -66,6 +66,6 @@ chrome --headless --window-size=1080,1350 \
 
 1. [전체 설계와 도구 선택](/posts/blog-to-instagram-automation-1-design/)
 2. **카드뉴스 자동 생성** (현재 글)
-3. 잘되는 카드 벤치마킹 vs 카피 — 나만의 디자인 *(예정)*
-4. Instagram API 심사 없이 자동 발행하기 (Composio) *(예정)*
-5. 사업자 없으면 인스타 DM 자동화 못 합니다 *(예정)*
+3. [벤치마킹 vs 카피, 나만의 디자인](/posts/blog-to-instagram-automation-3-design/)
+4. [Composio로 자동 발행](/posts/blog-to-instagram-automation-4-publish/)
+5. [DM 자동화의 벽](/posts/blog-to-instagram-automation-5-dm-wall/)

@@ -1,5 +1,6 @@
 ---
 title: "Instagram API OAuthException 190 'session has been invalidated' 해결"
+headline: "OAuth 190 해결"
 date: 2026-06-19 09:35:00 +0900
 categories: [개발, 트러블슈팅]
 tags: [instagram, graph-api, oauth, troubleshooting, blog-to-insta]

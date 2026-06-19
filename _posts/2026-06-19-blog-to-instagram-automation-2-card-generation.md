@@ -1,5 +1,6 @@
 ---
 title: "블로그 글을 인스타그램에 자동 발행하기 (2) — 카드뉴스 자동 생성 (AI로 글자 넣으면 깨진다)"
+headline: "카드 자동 생성"
 date: 2026-06-19 10:08:00 +0900
 categories: [개발, 자동화]
 tags: [instagram, automation, html, chrome-headless, blog-to-insta]

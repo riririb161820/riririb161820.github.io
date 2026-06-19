@@ -1,5 +1,6 @@
 ---
 title: "클로드 코드 작업을 블로그로 자동 발행하기 — 조사부터 구축, 운영까지 한 세션의 기록"
+headline: "블로그 자동 발행"
 date: 2026-06-11 13:10:00 +0900
 categories: [개발, 자동화]
 tags: [claude-code, github-pages, jekyll, chirpy, adsense, blog-automation, flux]

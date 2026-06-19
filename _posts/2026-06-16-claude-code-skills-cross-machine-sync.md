@@ -1,5 +1,6 @@
 ---
 title: "Claude Code 스킬을 여러 PC에서 공유하기 — Mac·Windows 자동 동기화 파이프라인"
+headline: "스킬 PC 동기화"
 date: 2026-06-16 09:40:00 +0900
 categories: [개발, 자동화]
 tags: [claude-code, skills, git, github, launchd, automation]

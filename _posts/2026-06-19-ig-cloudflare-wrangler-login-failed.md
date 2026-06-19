@@ -11,8 +11,6 @@ description: wrangler login이 'Timed out waiting for authorization code', 'cons
 
 > 이 글은 [블로그→인스타 자동화 (5) DM의 벽](/posts/blog-to-instagram-automation-5-dm-wall/) 작업 중 Cloudflare Workers 배포에서 만난 문제입니다.
 
-![wrangler login 실패 — 증상·원인·해결](/assets/img/posts/body-ts-wrangler-login.png)
-
 ## 증상
 
 `wrangler login`이 브라우저 인증 후 이런 에러로 실패한다.

@@ -1,0 +1,213 @@
+---
+layout: default
+---
+
+{% include lang.html %}
+
+<style>
+  #post-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    gap: 1.5rem;
+  }
+  #post-list .card-wrapper {
+    margin-bottom: 0;
+    height: 100%;
+  }
+  #post-list .post-preview {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  #post-list .pimg {
+    width: 100%;
+    aspect-ratio: 1.91 / 1;
+    overflow: hidden;
+    border-radius: var(--bs-card-border-radius) var(--bs-card-border-radius) 0 0;
+  }
+  #post-list .pimg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin: 0;
+    transition: scale 0.35s ease;
+  }
+  #post-list .card-wrapper:hover .pimg img {
+    scale: 1.05;
+  }
+  #post-list .pimg.noimg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--card-header-bg, var(--card-bg));
+    color: var(--text-muted-color);
+    font-size: 1.75rem;
+  }
+  #post-list .card-body {
+    padding: 1rem 1.25rem 1.25rem;
+    flex-grow: 1;
+  }
+  #post-list .pcats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 0.6rem;
+  }
+  #post-list .pcat {
+    font-size: 0.72rem;
+    line-height: 1.2;
+    padding: 3px 10px;
+    border-radius: 0.5rem;
+    background: #e6f1fb;
+    color: #185fa5;
+    white-space: nowrap;
+  }
+  html[data-mode='dark'] #post-list .pcat {
+    background: #16324c;
+    color: #9fc6f0;
+  }
+  #post-list .card-title {
+    font-size: 1.05rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  #post-list .card-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
+
+{% assign all_pinned = site.posts | where: 'pin', 'true' %}
+{% assign all_normal = site.posts | where_exp: 'item', 'item.pin != true and item.hidden != true' %}
+
+{% assign posts = '' | split: '' %}
+
+<!-- Get pinned posts on current page -->
+
+{% assign visible_start = paginator.page | minus: 1 | times: paginator.per_page %}
+{% assign visible_end = visible_start | plus: paginator.per_page %}
+
+{% if all_pinned.size > visible_start %}
+  {% if all_pinned.size > visible_end %}
+    {% assign pinned_size = paginator.per_page %}
+  {% else %}
+    {% assign pinned_size = all_pinned.size | minus: visible_start %}
+  {% endif %}
+
+  {% for i in (visible_start..all_pinned.size) limit: pinned_size %}
+    {% assign posts = posts | push: all_pinned[i] %}
+  {% endfor %}
+{% else %}
+  {% assign pinned_size = 0 %}
+{% endif %}
+
+<!-- Get normal posts on current page -->
+
+{% assign normal_size = paginator.posts | size | minus: pinned_size %}
+
+{% if normal_size > 0 %}
+  {% if pinned_size > 0 %}
+    {% assign normal_start = 0 %}
+  {% else %}
+    {% assign normal_start = visible_start | minus: all_pinned.size %}
+  {% endif %}
+
+  {% assign normal_end = normal_start | plus: normal_size | minus: 1 %}
+
+  {% for i in (normal_start..normal_end) %}
+    {% assign posts = posts | push: all_normal[i] %}
+  {% endfor %}
+{% endif %}
+
+<div id="post-list" class="flex-grow-1 px-xl-1">
+  {% for post in posts %}
+    <article class="card-wrapper card">
+      <a href="{{ post.url | relative_url }}" class="post-preview">
+        {% if post.image %}
+          {% assign src = post.image.path | default: post.image %}
+
+          {% if post.media_subpath %}
+            {% unless src contains '://' %}
+              {% assign src = post.media_subpath
+                | append: '/'
+                | append: src
+                | replace: '///', '/'
+                | replace: '//', '/'
+              %}
+            {% endunless %}
+          {% endif %}
+
+          {% if post.image.lqip %}
+            {% assign lqip = post.image.lqip %}
+
+            {% if post.media_subpath %}
+              {% unless lqip contains 'data:' %}
+                {% assign lqip = post.media_subpath
+                  | append: '/'
+                  | append: lqip
+                  | replace: '///', '/'
+                  | replace: '//', '/'
+                %}
+              {% endunless %}
+            {% endif %}
+
+            {% assign lqip_attr = 'lqip="' | append: lqip | append: '"' %}
+          {% endif %}
+
+          {% assign alt = post.image.alt | xml_escape | default: 'Preview Image' %}
+
+          <div class="pimg">
+            <img src="{{ src }}" alt="{{ alt }}" {{ lqip_attr }}>
+          </div>
+        {% else %}
+          <div class="pimg noimg">
+            <i class="far fa-image"></i>
+          </div>
+        {% endif %}
+
+        <div class="card-body d-flex flex-column">
+          {% if post.categories.size > 0 %}
+            <div class="pcats">
+              {% for category in post.categories %}
+                <span class="pcat">{{ category }}</span>
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          <h1 class="card-title my-2 mt-md-0">{{ post.title }}</h1>
+
+          <div class="card-text content mt-0 mb-3">
+            <p>{% include post-summary.html %}</p>
+          </div>
+
+          <div class="post-meta flex-grow-1 d-flex align-items-end">
+            <div class="me-auto">
+              <!-- posted date -->
+              <i class="far fa-calendar fa-fw me-1"></i>
+              {% include datetime.html date=post.date lang=lang %}
+            </div>
+
+            {% if post.pin %}
+              <div class="pin ms-1">
+                <i class="fas fa-thumbtack fa-fw"></i>
+                <span>{{ site.data.locales[lang].post.pin_prompt }}</span>
+              </div>
+            {% endif %}
+          </div>
+          <!-- .post-meta -->
+        </div>
+        <!-- .card-body -->
+      </a>
+    </article>
+  {% endfor %}
+</div>
+<!-- #post-list -->
+
+{% if paginator.total_pages > 1 %}
+  {% include post-paginator.html %}
+{% endif %}

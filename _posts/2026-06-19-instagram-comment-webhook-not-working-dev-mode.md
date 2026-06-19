@@ -11,8 +11,6 @@ description: 실제 댓글을 달아도 Instagram comments webhook이 서버에 
 
 > 이 글은 [블로그→인스타 자동화 (5) DM의 벽](/posts/blog-to-instagram-automation-5-dm-wall/) 작업 중 follow-gate 봇을 만들며 만난 문제입니다.
 
-![댓글 webhook 미수신 — 증상·원인·해결](/assets/img/posts/body-ts-comment-webhook.png)
-
 ## 증상
 
 게시물에 실제로 댓글을 달았는데도 **서버(webhook 엔드포인트)에 이벤트가 0건** 들어온다. 반면 Meta 대시보드의 **"Test" 버튼으로 보낸 샘플 webhook은 정상 도착**한다. → 전달 경로(콜백)는 멀쩡한데, *실제 댓글 이벤트*만 안 생기는 상황.

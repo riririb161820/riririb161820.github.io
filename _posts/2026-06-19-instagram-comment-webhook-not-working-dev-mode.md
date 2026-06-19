@@ -1,5 +1,6 @@
 ---
 title: "Instagram 댓글 webhook이 안 올 때 (개발 모드·comments 구독·권한 체크)"
+headline: "webhook이 안 올 때"
 date: 2026-06-19 09:40:00 +0900
 categories: [개발, 트러블슈팅]
 tags: [instagram, webhook, graph-api, troubleshooting, blog-to-insta]

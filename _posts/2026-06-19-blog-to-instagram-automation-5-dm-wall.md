@@ -1,5 +1,6 @@
 ---
 title: "블로그 글을 인스타그램에 자동 발행하기 (5) — 사업자 없으면 인스타 DM 자동화 못 합니다 (Meta App Review 벽)"
+headline: "DM 자동화의 벽"
 date: 2026-06-19 10:14:00 +0900
 categories: [개발, 자동화]
 tags: [instagram, automation, meta-app-review, cloudflare, blog-to-insta]

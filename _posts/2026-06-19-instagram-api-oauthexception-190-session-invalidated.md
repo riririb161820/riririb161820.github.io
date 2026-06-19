@@ -11,8 +11,6 @@ description: Instagram Graph API 호출이 OAuthException code 190 'The session 
 
 > 이 글은 [블로그→인스타 자동화 (4) 발행](/posts/blog-to-instagram-automation-4-publish/)·[(5) DM의 벽](/posts/blog-to-instagram-automation-5-dm-wall/) 작업 중 만난 문제입니다.
 
-![OAuthException 190 — 증상·원인·해결](/assets/img/posts/body-ts-oauth-190.png)
-
 ## 증상
 
 조금 전까지 잘 되던 토큰이 갑자기 이 에러로 막힌다.

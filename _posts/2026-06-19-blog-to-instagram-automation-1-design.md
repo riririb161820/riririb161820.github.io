@@ -1,6 +1,6 @@
 ---
 title: "블로그 글을 인스타그램에 자동 발행하기 (1) — 전체 설계와 도구 선택"
-date: 2026-06-19 08:55:00 +0900
+date: 2026-06-19 10:07:00 +0900
 categories: [개발, 자동화]
 tags: [instagram, automation, claude-code, blog-to-insta, github-pages]
 image:

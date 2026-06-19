@@ -1,0 +1,24 @@
+---
+layout: default
+---
+
+<script>
+(function(){
+  var path = window.location.pathname;
+  if(path === '/ssinocean-poc' || path.indexOf('/ssinocean-poc/') === 0) {
+    var rest = path.replace('/ssinocean-poc', '');
+    window.location.replace('https://ssinocean-poc.vercel.app' + rest + window.location.search + window.location.hash);
+  }
+})();
+</script>
+
+<div id="not-found" style="display:none">
+  <h1>404</h1>
+  <p>페이지를 찾을 수 없습니다.</p>
+</div>
+
+<script>
+if(!(window.location.pathname === '/ssinocean-poc' || window.location.pathname.indexOf('/ssinocean-poc/') === 0)){
+  document.getElementById('not-found').style.display = 'block';
+}
+</script>

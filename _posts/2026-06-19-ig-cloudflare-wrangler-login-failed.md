@@ -1,5 +1,6 @@
 ---
 title: "Cloudflare wrangler login 실패 해결 (Timed out / consent already used / localhost 연결 거부)"
+headline: "wrangler login 실패"
 date: 2026-06-19 09:30:00 +0900
 categories: [개발, 트러블슈팅]
 tags: [cloudflare, wrangler, oauth, troubleshooting, blog-to-insta]

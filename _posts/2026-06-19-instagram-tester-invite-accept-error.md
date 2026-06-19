@@ -1,5 +1,6 @@
 ---
 title: "Instagram 테스터 초대 수락 안 될 때 (manage_access '문제가 발생했습니다')"
+headline: "테스터 초대 실패"
 date: 2026-06-19 09:45:00 +0900
 categories: [개발, 트러블슈팅]
 tags: [instagram, meta-developers, troubleshooting, blog-to-insta]

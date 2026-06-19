@@ -1,5 +1,6 @@
 ---
 title: "블로그 글을 인스타그램에 자동 발행하기 (3) — 잘되는 카드 벤치마킹 vs 카피, 나만의 디자인"
+headline: "벤치마킹 ≠ 카피"
 date: 2026-06-19 10:10:00 +0900
 categories: [개발, 자동화]
 tags: [instagram, automation, design, ux-writing, blog-to-insta]

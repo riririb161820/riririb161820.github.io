@@ -1,5 +1,6 @@
 ---
 title: "블로그 글을 인스타그램에 자동 발행하기 (4) — Instagram API 심사 없이 자동 발행 (Composio)"
+headline: "심사 없이 자동 발행"
 date: 2026-06-19 10:12:00 +0900
 categories: [개발, 자동화]
 tags: [instagram, automation, composio, api, blog-to-insta]

@@ -2,19 +2,21 @@
 """카드뉴스형 커버 생성기 (FLUX 일러스트 배경 + 텍스트 오버레이 → 1080x1080 PNG).
 블로그 메인 카드 + 인스타 피드 겸용.
 
-단일:  python3 tools/gen_cover.py --bg <flux.png> --slug <slug> --category 자동화 \
+단일:  python3 tools/gen_cover.py --slug <slug> --category 자동화 \
               --headline "DM 자동화의 벽" --highlight "벽"
+       (배경은 assets/img/covers/_src/<slug>.png 를 기본 사용. --bg로 다른 경로 지정 가능)
 전체:  python3 tools/gen_cover.py --all     (아래 MAP 일괄 렌더)
 
 배지는 우상단 'riri.devlog' 하나로 통일. 헤드라인은 좌하단, 강조어는 카테고리색 박스.
-출력: assets/img/covers/<slug>.png
+입력 일러스트(공유 소스): assets/img/covers/_src/<slug>.png  (insta-post 표지도 같은 소스 재사용)
+출력: assets/img/covers/<slug>.png   (블로그 메인 카드 1:1)
 """
 import argparse, html, os, subprocess, tempfile
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(REPO, "assets", "img", "covers")
+SRC_DIR = os.path.join(OUT_DIR, "_src")
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-FLUX = os.path.expanduser("~/ComfyUI/output")
 
 THEME = {
     "자동화":    {"scrim": "8,22,18",  "hi": "#2dd4a7", "hitext": "#06382b", "dot": "#5fe3c0"},
@@ -69,18 +71,18 @@ def render(bg, slug, category, headline, highlight):
 
 
 MAP = [
-    ("claude_gen_00024_.png", "claude-code-blog-automation-github-pages",            "자동화",    "블로그 자동 발행",   "자동 발행"),
-    ("claude_gen_00025_.png", "website-analytics-goatcounter-ga4-search-console",    "운영",      "방문 통계 3종",     "3종"),
-    ("claude_gen_00026_.png", "claude-code-skills-cross-machine-sync",               "자동화",    "스킬 PC 동기화",    "동기화"),
-    ("claude_gen_00027_.png", "blog-to-instagram-automation-1-design",               "자동화",    "전체 설계",        "설계"),
-    ("claude_gen_00029_.png", "blog-to-instagram-automation-2-card-generation",      "자동화",    "카드 자동 생성",    "자동"),
-    ("claude_gen_00030_.png", "blog-to-instagram-automation-3-design",               "자동화",    "벤치마킹 ≠ 카피",   "≠ 카피"),
-    ("claude_gen_00031_.png", "blog-to-instagram-automation-4-publish",              "자동화",    "심사 없이 자동 발행", "심사 없이"),
-    ("claude_gen_00021_.png", "blog-to-instagram-automation-5-dm-wall",              "자동화",    "DM 자동화의 벽",    "벽"),
-    ("claude_gen_00022_.png", "ig-cloudflare-wrangler-login-failed",                 "트러블슈팅", "wrangler login 실패", "실패"),
-    ("claude_gen_00032_.png", "instagram-api-oauthexception-190-session-invalidated", "트러블슈팅", "OAuth 190 해결",   "해결"),
-    ("claude_gen_00033_.png", "instagram-comment-webhook-not-working-dev-mode",      "트러블슈팅", "webhook이 안 올 때", "안 올 때"),
-    ("claude_gen_00034_.png", "instagram-tester-invite-accept-error",                "트러블슈팅", "테스터 초대 실패",   "실패"),
+    ("claude-code-blog-automation-github-pages",            "자동화",    "블로그 자동 발행",   "자동 발행"),
+    ("website-analytics-goatcounter-ga4-search-console",    "운영",      "방문 통계 3종",     "3종"),
+    ("claude-code-skills-cross-machine-sync",               "자동화",    "스킬 PC 동기화",    "동기화"),
+    ("blog-to-instagram-automation-1-design",               "자동화",    "전체 설계",        "설계"),
+    ("blog-to-instagram-automation-2-card-generation",      "자동화",    "카드 자동 생성",    "자동"),
+    ("blog-to-instagram-automation-3-design",               "자동화",    "벤치마킹 ≠ 카피",   "≠ 카피"),
+    ("blog-to-instagram-automation-4-publish",              "자동화",    "심사 없이 자동 발행", "심사 없이"),
+    ("blog-to-instagram-automation-5-dm-wall",              "자동화",    "DM 자동화의 벽",    "벽"),
+    ("ig-cloudflare-wrangler-login-failed",                 "트러블슈팅", "wrangler login 실패", "실패"),
+    ("instagram-api-oauthexception-190-session-invalidated", "트러블슈팅", "OAuth 190 해결",   "해결"),
+    ("instagram-comment-webhook-not-working-dev-mode",      "트러블슈팅", "webhook이 안 올 때", "안 올 때"),
+    ("instagram-tester-invite-accept-error",                "트러블슈팅", "테스터 초대 실패",   "실패"),
 ]
 
 
@@ -91,12 +93,13 @@ def main():
     ap.add_argument("--headline"); ap.add_argument("--highlight", default="")
     a = ap.parse_args()
     if a.all:
-        for bg, slug, cat, hl, hi in MAP:
-            render(os.path.join(FLUX, bg), slug, cat, hl, hi)
-    elif a.bg and a.slug and a.headline:
-        render(a.bg, a.slug, a.category, a.headline, a.highlight)
+        for slug, cat, hl, hi in MAP:
+            render(os.path.join(SRC_DIR, slug + ".png"), slug, cat, hl, hi)
+    elif a.slug and a.headline:
+        bg = a.bg or os.path.join(SRC_DIR, a.slug + ".png")
+        render(bg, a.slug, a.category, a.headline, a.highlight)
     else:
-        raise SystemExit("사용법: --all  또는  --bg .. --slug .. --category .. --headline .. --highlight ..")
+        raise SystemExit("사용법: --all  또는  --slug .. --category .. --headline .. --highlight ..  (배경 기본 _src/<slug>.png)")
 
 
 if __name__ == "__main__":

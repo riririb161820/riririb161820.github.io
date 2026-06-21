@@ -7,7 +7,7 @@ layout: default
 <style>
   #post-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
     gap: 1.25rem;
   }
   #post-list .card-wrapper {
@@ -19,37 +19,24 @@ layout: default
     flex-direction: column;
     height: 100%;
   }
-  #post-list .hero {
-    aspect-ratio: 1.91 / 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 0 1.1rem;
-    border-radius: var(--bs-card-border-radius) var(--bs-card-border-radius) 0 0;
+  #post-list .cover {
+    width: 100%;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
+    border-radius: var(--bs-card-border-radius) var(--bs-card-border-radius) 0 0;
   }
-  #post-list .hero .hl {
-    font-size: 1.55rem;
-    font-weight: 700;
-    line-height: 1.3;
-    word-break: keep-all;
+  #post-list .cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin: 0;
+    transition: scale 0.35s ease;
   }
-  #post-list .hero .hl-ico {
-    font-size: 2.4rem;
-    opacity: 0.85;
+  #post-list .card-wrapper:hover .cover img {
+    scale: 1.04;
   }
-  #post-list .hero.h-auto  { background: #0f6e56; }
-  #post-list .hero.h-auto  .hl, #post-list .hero.h-auto  .hl-ico { color: #e1f5ee; }
-  #post-list .hero.h-ops   { background: #185fa5; }
-  #post-list .hero.h-ops   .hl, #post-list .hero.h-ops   .hl-ico { color: #e6f1fb; }
-  #post-list .hero.h-ts    { background: #993c1d; }
-  #post-list .hero.h-ts    .hl, #post-list .hero.h-ts    .hl-ico { color: #faece7; }
-  #post-list .hero.h-def   { background: #3a4250; }
-  #post-list .hero.h-def   .hl, #post-list .hero.h-def   .hl-ico { color: #eef1f5; }
-
   #post-list .card-body {
-    padding: 0.9rem 1.1rem 1rem;
+    padding: 0.9rem 1.05rem 1rem;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
@@ -58,7 +45,7 @@ layout: default
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin-bottom: 0.55rem;
+    margin-bottom: 0.5rem;
   }
   #post-list .pcat {
     font-size: 0.72rem;
@@ -70,7 +57,7 @@ layout: default
     white-space: nowrap;
   }
   #post-list .card-title {
-    font-size: 1rem;
+    font-size: 0.98rem;
     line-height: 1.4;
     margin: 0 0 0.6rem;
     display: -webkit-box;
@@ -129,21 +116,11 @@ layout: default
 
 <div id="post-list" class="flex-grow-1 px-xl-1">
   {% for post in posts %}
-    {% assign cat = post.categories[1] | default: post.categories[0] %}
-    {% case cat %}
-      {% when '자동화' %}{% assign hcls = 'h-auto' %}{% assign hico = 'fa-bolt' %}
-      {% when '운영' %}{% assign hcls = 'h-ops' %}{% assign hico = 'fa-chart-simple' %}
-      {% when '트러블슈팅' %}{% assign hcls = 'h-ts' %}{% assign hico = 'fa-bug' %}
-      {% else %}{% assign hcls = 'h-def' %}{% assign hico = 'fa-feather-pointed' %}
-    {% endcase %}
+    {% assign cover = '/assets/img/covers/' | append: post.slug | append: '.png' %}
     <article class="card-wrapper card">
       <a href="{{ post.url | relative_url }}" class="post-preview" aria-label="{{ post.title | xml_escape }}">
-        <div class="hero {{ hcls }}">
-          {% if post.headline %}
-            <span class="hl">{{ post.headline }}</span>
-          {% else %}
-            <i class="fas {{ hico }} hl-ico" aria-hidden="true"></i>
-          {% endif %}
+        <div class="cover">
+          <img src="{{ cover | relative_url }}" alt="{{ post.title | xml_escape }}">
         </div>
 
         <div class="card-body">

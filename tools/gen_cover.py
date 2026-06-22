@@ -12,6 +12,7 @@
 출력: assets/img/covers/<slug>.png   (블로그 메인 카드 1:1)
 """
 import argparse, html, os, subprocess, tempfile
+from pathlib import Path
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(REPO, "assets", "img", "covers")
@@ -37,7 +38,7 @@ body{{font-family:-apple-system,"Apple SD Gothic Neo","Pretendard",sans-serif}}
 .hi{{background:{hi};color:{hitext};padding:2px 20px;border-radius:16px;box-decoration-break:clone;-webkit-box-decoration-break:clone}}
 </style></head><body>
 <div class="cover">
-  <img class="bg" src="file://{bg}">
+  <img class="bg" src="{bg}">
   <div class="scrim"></div>
   <span class="mark"><span class="mdot"></span>riri.devlog</span>
   <div class="hl">{headline}</div>
@@ -55,8 +56,9 @@ def build_headline(headline, highlight):
 
 def render(bg, slug, category, headline, highlight):
     t = THEME.get(category, DEFAULT)
+    bg_uri = Path(bg).resolve().as_uri()  # '#' 등 특수문자 안전 인코딩 (file:// fragment 방지)
     page = TPL.format(scrim=t["scrim"], dot=t["dot"], hi=t["hi"], hitext=t["hitext"],
-                      bg=bg, headline=build_headline(headline, highlight))
+                      bg=bg_uri, headline=build_headline(headline, highlight))
     os.makedirs(OUT_DIR, exist_ok=True)
     out = os.path.join(OUT_DIR, slug + ".png")
     with tempfile.NamedTemporaryFile("w", suffix=".html", delete=False) as f:

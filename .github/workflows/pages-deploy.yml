@@ -9,6 +9,12 @@ on:
       - README.md
       - LICENSE
 
+  # 매일 07:05 KST(22:05 UTC) 재빌드 — 예약(미래 날짜) 글을 발행일 아침에 자동 공개.
+  # Jekyll은 future:false로 미래 날짜 글을 빌드에서 제외하므로, 매일 재빌드해야
+  # 그날 날짜가 된 글이 노출된다.
+  schedule:
+    - cron: "5 22 * * *"
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 

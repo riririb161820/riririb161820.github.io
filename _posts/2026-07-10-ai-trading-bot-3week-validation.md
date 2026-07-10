@@ -111,6 +111,15 @@ split 2025-01 → IS +8.20% / OOS -4.75%
 > "언제 실투자로 전환할지"를 감이 아니라 **숫자 게이트(20거래일·일평균·최대낙폭)로 미리 계약**해 두면, 나중에 좋아 보이는 날의 충동이나 안 좋은 날의 공포에 휘둘리지 않는다. 전환 기준을 착수 시점에 못 박는 것 자체가 리스크 관리다.
 {: .prompt-tip }
 
+## 더 깊이 — 트러블슈팅 상세
+
+이 여정에서 각각 독립된 글로 풀어낸 기술적 함정들이다. 같은 증상으로 검색해 들어온다면 여기서 재현 가능한 해결을 볼 수 있다.
+
+- [멀티에셋 백테스트가 수익률을 뻥튀기하는 이유 — 바 인덱스 정렬 함정](/posts/multiasset-backtest-index-alignment-bug/) : +13.84%의 절반이 왜 버그였나
+- [GitHub Actions cron이 예약대로 안 도는 이유와 상주 러너 이중화](/posts/github-actions-cron-skip-resident-runner/) : 하루 11회 예정 → 1회 실행
+- [Yahoo quoteSummary 401로 재무 데이터가 죽었을 때 — DART API로 교체](/posts/yahoo-quotesummary-401-dart-api/) : 있는데 효과 없는 좀비 피처
+- [재무 필터가 우량 은행을 걸러낼 때 — 부채비율 대신 계정 구조로 판별](/posts/financial-filter-bank-debt-ratio-false-positive/) : 카카오뱅크 오탐 사건
+
 ## 정리
 
 1. **검증을 조일수록 수익은 줄어든다** — +13.84%가 검증 3단계 만에 사라졌다. 이건 나쁜 게 아니라 정직해지는 과정이다.

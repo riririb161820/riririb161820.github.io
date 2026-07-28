@@ -1,6 +1,6 @@
 ---
 title: "네이버 스마트에디터 Playwright 자동화 — 캡션·폰트·콜라주가 조용히 틀어지는 함정 5가지"
-headline: "조용한 실패"
+headline: "스마트에디터 함정 5가지"
 date: 2026-07-23 18:20:00 +0900
 categories: [개발, 자동화]
 tags: [playwright, naver-blog, smarteditor, automation, dom]

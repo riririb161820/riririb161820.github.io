@@ -1,6 +1,6 @@
 ---
 title: "네이버 블로그 발행 자동화 — 텔레그램 기록을 AI가 글로, Playwright가 초안까지"
-headline: "매일 초안까지 자동"
+headline: "네이버 블로그 자동화 성공"
 date: 2026-07-28 15:58:30 +0900
 categories: [개발, 자동화]
 tags: [naver-blog, playwright, telegram-bot, claude, automation, unattended-pipeline]

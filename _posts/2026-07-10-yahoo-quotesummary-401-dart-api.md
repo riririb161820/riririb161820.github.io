@@ -1,6 +1,6 @@
 ---
 title: "Yahoo quoteSummary 401로 재무 데이터가 죽었을 때 — DART API로 교체"
-headline: "재무가 죽어 있었다"
+headline: "Yahoo 401, DART 교체"
 date: 2026-07-10 15:30:00 +0900
 categories: [개발, 트러블슈팅]
 tags: [yahoo-finance, dart, 재무데이터, api, 좀비피처]

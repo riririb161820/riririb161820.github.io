@@ -1,6 +1,6 @@
 ---
 title: "GitHub Actions cron이 예약대로 안 도는 이유와 상주 러너 이중화"
-headline: "cron이 안 돌았다"
+headline: "GitHub cron 안 돌 때"
 date: 2026-07-10 15:20:00 +0900
 categories: [개발, 트러블슈팅]
 tags: [github-actions, cron, 스케줄러, 자동매매, 인프라]

@@ -73,18 +73,18 @@ def render(bg, slug, category, headline, highlight):
 
 
 MAP = [
-    ("claude-code-blog-automation-github-pages",            "자동화",    "블로그 자동 발행",   "자동 발행"),
-    ("website-analytics-goatcounter-ga4-search-console",    "운영",      "방문 통계 3종",     "3종"),
-    ("claude-code-skills-cross-machine-sync",               "자동화",    "스킬 PC 동기화",    "동기화"),
-    ("blog-to-instagram-automation-1-design",               "자동화",    "전체 설계",        "설계"),
-    ("blog-to-instagram-automation-2-card-generation",      "자동화",    "카드 자동 생성",    "자동"),
-    ("blog-to-instagram-automation-3-design",               "자동화",    "벤치마킹 ≠ 카피",   "≠ 카피"),
-    ("blog-to-instagram-automation-4-publish",              "자동화",    "심사 없이 자동 발행", "심사 없이"),
+    ("claude-code-blog-automation-github-pages", "자동화", "클로드코드로 블로그 자동화", "자동화"),
+    ("website-analytics-goatcounter-ga4-search-console", "운영", "블로그 통계 3종 셋업", "3종"),
+    ("claude-code-skills-cross-machine-sync", "자동화", "클로드 스킬 PC 동기화", "동기화"),
+    ("blog-to-instagram-automation-1-design", "자동화", "인스타 자동화 설계도", "설계도"),
+    ("blog-to-instagram-automation-2-card-generation", "자동화", "카드뉴스 자동 생성", "자동 생성"),
+    ("blog-to-instagram-automation-3-design", "자동화", "카드 벤치마킹 ≠ 카피", "≠ 카피"),
+    ("blog-to-instagram-automation-4-publish", "자동화", "인스타 심사 없이 발행", "심사 없이"),
     ("blog-to-instagram-automation-5-dm-wall",              "자동화",    "DM 자동화의 벽",    "벽"),
     ("ig-cloudflare-wrangler-login-failed",                 "트러블슈팅", "wrangler login 실패", "실패"),
     ("instagram-api-oauthexception-190-session-invalidated", "트러블슈팅", "OAuth 190 해결",   "해결"),
-    ("instagram-comment-webhook-not-working-dev-mode",      "트러블슈팅", "webhook이 안 올 때", "안 올 때"),
-    ("instagram-tester-invite-accept-error",                "트러블슈팅", "테스터 초대 실패",   "실패"),
+    ("instagram-comment-webhook-not-working-dev-mode", "트러블슈팅", "인스타 webhook 불통", "불통"),
+    ("instagram-tester-invite-accept-error", "트러블슈팅", "인스타 테스터 초대 실패", "실패"),
 ]
 
 

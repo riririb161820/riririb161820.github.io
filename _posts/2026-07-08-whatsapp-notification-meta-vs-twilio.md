@@ -1,6 +1,6 @@
 ---
 title: "왓츠앱 알림 도입 전에 알아야 할 것 — Meta 직접 vs Twilio, 2025 과금 개편 기준"
-headline: "Meta냐 Twilio냐"
+headline: "왓츠앱 Meta vs Twilio"
 date: 2026-07-08 07:00:00 +0900
 categories: [개발, 운영]
 tags: [whatsapp, twilio, meta-cloud-api, notification, sms, bsp]

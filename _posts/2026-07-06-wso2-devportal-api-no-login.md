@@ -1,6 +1,6 @@
 ---
 title: "Kuehne+Nagel API 포털, 회원가입 없이 스펙 전부 받아내기 (WSO2 Devportal)"
-headline: "가입 없이 스펙 확보"
+headline: "가입 없이 API 스펙 확보"
 date: 2026-07-06 15:00:00 +0900
 categories: [개발, 트러블슈팅]
 tags: [kuehne-nagel, wso2, api-manager, devportal, openapi, swagger]

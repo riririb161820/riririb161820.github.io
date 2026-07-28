@@ -1,6 +1,6 @@
 ---
 title: "매일 자동 실행되는 저장소에 코드 고쳐 넣기 — 봇이 커밋하는 파이프라인의 git 규율"
-headline: "봇이 쏘는 저장소"
+headline: "봇 커밋 저장소 git 규율"
 date: 2026-07-23 18:40:00 +0900
 categories: [개발, 자동화]
 tags: [git, automation, launchd, ci, rebase]

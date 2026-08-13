@@ -19,6 +19,24 @@ image:
 
 네 플랫폼 모두 1080×1920 세로라 만드는 과정은 같다. 다만 이 글에서 실제로 올려본 건 네이버 클립이고, **자막 안전 영역은 앱마다 UI가 달라 그 값만 각자 맞춰야 한다.**
 
+먼저 결과물부터. 아래 글에서 설명하는 컷시트로 렌더해 실제로 발행한 클립이다.
+
+<a href="https://m.blog.naver.com/riririb/clip/15552406" target="_blank" rel="noopener" style="display:flex;gap:20px;align-items:center;text-decoration:none;color:inherit;border:1px solid rgba(45,212,167,.42);border-radius:14px;padding:18px;margin:22px 0;background:rgba(45,212,167,.07)">
+  <span style="position:relative;flex:none;line-height:0">
+    <img src="/assets/img/posts/shortform-auto-render-cutsheet-clip.jpg" alt="속초 월드킹 클립 표지 — 비 오는 날 아이랑 갈 곳 찾는다면" width="118" style="border-radius:10px;display:block;margin:0">
+    <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+      <span style="width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;padding-left:3px">&#9654;</span>
+    </span>
+  </span>
+  <span>
+    <strong style="display:block;font-size:1.05rem;margin-bottom:6px">완성된 클립 보러 가기</strong>
+    <span style="display:block;font-size:.92rem;opacity:.78;line-height:1.6">속초 월드킹 · 45.9초 · 22컷<br>표지는 영상 0프레임을 그대로 뽑은 것이라 시작 화면과 정확히 같다.</span>
+  </span>
+</a>
+
+> 네이버 클립 페이지는 **iframe 삽입이 막혀 있고**(넣으면 빈 화면이 뜬다), `og:video`도 없어서 글 안에서 바로 재생시킬 방법이 없다. 그래서 눌러서 넘어가는 카드로 뒀다.
+{: .prompt-warning }
+
 ## 문제
 
 블로그 글은 이미 자동으로 만들고 있었다. 하루치 기록을 텔레그램으로 남기면 AI가 초안을 쓰고 Playwright가 네이버에 임시저장까지 해둔다([네이버 블로그 발행 자동화](/posts/naver-blog-publish-automation/)).
@@ -205,5 +223,7 @@ _45.9초 22컷을 한 장으로. 자막과 그림이 어긋난 컷이 여기서 
 - **편집기 대신 컷시트를 입력으로 삼으면** 수정이 텍스트 한 줄 고치기가 되고, 컷시트 자체가 리뷰 대상이 된다.
 - **셸 루프에서 ffmpeg을 돌릴 땐 `-nostdin`**, 칸 구분은 탭이 아니라 파이프. 둘 다 증상이 "일부 줄이 사라진다"로 똑같아 헷갈린다.
 - **가장 값어치 있는 산출물은 영상이 아니라 검수시트였다.** 22컷을 한 장에 놓고 자막과 그림을 대조하는 것 — 이게 없으면 결국 영상을 처음부터 다시 본다.
+
+이 컷시트로 만들어 실제로 발행한 클립은 [여기](https://m.blog.naver.com/riririb/clip/15552406)에 있다.
 
 다음 편에서는 이 엔진에 **자막이 한 글자씩 찍히는 타이핑 효과**를 넣는다. 글자가 늘어날 때마다 문장이 좌우로 출렁이는 문제를 외부 라이브러리 없이 푸는 이야기다.

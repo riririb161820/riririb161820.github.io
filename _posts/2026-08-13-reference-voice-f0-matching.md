@@ -14,7 +14,7 @@ image:
 >
 > ← 이전 편: [② 한 글자씩 찍히는 타이핑 자막](/posts/ffmpeg-typing-subtitle/)
 >
-> [① 컷시트 렌더 엔진](/posts/shortform-auto-render-cutsheet/) · [② 한 글자씩 찍히는 타이핑 자막](/posts/ffmpeg-typing-subtitle/) · **③** 레퍼런스에서 내 나레이션 목소리 찾기 *(현재 글)* · ④ 컷 길이를 말에 맞추기
+> [① 컷시트 렌더 엔진](/posts/shortform-auto-render-cutsheet/) · [② 한 글자씩 찍히는 타이핑 자막](/posts/ffmpeg-typing-subtitle/) · **③** 레퍼런스에서 내 나레이션 목소리 찾기 *(현재 글)* · [④ 컷 길이를 말에 맞추기](/posts/shortform-narration-cut-length/)
 {: .prompt-info }
 
 자막까지 만든 영상에 나레이션을 붙일 차례였다. "예전에 만든 그 클립이랑 같은 느낌으로 해줘"가 요구사항이었다.
@@ -187,4 +187,4 @@ areverse,silenceremove=start_periods=1:start_silence=0.02:start_threshold=-45dB:
 - **비교는 같은 대본으로.** 문장이 다르면 목소리가 아니라 억양을 비교하게 된다. 내 영상이 178Hz로 나온 건 목소리가 아니라 어미 탓이었다.
 - **근거 없이 단정한 한 문장이 작업 한 바퀴를 헛돌게 했다.** "앱 내장 음성일 겁니다"에 근거가 없었고, 그 위에서 만든 나레이션은 전부 다시 만들어야 했다.
 
-다음 편에서는 이 나레이션이 **배속 재생처럼 빨라지던 문제**를 다룬다. 컷 길이를 사람이 어림하지 않고, 문장을 실제로 합성해 재서 역산하는 이야기다.
+[다음 편](/posts/shortform-narration-cut-length/)에서는 이 나레이션이 **배속 재생처럼 빨라지던 문제**를 다룬다. 컷 길이를 사람이 어림하지 않고, 문장을 실제로 합성해 재서 역산하는 이야기다.

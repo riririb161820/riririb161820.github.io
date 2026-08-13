@@ -22,13 +22,10 @@ image:
 먼저 결과물부터. 아래 글에서 설명하는 컷시트로 렌더해 실제로 발행한 클립이다.
 
 <a href="https://m.blog.naver.com/riririb/clip/15552406" target="_blank" rel="noopener" style="display:flex;gap:20px;align-items:center;text-decoration:none;color:inherit;border:1px solid rgba(45,212,167,.42);border-radius:14px;padding:18px;margin:22px 0;background:rgba(45,212,167,.07)">
-  <span style="position:relative;flex:none;line-height:0">
-    <img src="/assets/img/posts/shortform-auto-render-cutsheet-clip.jpg" alt="속초 월드킹 클립 표지 — 비 오는 날 아이랑 갈 곳 찾는다면" width="118" style="border-radius:10px;display:block;margin:0">
-    <span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
-      <span style="width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;padding-left:3px">&#9654;</span>
-    </span>
+  <span style="flex:none;position:relative;display:block;width:118px;height:210px;border-radius:10px;background-image:url('/assets/img/posts/shortform-auto-render-cutsheet-clip.jpg');background-size:cover;background-position:center">
+    <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;font-size:17px;line-height:44px;text-align:center;display:block">&#9654;</span>
   </span>
-  <span>
+  <span style="flex:1">
     <strong style="display:block;font-size:1.05rem;margin-bottom:6px">완성된 클립 보러 가기</strong>
     <span style="display:block;font-size:.92rem;opacity:.78;line-height:1.6">속초 월드킹 · 45.9초 · 22컷<br>표지는 영상 0프레임을 그대로 뽑은 것이라 시작 화면과 정확히 같다.</span>
   </span>

@@ -14,7 +14,7 @@ image:
 >
 > ← 이전 편: [① 컷시트 렌더 엔진](/posts/shortform-auto-render-cutsheet/)
 >
-> ① 컷시트 렌더 엔진 · **②** 한 글자씩 찍히는 타이핑 자막 *(현재 글)* · [③ 레퍼런스에서 내 나레이션 목소리 찾기](/posts/reference-voice-f0-matching/) · ④ 컷 길이를 말에 맞추기
+> ① 컷시트 렌더 엔진 · **②** 한 글자씩 찍히는 타이핑 자막 *(현재 글)* · [③ 레퍼런스에서 내 나레이션 목소리 찾기](/posts/reference-voice-f0-matching/) · [④ 컷 길이를 말에 맞추기](/posts/shortform-narration-cut-length/)
 {: .prompt-info }
 
 [지난 편](/posts/shortform-auto-render-cutsheet/)에서 컷시트를 넣으면 세로 영상이 나오는 렌더 엔진을 만들었다. 이번엔 그 자막이 **한 글자씩 찍히게** 한다. 외부 라이브러리 없이 ffmpeg `drawtext`만 쓴다.

@@ -1,7 +1,7 @@
 ---
 title: "레퍼런스 릴스에서 내 나레이션 목소리 찾아내기 — 감이 아니라 숫자로"
 headline: "목소리를 숫자로 맞추기"
-date: 2026-08-13 16:40:00 +0900
+date: 2026-08-13 16:15:00 +0900
 categories: [개발, 자동화]
 tags: [tts, edge-tts, ffmpeg, whisper, shortform, naver-clip]
 description: "마음에 든 레퍼런스 영상의 나레이션과 같은 결의 목소리를 고르는 법. 넘겨짚었다가 틀린 뒤, 오디오를 받아 기본 주파수(F0)를 재서 후보 음성과 대조했다. 155.2Hz 대 161.2Hz."

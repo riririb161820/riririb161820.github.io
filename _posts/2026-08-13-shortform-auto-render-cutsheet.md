@@ -21,15 +21,18 @@ image:
 
 먼저 결과물부터. 아래 글에서 설명하는 컷시트로 렌더해 실제로 발행한 클립이다. **누르면 네이버 클립이 새 창으로 열린다.**
 
-<a href="https://m.blog.naver.com/riririb/clip/15552406" target="_blank" rel="noopener" title="네이버 클립에서 전체 보기 (새 창)" style="display:block;position:relative;width:300px;max-width:100%;margin:26px auto;border-radius:18px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 16px 44px rgba(0,0,0,.38);background:#000">
-  <video src="/assets/img/posts/shortform-auto-render-cutsheet-preview.mp4" poster="/assets/img/posts/shortform-auto-render-cutsheet-clip.jpg" autoplay muted loop playsinline preload="metadata" style="display:block;width:100%;height:auto;margin:0;border-radius:0;pointer-events:none"></video>
-  <span style="position:absolute;top:12px;right:12px;display:block;background:rgba(0,0,0,.58);color:#fff;font-size:.72rem;line-height:1;padding:6px 11px;border-radius:20px">무음 미리보기</span>
-  <span style="position:absolute;left:0;right:0;bottom:0;display:block;padding:40px 16px 14px;background:linear-gradient(to top,rgba(0,0,0,.88),rgba(0,0,0,0));color:#fff;font-size:.92rem;font-weight:600">&#9654; 네이버 클립에서 전체 보기 &#8599;</span>
+<a href="https://m.blog.naver.com/riririb/clip/15552406" target="_blank" rel="noopener" title="네이버 클립에서 재생 (새 창)" style="display:block;position:relative;width:296px;max-width:100%;margin:26px auto;border-radius:18px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 16px 44px rgba(0,0,0,.4);background-image:url('/assets/img/posts/shortform-auto-render-cutsheet-clip.jpg');background-size:cover;background-position:center">
+  <span style="display:block;padding-top:177.7%"></span>
+  <span style="position:absolute;top:12px;left:12px;display:block;background:rgba(0,0,0,.6);color:#fff;font-size:.72rem;font-weight:700;line-height:1;padding:6px 11px;border-radius:6px">NAVER 클립</span>
+  <span style="position:absolute;top:12px;right:12px;display:block;background:rgba(0,0,0,.6);color:#fff;font-size:.72rem;line-height:1;padding:6px 10px;border-radius:6px">0:45</span>
+  <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:block;width:74px;height:74px;border-radius:50%;background:rgba(0,0,0,.52);border:2px solid rgba(255,255,255,.9);color:#fff;font-size:26px;line-height:70px;text-align:center;padding-left:6px;box-sizing:border-box">&#9654;</span>
+  <span style="position:absolute;left:0;right:0;bottom:0;display:block;padding:46px 16px 16px;background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,0));color:#fff;font-size:.94rem;font-weight:700">눌러서 재생하기 &#8599;</span>
+  <span style="position:absolute;left:16px;right:16px;bottom:10px;display:block;height:3px;border-radius:2px;background:rgba(255,255,255,.35)"></span>
 </a>
 
-<p style="text-align:center;font-size:.86rem;opacity:.7;margin-top:-10px">속초 월드킹 · 45.9초 · 22컷 — 위 미리보기는 앞부분 9초를 소리 없이 반복 재생한다</p>
+<p style="text-align:center;font-size:.86rem;opacity:.7;margin-top:-10px">속초 월드킹 · 45.9초 · 22컷 — 표지는 영상 0프레임을 그대로 뽑은 것이라 시작 화면과 정확히 같다</p>
 
-> 네이버 클립 페이지는 **iframe 삽입이 막혀 있고**(넣으면 빈 화면이 뜬다) `og:video`도 없어서, 글 안에서 원본을 그대로 재생시킬 방법이 없다. 그래서 렌더한 mp4에서 앞 9초를 잘라 무음 미리보기로 깔고, 누르면 클립으로 넘어가게 했다.
+> 네이버 클립 페이지는 **iframe 삽입이 막혀 있고**(넣으면 빈 화면이 뜬다) `og:video`도 없어서, 글 안에서 재생시킬 방법이 없다. 그래서 표지를 플레이어 모양으로 두고 새 창으로 넘긴다.
 {: .prompt-warning }
 
 ## 문제

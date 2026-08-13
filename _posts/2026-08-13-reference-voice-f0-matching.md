@@ -166,6 +166,9 @@ edge-tts --voice ko-KR-InJoonNeural --rate="+35%" --text "$TXT" --write-media "_
 areverse,silenceremove=start_periods=1:start_silence=0.02:start_threshold=-45dB:detection=peak,areverse"
 ```
 
+> 이 단계에서 **합친 소리가 뒤로 갈수록 커진다면** → [ffmpeg amix로 합쳤더니 뒤로 갈수록 소리가 커진다](/posts/ffmpeg-amix-volume-ramp/)
+{: .prompt-info }
+
 **컷을 넘치면 속도를 올린다.** 다만 `+55%`를 상한으로 뒀다. 그 이상은 사람 말이 아니라 배속 재생으로 들린다. (컷 길이 자체를 문장에 맞추는 이야기는 다음 편에서 다룬다.)
 
 > **🧭 기획자·사업자라면**

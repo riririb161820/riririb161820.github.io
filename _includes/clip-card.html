@@ -1,0 +1,22 @@
+{%- comment -%}
+네이버 클립으로 보내는 클릭 유도형 플레이어 카드.
+재생은 일부러 하지 않는다 — 여기서 재생하면 클립으로 넘어갈 이유가 사라진다.
+
+사용:
+  {% include clip-card.html
+     url="https://m.blog.naver.com/riririb/clip/15552406"
+     poster="/assets/img/posts/shortform-auto-render-cutsheet-clip.jpg"
+     dur="0:45"
+     caption="속초 월드킹 · 45.9초 · 22컷"
+     cta="눌러서 재생하기" %}
+{%- endcomment -%}
+{% assign _cta = include.cta | default: "눌러서 재생하기" %}
+<a href="{{ include.url }}" target="_blank" rel="noopener" title="네이버 클립에서 재생 (새 창)" style="display:block;position:relative;width:296px;max-width:100%;margin:26px auto 8px;border-radius:18px;overflow:hidden;text-decoration:none;color:inherit;box-shadow:0 16px 44px rgba(0,0,0,.4);background-image:url('{{ include.poster }}');background-size:cover;background-position:center">
+  <span style="display:block;padding-top:177.7%"></span>
+  <span style="position:absolute;top:12px;left:12px;display:block;background:rgba(0,0,0,.6);color:#fff;font-size:.72rem;font-weight:700;line-height:1;padding:6px 11px;border-radius:6px">NAVER 클립</span>
+  {% if include.dur %}<span style="position:absolute;top:12px;right:12px;display:block;background:rgba(0,0,0,.6);color:#fff;font-size:.72rem;line-height:1;padding:6px 10px;border-radius:6px">{{ include.dur }}</span>{% endif %}
+  <span style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:block;width:74px;height:74px;border-radius:50%;background:rgba(0,0,0,.52);border:2px solid rgba(255,255,255,.9);color:#fff;font-size:26px;line-height:70px;text-align:center;padding-left:6px;box-sizing:border-box">&#9654;</span>
+  <span style="position:absolute;left:0;right:0;bottom:0;display:block;padding:46px 16px 16px;background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,0));color:#fff;font-size:.94rem;font-weight:700">{{ _cta }} &#8599;</span>
+  <span style="position:absolute;left:16px;right:16px;bottom:10px;display:block;height:3px;border-radius:2px;background:rgba(255,255,255,.35)"></span>
+</a>
+{% if include.caption %}<p style="text-align:center;font-size:.86rem;opacity:.7;margin-top:0">{{ include.caption }}</p>{% endif %}

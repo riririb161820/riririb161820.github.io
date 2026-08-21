@@ -1,0 +1,27 @@
+---
+layout: null
+permalink: /rss.xml
+---
+{%- capture img_prefix -%}src="{{ site.url }}/{%- endcapture -%}
+{%- capture href_prefix -%}href="{{ site.url }}/{%- endcapture -%}
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>{{ site.title | xml_escape }}</title>
+    <link>{{ '/' | absolute_url }}</link>
+    <description>{{ site.description | strip_newlines | strip | xml_escape }}</description>
+    <language>ko-KR</language>
+    <lastBuildDate>{{ site.time | date_to_rfc822 }}</lastBuildDate>
+    <atom:link href="{{ '/rss.xml' | absolute_url }}" rel="self" type="application/rss+xml" />
+    {% for post in site.posts limit: 20 %}
+    <item>
+      <title>{{ post.title | xml_escape }}</title>
+      <link>{{ post.url | absolute_url }}</link>
+      <guid isPermaLink="true">{{ post.url | absolute_url }}</guid>
+      <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
+      {% for category in post.categories %}<category>{{ category | xml_escape }}</category>
+      {% endfor %}<description>{{ post.content | replace: 'src="/', img_prefix | replace: 'href="/', href_prefix | xml_escape }}</description>
+    </item>
+    {% endfor %}
+  </channel>
+</rss>

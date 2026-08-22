@@ -32,13 +32,16 @@ Jekyll::Hooks.register :site, :pre_render do |site|
   end
 end
 
-# 렌더된 HTML의 </head> 앞에 noindex 메타를 삽입한다.
+# 렌더된 HTML의 <head> 바로 뒤에 noindex 메타를 삽입한다.
 # 테마가 젬(gem)이라 레이아웃을 오버라이드하지 않고 출력만 손댄다.
+#
+# 주의: 최종 출력은 압축(minify)되어 **`</head>` 종료 태그가 제거된다.**
+# 그래서 종료 태그가 아니라 여는 `<head>` 뒤에 끼워 넣어야 한다.
 Jekyll::Hooks.register :site, :post_render do |site|
   site.pages.each do |page|
     next unless archive_listing?(page)
     next if page.output.nil? || page.output.include?(NOINDEX_META)
 
-    page.output = page.output.sub("</head>", "#{NOINDEX_META}\n</head>")
+    page.output = page.output.sub("<head>", "<head>#{NOINDEX_META}")
   end
 end

@@ -13,10 +13,10 @@ macOS·Windows 공용(표준 라이브러리만 사용).
 """
 
 import json
+import re
 import sys
 import urllib.request
 import urllib.error
-import xml.etree.ElementTree as ET
 
 HOST = "riririb161820.github.io"
 KEY = "5768935f2adfde244257b38d96dddc03"
@@ -28,10 +28,10 @@ BATCH = 10000  # IndexNow 1회 요청 상한
 
 def fetch_sitemap_urls(posts_only: bool = False) -> list[str]:
     with urllib.request.urlopen(SITEMAP, timeout=30) as r:
-        raw = r.read()
-    ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
-    root = ET.fromstring(raw)
-    urls = [loc.text.strip() for loc in root.findall(".//s:loc", ns) if loc.text]
+        raw = r.read().decode("utf-8", "replace")
+    # 정규식으로 <loc>만 뽑는다 — 일부 환경의 파이썬은 pyexpat이 깨져 있어
+    # xml.etree를 쓰면 import 단계에서 죽는다. 사이트맵은 형식이 고정이라 안전하다.
+    urls = [u.strip() for u in re.findall(r"<loc>\s*(.*?)\s*</loc>", raw, re.S)]
     if posts_only:
         urls = [u for u in urls if "/posts/" in u]
     return urls

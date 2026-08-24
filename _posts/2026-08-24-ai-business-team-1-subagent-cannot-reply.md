@@ -2,7 +2,7 @@
 title: "Claude Code로 AI 사업팀 만들기 (1) — 서브에이전트 협업을 포기했다가 이름 하나로 되살렸다"
 headline: "AI 사업팀 (1) 오진과 재시험"
 date: 2026-08-24 19:40:00 +0900
-categories: [MADE IN KOREA, 개발]
+categories: [MADE IN KOREA, 플랫폼]
 tags: [claude-code, multi-agent, 조직설계, 에이전트, made-in-korea]
 description: "AI 에이전트로 사업팀을 꾸리는 첫날 기록. 실제로 넣은 명령과 그 결과를 시간순으로 남긴다. 크론 배치 6개를 폐기했고, 에이전트끼리 직접 묻는 구조는 돌려보니 답이 돌아오지 않았다. 그걸 구조적 한계로 진단하고 조직도를 갈아엎었는데, 재시험에서 그 진단이 반증됐다. 이름을 안 붙였을 뿐이었다."
 image:

@@ -2,7 +2,7 @@
 title: "No agent named 'general-purpose' is reachable — 이름을 붙이면 회신이 돌아온다"
 headline: "이름 없는 에이전트 회신 불가"
 date: 2026-08-24 19:30:00 +0900
-categories: [MADE IN KOREA, 개발]
+categories: [MADE IN KOREA, 플랫폼]
 tags: [claude-code, subagent, multi-agent, sendmessage, 트러블슈팅]
 description: "Claude Code에서 서브에이전트 A가 B에게 던진 질문은 도달하는데, B가 답을 보내려는 순간 No agent named 'general-purpose' is reachable로 끊긴다. 이름 없이 띄운 에이전트에 회신 주소가 생기지 않아서다. 재현 조건, 원인, 이름을 붙여 왕복시키는 방법과 폴백 2안."
 image:

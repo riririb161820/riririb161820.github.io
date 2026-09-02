@@ -10,6 +10,10 @@ image:
   alt: 네이버 서이추 자동화에서 JS만으로 되는 동작, 실제 클릭이 필요한 동작, 실제 키보드가 필요한 동작을 3개 층으로 나눈 그림
 ---
 
+> **시리즈 「네이버 서이추 자동화」**
+> **1편 (현재 글)** · [2편 카페 글쓰기 API 뚫기](/posts/naver-buddy-automation-2-cafe-api-callback-url/) · [3편 웹훅은 없다](/posts/naver-buddy-automation-3-no-webhook-polling/) · [4편 토큰 99% 줄이기](/posts/naver-buddy-automation-4-browser-token-diet/) · [5편 자동화 티는 어디서 나는가](/posts/naver-buddy-automation-5-automation-tell/)
+{: .prompt-info }
+
 ## 문제
 
 네이버 블로그 **서로이웃(서이추)** 을 자동으로 늘리고 싶었다. 카페 서이추 게시판에서 대상을 찾아 → 그 사람 최신 글에 공감·댓글을 남기고 → 서이추를 신청하는 흐름이다.

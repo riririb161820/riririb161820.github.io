@@ -167,7 +167,7 @@ if need > avail:
  44.2초  여긴 추천합니다
 ```
 
-![22개 컷의 중앙 프레임을 격자로 붙인 검수시트](/assets/img/posts/shortform-narration-cut-length-checksheet.png)
+![22개 컷의 중앙 프레임을 격자로 붙인 검수시트](/assets/img/posts/shortform-narration-cut-length-checksheet.webp)
 _그림 쪽 점검은 [1편](/posts/shortform-auto-render-cutsheet/)의 검수시트가, 말 쪽 점검은 위의 시간순 대본이 맡는다._
 
 > **🧭 기획자·사업자라면**

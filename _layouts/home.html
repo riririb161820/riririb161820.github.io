@@ -117,11 +117,18 @@ layout: default
 
 <div id="post-list" class="flex-grow-1 px-xl-1">
   {% for post in posts %}
-    {% assign cover = '/assets/img/covers/' | append: post.slug | append: '.png' %}
+    {% assign cover = '/assets/img/covers/' | append: post.slug | append: '.webp' %}
     <article class="card-wrapper card">
       <a href="{{ post.url | relative_url }}" class="post-preview" aria-label="{{ post.title | xml_escape }}">
         <div class="cover">
-          <img src="{{ cover | relative_url }}" alt="{{ post.title | xml_escape }}">
+          {%- comment -%}
+            커버는 640² WebP(원본 1080² PNG 대비 약 97% 경량). PNG 원본은
+            인스타 파이프라인이 계속 쓰므로 저장소에 남겨두되 웹에선 참조하지 않는다.
+            첫 두 장은 화면에 바로 보이는 LCP 후보라 eager, 나머지는 lazy.
+          {%- endcomment -%}
+          <img src="{{ cover | relative_url }}" alt="{{ post.title | xml_escape }}"
+               width="640" height="640"
+               {% if forloop.index <= 2 %}loading="eager" fetchpriority="high"{% else %}loading="lazy" decoding="async"{% endif %}>
         </div>
 
         <div class="card-body">

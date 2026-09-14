@@ -18,7 +18,7 @@ import sys
 import urllib.request
 import urllib.error
 
-HOST = "riririb161820.github.io"
+HOST = "riririb.com"
 KEY = "5768935f2adfde244257b38d96dddc03"
 KEY_LOCATION = f"https://{HOST}/{KEY}.txt"
 SITEMAP = f"https://{HOST}/sitemap.xml"

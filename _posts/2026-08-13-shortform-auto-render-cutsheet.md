@@ -188,7 +188,7 @@ ffmpeg -pattern_type glob -i "chk/*.jpg" -vf "tile=5x5" -frames:v 1 검수시트
 
 이게 이 엔진에서 가장 값어치 있는 부분이었다. **22컷을 한눈에 놓고 자막과 그림을 대조할 수 있다.** 영상을 재생할 필요가 없다.
 
-![22개 컷의 중앙 프레임을 5열 격자로 붙인 검수시트. 컷마다 자막이 얹혀 있어 그림과 자막의 대응을 한눈에 볼 수 있다](/assets/img/posts/shortform-auto-render-cutsheet-checksheet.png)
+![22개 컷의 중앙 프레임을 5열 격자로 붙인 검수시트. 컷마다 자막이 얹혀 있어 그림과 자막의 대응을 한눈에 볼 수 있다](/assets/img/posts/shortform-auto-render-cutsheet-checksheet.webp)
 _45.9초 22컷을 한 장으로. 자막과 그림이 어긋난 컷이 여기서 바로 드러난다._
 
 실제로 이걸로 잡은 오류가 여럿이다. 자막은 `공주 테마존까지 있어요`인데 화면은 경찰 테마존이던 컷, 자막 없이 그림만 나가 소리까지 비던 컷, 안내판 글자 위에 자막이 겹친 컷 — 전부 격자에서 바로 보였다.

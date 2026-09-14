@@ -69,7 +69,29 @@ def render(bg, slug, category, headline, highlight):
                    check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     os.unlink(hp)
     print("  ✓", slug + ".png")
+    to_webp(out)
     return out
+
+
+def to_webp(png_path: str) -> str | None:
+    """블로그가 실제로 서빙하는 640² WebP를 함께 만든다.
+
+    1080² PNG는 인스타 파이프라인이 계속 쓰므로 남겨두고, 웹에는 WebP만 건다
+    (home.html이 .webp를 참조). 실측 약 97% 경량 — 534KB → 9KB.
+    cwebp가 없으면 경고만 남기고 넘어간다(PNG는 이미 만들어져 있으므로 치명적이지 않다).
+    """
+    webp = os.path.splitext(png_path)[0] + ".webp"
+    try:
+        subprocess.run(["cwebp", "-quiet", "-q", "80", "-resize", "640", "640",
+                        png_path, "-o", webp], check=True)
+    except FileNotFoundError:
+        print("  [!] cwebp 없음 — WebP 미생성. `brew install webp` 후 다시 실행하세요.")
+        return None
+    except subprocess.CalledProcessError as e:
+        print(f"  [!] WebP 변환 실패({e.returncode}) — {png_path}")
+        return None
+    print("  ✓", os.path.basename(webp))
+    return webp
 
 
 MAP = [

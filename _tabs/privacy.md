@@ -4,9 +4,9 @@ icon: fas fa-shield-halved
 order: 5
 ---
 
-본 개인정보처리방침은 기술 블로그 **riri.devlog**(`https://riririb161820.github.io`, 이하 "블로그")에 적용됩니다.
+본 개인정보처리방침은 기술 블로그 **riri.devlog**(`https://riririb.com`, 이하 "블로그")에 적용됩니다. 기존 주소 `https://riririb161820.github.io`는 현재 주소로 자동 연결됩니다.
 
-최종 업데이트: 2026-07-06
+최종 업데이트: 2026-09-15
 
 ## 1. 수집하는 정보
 

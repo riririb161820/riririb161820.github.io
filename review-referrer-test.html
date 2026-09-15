@@ -1,6 +1,6 @@
 ---
 layout: null
-permalink: /review/
+permalink: /review-referrer-test/
 sitemap: false
 ---
 <!DOCTYPE html>
@@ -11,7 +11,7 @@ sitemap: false
   <title>네이버 블로그로 이동합니다</title>
   <!-- 이 페이지는 리다이렉트 전용이므로 검색엔진에 색인시키지 않는다. -->
   <meta name="robots" content="noindex, nofollow">
-  <link rel="canonical" href="https://blog.naver.com/riririb">
+  <link rel="canonical" href="https://httpbin.org/headers">
   <!-- Referer 값은 브라우저가 정하므로 인스타그램 주소로 위조할 수 없다.
        대신 unsafe-url로 경로까지 보내, 네이버 유입분석에 origin('https://riririb.com/')이
        아니라 'https://riririb.com/review/'로 찍히게 한다 — 채널별 경로를 다르게 두면 구분된다.
@@ -19,10 +19,10 @@ sitemap: false
        이 페이지는 공개 리다이렉트 스텁이라 전체 URL이 노출돼도 문제없다. -->
   <meta name="referrer" content="unsafe-url">
   <!-- JS가 꺼져 있어도 이동하도록 meta refresh를 함께 둔다. -->
-  <meta http-equiv="refresh" content="0; url=https://blog.naver.com/riririb">
+  <meta http-equiv="refresh" content="0; url=https://httpbin.org/headers">
   <script>
     // replace()를 써야 뒤로가기가 이 페이지로 되돌아오지 않는다.
-    location.replace("https://blog.naver.com/riririb");
+    location.replace("https://httpbin.org/headers");
   </script>
   <style>
     body { font-family: -apple-system, "Apple SD Gothic Neo", sans-serif;
@@ -31,6 +31,6 @@ sitemap: false
   </style>
 </head>
 <body>
-  <p>자동으로 이동하지 않으면 <a href="https://blog.naver.com/riririb">여기를 눌러 주세요</a>.</p>
+  <p>자동으로 이동하지 않으면 <a href="https://httpbin.org/headers">여기를 눌러 주세요</a>.</p>
 </body>
 </html>

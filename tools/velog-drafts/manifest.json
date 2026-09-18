@@ -67,7 +67,7 @@
    "blog-to-insta"
   ],
   "body": "인스타 카드에는 한글 텍스트가 들어가야 한다. \"어차피 이미지니까 AI로 통째로 생성하면 되겠지\" 했는데 — **글자가 깨졌다.** 제목도 본문도 알아볼 수 없는 형태로 뭉개졌다.\n\n이미지 생성 모델을 써본 사람은 한 번쯤 겪는 문제인데, 왜 그런지 알면 해결책도 자명해진다.\n\n## 원인 — 왜 AI 생성 카드는 글자가 깨지나\n\n이미지 생성 모델(FLUX 등)은 픽셀을 \"그리는\" 방식이라 **정확한 글자 형태를 만들지 못한다.** 영문도 자주 깨지고 **한글은 더 심하다**(받침·복잡한 자소가 뭉개진다). 카드뉴스의 핵심은 \"읽히는 텍스트\"인데, 그게 깨지면 카드 자체가 무용지물이다.\n\n---\n\n### 전체 내용은 원문에\n\n이 글은 발췌본입니다. 실패한 시도와 검증 과정까지 포함한 전문은 원문에 있습니다.\n\n👉 **[블로그 글을 인스타그램에 자동 발행하기 (2) — 카드뉴스 자동 생성 (AI로 글자 넣으면 깨진다)](https://riririb.com/posts/blog-to-instagram-automation-2-card-generation/)**\n",
-  "published": null
+  "published": "2026-09-18"
  },
  {
   "slug": "blog-to-instagram-automation-3-design",
@@ -80,7 +80,7 @@
    "blog-to-insta"
   ],
   "body": "잘되는 인스타 카드 계정을 보면 \"이렇게 만들고 싶다\" 싶다. 그런데 그대로 따라 만들면 짝퉁이고, 남의 사진·밈을 가져다 쓰면 저작권 문제다.\n\n참고는 하고 싶은데 어디까지가 허용이고 어디부터가 베끼기일까. 이 선을 말로 정의해두지 않으면 매번 감으로 판단하게 된다.\n\n## 원인 — 벤치마킹과 카피는 다르다\n\n잘되는 카드의 **작동 원리(구조)**는 보편 문법이라 배워도 된다: 키커 → 큰 제목(핵심어 강조) → 증거 모듈 → 한 줄 결론, 일관된 헤더/푸터, 명확한 CTA. 이건 누구의 소유도 아니다.\n\n문제는 **시각 정체성**까지 그대로 가져올 때다. 색 조합·레이아웃·강조 방식을 복제하면 카피이고, 원작자가 문제 삼을 수 있다. 특히 남의 인물 사진·밈은 저작권·초상권 리스크다.\n\n---\n\n### 전체 내용은 원문에\n\n이 글은 발췌본입니다. 실패한 시도와 검증 과정까지 포함한 전문은 원문에 있습니다.\n\n👉 **[블로그 글을 인스타그램에 자동 발행하기 (3) — 잘되는 카드 벤치마킹 vs 카피, 나만의 디자인](https://riririb.com/posts/blog-to-instagram-automation-3-design/)**\n",
-  "published": null
+  "published": "2026-09-18"
  },
  {
   "slug": "blog-to-instagram-automation-4-publish",
@@ -93,7 +93,7 @@
    "blog-to-insta"
   ],
   "body": "만든 카드를 인스타에 자동으로 올리려면 Instagram Graph API가 필요하다. 그런데 직접 앱을 만들어 App Review를 받는 건 시간·서류 부담이 크다. 자동 발행 하나 하려고 며칠~몇 주를 기다릴 순 없었다.\n\n**우회로는 \"승인된 중개자\"를 쓰는 것이다.** 이미 심사를 통과한 서비스의 권한에 올라타는 방식인데, 실제로 돌려보니 삽질 포인트가 여럿 있었다.\n\n## 해결 과정 — 승인된 중개자(Composio)로 우회\n\n이미 Meta 승인을 받은 중개 서비스 **Composio**를 쓰면, 내 계정만 OAuth로 연결해 **심사 없이** 캐러셀을 발행할 수 있다. 단계별로 함정이 있었다.\n\n### 1) 인스타를 비즈니스/크리에이터로 전환\n개인 계정으론 API 발행이 안 된다. 프로페셔널 전환(무료)이 전제.\n\n### 2) Composio 연결 (OAuth)\n브라우저로 한 번 인증하면 연결된다. 단, **토큰을 대시보드에서 자꾸 새로 만들면 세션이 무효화**된다(OAuthException 190). [→ 트러블슈팅: OAuth 190](https://riririb.com/posts/instagram-api-oauthexception-190-session-invalidated/)\n\n### 3) 카드 PNG → JPEG 변환\n인스타 API는 **JPEG + 공개 HTTPS URL만** 받는다. PNG는 거부된다. macOS `sips`로 변환했다.\n\n```bash\nsips -s format jpeg -s formatOptions 92 slide.png --out slide.jpg\n```\n\n### 4) 공개 URL 호스팅\nAPI가 이미지를 가져갈 **공개 URL**이 필요하다. 이미 쓰던 GitHub Pages 저장소에 올려 URL을 확보했다(추가 비용 0).\n\n### 5) 캐러셀 컨테이너 생성 → 발행\n이미지 URL들로 캐러셀 컨테이너를 만들고 발행. 참고로 **게시물 삭제는 API가 지원하지 않아**(앱에서 수동), 계정 **핸들 표기**(예: 점/밑줄)도 발행 전에 카드와 일치시켜야 한다.\n\n결과: 블로그 글 → 카드 6장 캐러셀이 **심사 없이 자동 발행**됐다.\n\n---\n\n### 전체 내용은 원문에\n\n이 글은 발췌본입니다. 실패한 시도와 검증 과정까지 포함한 전문은 원문에 있습니다.\n\n👉 **[블로그 글을 인스타그램에 자동 발행하기 (4) — Instagram API 심사 없이 자동 발행 (Composio)](https://riririb.com/posts/blog-to-instagram-automation-4-publish/)**\n",
-  "published": null
+  "published": "2026-09-18"
  },
  {
   "slug": "blog-to-instagram-automation-5-dm-wall",
@@ -106,7 +106,7 @@
    "blog-to-insta"
   ],
   "body": "댓글에 키워드를 달면 자동으로 DM을 보내고, 팔로우 여부를 확인해 링크를 주는 follow-gate 봇을 만들었다. 코드는 완성됐고 동작도 했다.\n\n그런데 공개할 수가 없었다. **Meta의 Advanced Access 심사를 통과해야 하는데, 여기서 사업자등록이 걸린다.**\n\n개인 개발자가 인스타 DM 자동화를 기획한다면 코드를 짜기 전에 이걸 먼저 알아야 한다.\n\n## 원인 — 타인 데이터 = Advanced Access = 사업자등록\n\n공개 팔로워의 댓글·DM은 **타인의 데이터**다. 이걸 처리하려면 Instagram 권한을 **Advanced Access**로 받아야 하고, 그러려면 **App Review + business verification**이 필요하다.\n\n문제는 business verification이 **등록된 사업체(법인/개인사업자)** 를 전제로 한다는 것. **개인 신분증·개인 명의 서류로는 인증이 안 된다**(인정 서류가 전부 사업체 명의). 게다가 개발 모드에서는 **테스터로 등록된 계정의 이벤트만** webhook이 오므로, 일반 팔로워의 실제 댓글로는 봇이 반응하지 않는다.\n\n---\n\n### 전체 내용은 원문에\n\n이 글은 발췌본입니다. 실패한 시도와 검증 과정까지 포함한 전문은 원문에 있습니다.\n\n👉 **[블로그 글을 인스타그램에 자동 발행하기 (5) — 사업자 없으면 인스타 DM 자동화 못 합니다 (Meta App Review 벽)](https://riririb.com/posts/blog-to-instagram-automation-5-dm-wall/)**\n",
-  "published": null
+  "published": "2026-09-18"
  },
  {
   "slug": "ig-cloudflare-wrangler-login-failed",

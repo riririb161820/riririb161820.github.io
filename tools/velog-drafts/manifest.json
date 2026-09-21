@@ -119,7 +119,7 @@
    "blog-to-insta"
   ],
   "body": "Cloudflare Workers를 배포하려는데 `wrangler login`이 브라우저 인증까지는 가고 그 뒤로 안 넘어간다. 재시도하면 에러 메시지만 바뀐다.\n\n```text\n✘ [ERROR] Timed out waiting for authorization code, please try again.\n▲ [WARNING] Received query string parameter doesn't match the one sent!\nThe consent verifier has already been used\nERR_CONNECTION_REFUSED (localhost:8976)\n```\n\n셋 다 같은 뿌리에서 나온다. **결론부터 말하면 OAuth를 포기하고 API 토큰으로 가는 게 답이다.**\n\n## 원인\n\n- 로그인 OAuth는 **로컬 콜백 서버(localhost:8976)** 가 떠 있는 동안 승인을 받아야 한다.\n- 백그라운드/반복 실행으로 **state가 어긋나거나**, 승인 시점에 **콜백 서버가 이미 종료**돼 있으면 위 에러가 난다(consent 재사용·연결 거부).\n\n---\n\n### 전체 내용은 원문에\n\n이 글은 발췌본입니다. 실패한 시도와 검증 과정까지 포함한 전문은 원문에 있습니다.\n\n👉 **[Cloudflare wrangler login 실패 해결 (Timed out / consent already used / localhost 연결 거부)](https://riririb.com/posts/ig-cloudflare-wrangler-login-failed/)**\n",
-  "published": null
+  "published": "2026-09-21"
  },
  {
   "slug": "instagram-api-oauthexception-190-session-invalidated",
@@ -132,7 +132,7 @@
    "blog-to-insta"
   ],
   "body": "조금 전까지 잘 되던 Instagram Graph API 토큰이 갑자기 막힌다.\n\n```json\n{\"error\": {\"message\": \"Error validating access token: The session has been invalidated because the user changed their password or Facebook has changed the session for security reasons.\", \"type\": \"OAuthException\", \"code\": 190}}\n```\n\n비밀번호를 바꾼 적도 없는데 \"세션이 무효화됐다\"고 나온다. 원인은 다른 데 있었다 — 토큰을 다루는 습관 하나가 문제였다.\n\n## 원인\n\n- **토큰을 새로 생성하면 같은 계정의 이전 세션/토큰이 무효화**된다.\n- 개발 중 대시보드에서 토큰을 **여러 번 재생성**하거나, 같은 계정으로 다른 도구(예: Composio)와 자체 앱을 번갈아 연결하면, 한쪽을 새로 만들 때 다른 쪽 세션이 죽어 190이 뜬다.\n\n---\n\n### 전체 내용은 원문에\n\n이 글은 발췌본입니다. 실패한 시도와 검증 과정까지 포함한 전문은 원문에 있습니다.\n\n👉 **[Instagram API OAuthException 190 'session has been invalidated' 해결](https://riririb.com/posts/instagram-api-oauthexception-190-session-invalidated/)**\n",
-  "published": null
+  "published": "2026-09-21"
  },
  {
   "slug": "instagram-comment-webhook-not-working-dev-mode",

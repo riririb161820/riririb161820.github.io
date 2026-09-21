@@ -145,7 +145,7 @@
    "blog-to-insta"
   ],
   "body": "게시물에 실제로 댓글을 달았는데 webhook 엔드포인트에 이벤트가 0건 들어온다. 그런데 Meta 대시보드의 **Test 버튼으로 보낸 샘플은 정상 도착**한다.\n\n이 조합이 진단의 핵심이다. 전달 경로는 멀쩡한데 실제 이벤트만 안 생긴다는 뜻이라, 볼 곳이 좁혀진다. 점검 순서대로 정리했다.\n\n## 원인 (점검 순서대로)\n\n1. **개발 모드 제약** — 개발 모드에서는 **앱에 역할이 있는 계정(테스터/개발자/관리자)** 의 이벤트만 webhook이 발생한다. 비(非)테스터의 댓글은 오지 않는다.\n2. **comments 필드 미구독** — 계정-앱 구독(`subscribed_apps`)에 `messages`만 있고 `comments`가 빠진 경우.\n3. **권한 미추가** — `instagram_business_manage_comments` 권한이 토큰에 없으면 댓글 이벤트 접근 불가(권한 추가 후 **토큰 재발급** 필요).\n\n---\n\n### 전체 내용은 원문에\n\n이 글은 발췌본입니다. 실패한 시도와 검증 과정까지 포함한 전문은 원문에 있습니다.\n\n👉 **[Instagram 댓글 webhook이 안 올 때 (개발 모드·comments 구독·권한 체크)](https://riririb.com/posts/instagram-comment-webhook-not-working-dev-mode/)**\n",
-  "published": null
+  "published": "2026-09-21"
  },
  {
   "slug": "instagram-tester-invite-accept-error",
@@ -157,7 +157,7 @@
    "blog-to-insta"
   ],
   "body": "Meta 앱에서 Instagram 테스터를 추가했는데 상태가 **Pending**에서 안 풀린다. 수락하려고 instagram.com → 설정 → **앱 및 웹사이트(manage_access)** 에 들어가면 페이지가 아예 안 열린다.\n\n```text\n문제가 발생했습니다\n문제가 발생하여 페이지를 읽어들이지 못했습니다.\n```\n\n시크릿 모드로도, 다른 브라우저로도 같은 에러가 난다. 브라우저 문제가 아니라는 뜻이다.\n\n## 원인\n\n- 테스터 역할은 **초대받은 인스타 계정이 직접 수락**해야 활성화된다(그전엔 Pending).\n- 그런데 `instagram.com`의 **앱·웹사이트 관리 페이지가 특정 계정에서 버그**로 안 열리는 경우가 있다(브라우저 문제가 아니라 그 페이지·계정 조합 이슈).\n\n---\n\n### 전체 내용은 원문에\n\n이 글은 발췌본입니다. 실패한 시도와 검증 과정까지 포함한 전문은 원문에 있습니다.\n\n👉 **[Instagram 테스터 초대 수락 안 될 때 (manage_access '문제가 발생했습니다')](https://riririb.com/posts/instagram-tester-invite-accept-error/)**\n",
-  "published": null
+  "published": "2026-09-21"
  },
  {
   "slug": "wso2-devportal-api-no-login",
@@ -171,7 +171,7 @@
    "swagger"
   ],
   "body": "연동해야 할 API의 개발자 포털에 들어갔더니 로그인 폼뿐이었다. 회원가입은 막혀 있고, 계정이 언제 나올지도 모르는데 연동 일정은 이미 잡혀 있다.\n\n스펙 없이는 요청·응답 타입 설계도 시작할 수 없다. 그런데 이 포털이 **WSO2 API Manager 기반**이라는 게 실마리였다 — 구조를 알면 로그인 없이 열리는 문이 보인다.\n\n## 원인 (이라기보다 구조)\n\n포털 타이틀의 `WSO2 APIM`이 결정적인 힌트였다. Kuehne+Nagel의 이 포털은\n처음부터 만든 자체 웹앱이 아니라, **WSO2 API Manager**라는 오픈소스 API 관리\n플랫폼의 개발자 포털(Devportal) 컴포넌트를 그대로 띄운 것이었다.\n\nWSO2 Devportal은 **화면(프론트엔드 SPA)과 데이터(백엔드 REST API)가 분리**돼\n있다. 그리고 이 데이터 쪽 REST API는 공개(PUBLISHED) API의 목록·문서를\n**익명으로 조회할 수 있게 열려 있는 경우가 많다.** 카탈로그를 검색엔진이나\n비로그인 방문자에게도 보여주려는 기본 설계 때문이다.\n\n즉, 브라우저 화면은 로그인을 요구해도 **화면이 데이터를 가져가는 뒷문은 열려\n있을 수 있다**는 것. 위 대표 이미지가 그 구조다.\n\n---\n\n### 전체 내용은 원문에\n\n이 글은 발췌본입니다. 실패한 시도와 검증 과정까지 포함한 전문은 원문에 있습니다.\n\n👉 **[Kuehne+Nagel API 포털, 회원가입 없이 스펙 전부 받아내기 (WSO2 Devportal)](https://riririb.com/posts/wso2-devportal-api-no-login/)**\n",
-  "published": null
+  "published": "2026-09-21"
  },
  {
   "slug": "b2b-api-http-400-good-signal",

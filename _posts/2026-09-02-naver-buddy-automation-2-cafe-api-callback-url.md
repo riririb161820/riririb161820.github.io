@@ -1,6 +1,7 @@
 ---
 title: "네이버 카페 글쓰기 API 뚫기 (2) — Callback URL 하나 때문에 막혀 있었다"
 headline: "카페 API 글쓰기 성공"
+highlight: "성공"
 date: 2026-09-02 22:20:00 +0900
 categories: [개발, 자동화]
 tags: [naver-buddy-automation, 네이버카페, openapi, oauth, 네이버로그인]

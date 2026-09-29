@@ -1,6 +1,7 @@
 ---
 title: "브라우저 자동화 토큰 99% 줄이기 (4) — take_snapshot의 함정"
 headline: "토큰 99% 절감"
+highlight: "99%"
 date: 2026-09-02 22:40:00 +0900
 categories: [개발, 자동화]
 tags: [naver-buddy-automation, claude-code, chrome-devtools, mcp, 토큰최적화]

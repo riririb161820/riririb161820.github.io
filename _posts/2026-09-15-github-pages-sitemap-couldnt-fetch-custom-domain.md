@@ -1,6 +1,7 @@
 ---
 title: "GitHub Pages 사이트맵이 3개월간 '가져올 수 없음'이던 진짜 이유 — 크롤링 통계가 답이었다"
 headline: "사이트맵 3개월 만에 성공"
+highlight: "성공"
 date: 2026-09-15 08:28:00 +0900
 categories: [개발, 트러블슈팅]
 tags: [github-pages, search-console, sitemap, seo, jekyll, chirpy]

@@ -1,6 +1,7 @@
 ---
 title: "레퍼런스 릴스에서 내 나레이션 목소리 찾아내기 — 감이 아니라 숫자로"
 headline: "목소리를 숫자로 맞추기"
+highlight: "숫자로"
 date: 2026-08-13 16:15:00 +0900
 categories: [개발, 자동화]
 tags: [tts, edge-tts, ffmpeg, whisper, shortform, naver-clip]

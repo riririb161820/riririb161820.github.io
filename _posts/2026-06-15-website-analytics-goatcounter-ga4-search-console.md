@@ -1,6 +1,7 @@
 ---
 title: "블로그 방문 통계 보는 법 — GoatCounter·GA4·Search Console 3종 셋업 가이드"
 headline: "블로그 통계 3종 셋업"
+highlight: "3종"
 date: 2026-06-15 08:45:00 +0900
 categories: [개발, 운영]
 tags: [analytics, goatcounter, ga4, search-console, seo, jekyll, chirpy]

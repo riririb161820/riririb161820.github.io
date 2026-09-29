@@ -1,6 +1,7 @@
 ---
 title: "네이버 블로그엔 웹훅이 없다 (3) — 이웃새글을 폴링으로 받는 법"
 headline: "웹훅 없이 새글 감지"
+highlight: "웹훅 없이"
 date: 2026-09-02 22:30:00 +0900
 categories: [개발, 자동화]
 tags: [naver-buddy-automation, 네이버블로그, 웹훅, 폴링, rss]

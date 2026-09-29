@@ -1,6 +1,7 @@
 ---
 title: "macOS pbcopy가 한글을 조용히 버릴 때 — 원인은 비어 있는 $LANG"
 headline: "pbcopy 한글 0바이트"
+highlight: "0바이트"
 date: 2026-09-15 14:05:00 +0900
 categories: [개발, 트러블슈팅]
 tags: [macos, pbcopy, locale, shell, utf-8]

@@ -1,6 +1,7 @@
 ---
 title: "자동화 티는 어디서 나는가 (5) — 분당 5~6건이 자백한 것"
 headline: "자동화 티 지우기"
+highlight: "자동화 티"
 date: 2026-09-02 22:50:00 +0900
 categories: [개발, 자동화]
 tags: [naver-buddy-automation, 자동화, 페이싱, 프롬프트설계, 운영]

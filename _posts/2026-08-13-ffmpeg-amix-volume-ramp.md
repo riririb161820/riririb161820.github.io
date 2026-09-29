@@ -1,6 +1,7 @@
 ---
 title: "ffmpeg amix로 합쳤더니 뒤로 갈수록 소리가 커진다"
 headline: "뒤로 갈수록 커지는 소리"
+highlight: "커지는 소리"
 date: 2026-08-13 16:25:00 +0900
 categories: [개발, 트러블슈팅]
 tags: [ffmpeg, amix, audio, tts, normalize]

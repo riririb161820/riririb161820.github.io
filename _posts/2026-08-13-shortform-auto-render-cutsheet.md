@@ -1,6 +1,7 @@
 ---
 title: "릴스도 쇼츠도 네이버 클립도 결국 같은 세로 영상 — 편집기 없이 찍어내기"
 headline: "편집기 없이 숏폼 자동 제작"
+highlight: "자동 제작"
 date: 2026-08-13 15:00:00 +0900
 categories: [개발, 자동화]
 tags: [ffmpeg, shortform, naver-clip, reels, automation, video]

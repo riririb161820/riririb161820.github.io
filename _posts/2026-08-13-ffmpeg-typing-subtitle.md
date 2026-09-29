@@ -1,6 +1,7 @@
 ---
 title: "숏폼 자막이 한 글자씩 찍히게 만들기 — 글자가 좌우로 흔들리지 않으려면"
 headline: "자막이 한 글자씩 찍히게"
+highlight: "한 글자씩"
 date: 2026-08-13 16:10:00 +0900
 categories: [개발, 자동화]
 tags: [ffmpeg, drawtext, shortform, subtitle, naver-clip, automation]

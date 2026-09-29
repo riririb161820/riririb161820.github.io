@@ -25,3 +25,6 @@ package-lock.json
 # Misc
 _sass/vendors
 assets/js/dist
+
+# 파이썬 부산물 (tools/ 모듈을 import할 때 생김)
+__pycache__/

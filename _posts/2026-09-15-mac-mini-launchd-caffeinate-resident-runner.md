@@ -1,6 +1,7 @@
 ---
 title: "맥미니를 24시간 봇 러너로 만들기 — launchd + caffeinate 상주 프로세스의 함정 두 개"
 headline: "launchd 함정 두 개"
+highlight: "함정 두 개"
 date: 2026-09-15 14:00:00 +0900
 categories: [개발, 자동화]
 tags: [launchd, macos, caffeinate, mac-mini, automation, github-actions]

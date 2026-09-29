@@ -1,6 +1,7 @@
 ---
 title: "숏폼 나레이션이 배속 재생처럼 빨라질 때 — 컷 길이를 말에 맞추기"
 headline: "컷 길이를 말에 맞추기"
+highlight: "말에 맞추기"
 date: 2026-08-13 16:20:00 +0900
 categories: [개발, 자동화]
 tags: [tts, ffmpeg, shortform, naver-clip, automation, script]

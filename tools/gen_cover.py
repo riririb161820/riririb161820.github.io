@@ -7,11 +7,11 @@
        (배경은 assets/img/covers/_src/<slug>.png 를 기본 사용. --bg로 다른 경로 지정 가능)
 전체:  python3 tools/gen_cover.py --all     (아래 MAP 일괄 렌더)
 
-배지는 우상단 'riri.devlog' 하나로 통일. 헤드라인은 좌하단, 강조어는 카테고리색 박스.
+배지는 우상단 'riririb.dev' 하나로 통일 (2026-09-29 핸들 변경, 옛 riri.devlog는 없는 계정). 헤드라인은 좌하단, 강조어는 카테고리색 박스.
 입력 일러스트(공유 소스): assets/img/covers/_src/<slug>.png  (insta-post 표지도 같은 소스 재사용)
 출력: assets/img/covers/<slug>.png   (블로그 메인 카드 1:1)
 """
-import argparse, html, os, subprocess, tempfile
+import argparse, glob, html, os, re, subprocess, tempfile
 from pathlib import Path
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,7 +40,7 @@ body{{font-family:-apple-system,"Apple SD Gothic Neo","Pretendard",sans-serif}}
 <div class="cover">
   <img class="bg" src="{bg}">
   <div class="scrim"></div>
-  <span class="mark"><span class="mdot"></span>riri.devlog</span>
+  <span class="mark"><span class="mdot"></span>riririb.dev</span>
   <div class="hl">{headline}</div>
 </div></body></html>"""
 
@@ -94,20 +94,36 @@ def to_webp(png_path: str) -> str | None:
     return webp
 
 
-MAP = [
-    ("claude-code-blog-automation-github-pages", "자동화", "클로드코드로 블로그 자동화", "자동화"),
-    ("website-analytics-goatcounter-ga4-search-console", "운영", "블로그 통계 3종 셋업", "3종"),
-    ("claude-code-skills-cross-machine-sync", "자동화", "클로드 스킬 PC 동기화", "동기화"),
-    ("blog-to-instagram-automation-1-design", "자동화", "인스타 자동화 설계도", "설계도"),
-    ("blog-to-instagram-automation-2-card-generation", "자동화", "카드뉴스 자동 생성", "자동 생성"),
-    ("blog-to-instagram-automation-3-design", "자동화", "카드 벤치마킹 ≠ 카피", "≠ 카피"),
-    ("blog-to-instagram-automation-4-publish", "자동화", "인스타 심사 없이 발행", "심사 없이"),
-    ("blog-to-instagram-automation-5-dm-wall",              "자동화",    "DM 자동화의 벽",    "벽"),
-    ("ig-cloudflare-wrangler-login-failed",                 "트러블슈팅", "wrangler login 실패", "실패"),
-    ("instagram-api-oauthexception-190-session-invalidated", "트러블슈팅", "OAuth 190 해결",   "해결"),
-    ("instagram-comment-webhook-not-working-dev-mode", "트러블슈팅", "인스타 webhook 불통", "불통"),
-    ("instagram-tester-invite-accept-error", "트러블슈팅", "인스타 테스터 초대 실패", "실패"),
-]
+def posts_with_covers() -> list[tuple[str, str, str, str]]:
+    """_posts의 front matter에서 (slug, category, headline, highlight)를 읽는다.
+
+    예전에는 이 목록을 MAP 상수로 손으로 들고 있었는데, 글이 늘면 금방 낡아서
+    `--all`이 일부만 다시 만들었다(2026-09-29에 12/36건만 들어있는 걸 발견).
+    **강조어(highlight)는 front matter가 정본이다** — 여기 없으면 커버를 다시 만들 때
+    강조 박스가 통째로 사라지므로, 새 글에는 headline과 함께 반드시 넣는다.
+    """
+    out = []
+    for path in sorted(glob.glob(os.path.join(REPO, "_posts", "*.md"))):
+        slug = re.sub(r"^\d{4}-\d{2}-\d{2}-", "", os.path.basename(path)[:-3])
+        if not os.path.exists(os.path.join(SRC_DIR, slug + ".png")):
+            continue  # 배경 일러스트가 없는 글은 이 생성기 대상이 아니다
+        fm = re.match(r"^---\n(.*?)\n---\n", open(path, encoding="utf-8").read(), re.S)
+        if not fm:
+            continue
+        fm = fm.group(1)
+
+        def field(name: str) -> str:
+            m = re.search(rf'^{name}:\s*"?(.*?)"?\s*$', fm, re.M)
+            return m.group(1) if m else ""
+
+        headline = field("headline")
+        if not headline:
+            continue
+        # categories: [개발, 트러블슈팅] → 테마 키는 뒤쪽(소분류)
+        cats = [c.strip().strip('"\'') for c in field("categories").strip("[]").split(",") if c.strip()]
+        category = cats[-1] if cats else ""
+        out.append((slug, category, headline, field("highlight")))
+    return out
 
 
 def main():
@@ -117,7 +133,12 @@ def main():
     ap.add_argument("--headline"); ap.add_argument("--highlight", default="")
     a = ap.parse_args()
     if a.all:
-        for slug, cat, hl, hi in MAP:
+        items = posts_with_covers()
+        print(f"[대상] {len(items)}건")
+        missing = [s for s, _, _, hi in items if not hi]
+        if missing:
+            print(f"  [!] highlight 없는 글 {len(missing)}건 — 강조 박스 없이 렌더됩니다: {missing}")
+        for slug, cat, hl, hi in items:
             render(os.path.join(SRC_DIR, slug + ".png"), slug, cat, hl, hi)
     elif a.slug and a.headline:
         bg = a.bg or os.path.join(SRC_DIR, a.slug + ".png")

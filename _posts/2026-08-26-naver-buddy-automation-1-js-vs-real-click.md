@@ -1,6 +1,7 @@
 ---
 title: "네이버 블로그 서이추 자동화하기 (1) — JS click이 안 먹히는 버튼 구분하기"
 headline: "네이버 서이추 자동화"
+highlight: "서이추"
 date: 2026-08-26 15:40:00 +0900
 categories: [개발, 자동화]
 tags: [naver-buddy-automation, 네이버블로그, 브라우저자동화, chrome-devtools, mcp]

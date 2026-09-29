@@ -1,6 +1,7 @@
 ---
 title: "B2B API 연동 검증에서 HTTP 400이 반가운 신호인 이유 (401 vs 400 vs 200)"
 headline: "400이 반가운 신호"
+highlight: "400"
 date: 2026-07-07 07:00:00 +0900
 categories: [개발, 트러블슈팅]
 tags: [api, oauth, http-status, client-credentials, kuehne-nagel, integration]

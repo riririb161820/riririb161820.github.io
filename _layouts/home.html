@@ -160,3 +160,11 @@ layout: default
 {% if paginator.total_pages > 1 %}
   {% include post-paginator.html %}
 {% endif %}
+
+{%- comment -%}
+  사업자 정보: Meta 비즈니스 인증이 웹사이트에 법적 상호가 보이는지 확인한다.
+{%- endcomment -%}
+<p class="business-info text-muted small text-center mt-4 mb-0">
+  상호 리온 · 사업자등록번호 791-04-03697 ·
+  <a href="{{ '/privacy.html' | relative_url }}">개인정보처리방침</a>
+</p>

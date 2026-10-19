@@ -1,5 +1,5 @@
 ---
-title: "사이트맵의 68%가 태그 페이지였다 — Jekyll 저가치 URL 걷어내기 (사이트맵 2편)"
+title: "사이트맵의 68%가 태그 페이지였다 — Jekyll 저가치 URL 걷어내기"
 headline: "사이트맵 135→38"
 highlight: "135→38"
 date: 2026-10-19 09:12:00 +0900
@@ -11,9 +11,8 @@ image:
   alt: 사이트맵 135개 중 92개가 태그 페이지였고 적용 후 38개로 줄어든 구성 변화 그래프
 ---
 
-> **사이트맵 시리즈**
-> 1편 — [GitHub Pages 사이트맵이 3개월간 '가져올 수 없음'이던 진짜 이유](/posts/github-pages-sitemap-couldnt-fetch-custom-domain/)
-> **2편 — 사이트맵의 68%가 태그 페이지였다 ← 지금 보는 글**
+> **이 글만 읽어도 됩니다.** 사이트맵에 태그 페이지가 넘칠 때의 정리 방법을 다룹니다.
+> 배경이 궁금하면 → [신생 블로그가 3개월간 구글에 안 잡힌 이유](/posts/github-pages-sitemap-couldnt-fetch-custom-domain/)
 {: .prompt-info }
 
 ## 문제

@@ -2,7 +2,7 @@
 title: "google.com/ping은 2023년에 죽었다 — 새 글을 검색엔진에 알리는 현재의 방법"
 headline: "ping 폐지, 그럼 뭘 쓰나"
 highlight: "ping 폐지"
-date: 2026-10-19 13:40:00 +0900
+date: 2026-10-19 13:20:00 +0900
 categories: [개발, 운영]
 tags: [seo, indexnow, sitemap, jekyll, github-pages]
 description: "글을 올리면 구글에 ping을 쏘라는 조언이 아직도 돌아다닌다. 직접 호출해 보면 404다. 구글은 2023년 6월에 폐지했고 빙은 410으로 응답한다. 폐지 이유와 현재의 대체 수단(구글은 lastmod, 나머지는 IndexNow)을 실측으로 정리했다."

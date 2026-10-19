@@ -208,6 +208,13 @@ TXT  @  google-site-verification=...
 - **GSC 도메인 속성(sc-domain)** — DNS TXT 소유확인. 하위 도메인·프로토콜 전부 한 속성으로 묶인다.
 - **dig** — 실제 IP와 전파 상태 확인. 문서의 IP를 믿지 말고 `dig +short <username>.github.io A`로 확인하는 게 안전하다.
 
+## 더 자세히 — 실패한 시도의 상세 기록
+
+위에서 요약한 시도 중 둘은 따로 적었다. **색인 문제의 해법은 아니지만**, 각각 그 자체로는 유효한 작업이라 같은 증상으로 찾아오는 사람을 위해 분리했다.
+
+- [사이트맵의 68%가 태그 페이지였다 — Jekyll 저가치 URL 걷어내기](/posts/jekyll-sitemap-tag-pages-noindex/) — 135개를 38개로 줄인 플러그인과, 압축 때문에 noindex 주입이 조용히 실패했던 함정
+- [google.com/ping은 2023년에 죽었다 — 새 글을 검색엔진에 알리는 현재의 방법](/posts/google-sitemap-ping-deprecated-indexnow/) — ping 폐지 경위와 대체 수단(구글은 lastmod, 나머지는 IndexNow)
+
 ## 정리
 
 - 색인이 안 될 때 **크롤링 통계의 "목적: 검색(발견)" 비율**을 먼저 봐라. 이게 바닥이면 사이트맵을 몇 번 제출하든 소용없다.

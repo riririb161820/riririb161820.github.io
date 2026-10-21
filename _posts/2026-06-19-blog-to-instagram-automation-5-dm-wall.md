@@ -72,6 +72,6 @@ Meta가 보낸 **테스트 webhook이 워커에 정상 도착**하는 것까지 
 4. [Composio로 자동 발행](/posts/blog-to-instagram-automation-4-publish/)
 5. **DM 자동화의 벽** (현재 글)
 
-> 봇을 만들다 막혔다면 — 트러블슈팅:
-> [Cloudflare wrangler login 실패](/posts/ig-cloudflare-wrangler-login-failed/) · [OAuth 190 세션 무효](/posts/instagram-api-oauthexception-190-session-invalidated/) · [댓글 webhook 안 옴](/posts/instagram-comment-webhook-not-working-dev-mode/) · [테스터 초대 수락 에러](/posts/instagram-tester-invite-accept-error/)
+> 봇을 만들다 막혔다면 — 트러블슈팅 4건을 한 편에 모았습니다:
+> [인스타 자동화 봇이 막히는 네 지점](/posts/instagram-bot-meta-platform-four-blockers/) (OAuth 190 세션 무효 · 테스터 초대 Pending · 댓글 webhook 안 옴 · wrangler login 실패)
 {: .prompt-warning }

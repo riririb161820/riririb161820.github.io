@@ -36,7 +36,7 @@ Graph API로 게시하려면 권한 + 앱 심사 + 비즈니스 인증이 필요
 개인 계정으론 API 발행이 안 된다. 프로페셔널 전환(무료)이 전제.
 
 ### 2) Composio 연결 (OAuth)
-브라우저로 한 번 인증하면 연결된다. 단, **토큰을 대시보드에서 자꾸 새로 만들면 세션이 무효화**된다(OAuthException 190). [→ 트러블슈팅: OAuth 190](/posts/instagram-api-oauthexception-190-session-invalidated/)
+브라우저로 한 번 인증하면 연결된다. 단, **토큰을 대시보드에서 자꾸 새로 만들면 세션이 무효화**된다(OAuthException 190). [→ 트러블슈팅: OAuth 190](/posts/instagram-bot-meta-platform-four-blockers/)
 
 ### 3) 카드 PNG → JPEG 변환
 인스타 API는 **JPEG + 공개 HTTPS URL만** 받는다. PNG는 거부된다. macOS `sips`로 변환했다.
@@ -78,5 +78,5 @@ API가 이미지를 가져갈 **공개 URL**이 필요하다. 이미 쓰던 GitH
 4. **Composio로 자동 발행** (현재 글)
 5. [DM 자동화의 벽](/posts/blog-to-instagram-automation-5-dm-wall/)
 
-> 이 단계에서 막혔다면 → [Instagram API OAuthException 190](/posts/instagram-api-oauthexception-190-session-invalidated/)
+> 이 단계에서 막혔다면 → [Instagram API OAuthException 190 (트러블슈팅 4건 모음)](/posts/instagram-bot-meta-platform-four-blockers/)
 {: .prompt-warning }

@@ -1,0 +1,89 @@
+<!doctype html>
+<meta charset="utf-8">
+<!--
+  본문 히어로 다이어그램 (1216×640, 1.9:1).
+
+  글: _posts/2026-10-21-instagram-bot-meta-platform-four-blockers.md
+  내용: 플랫폼이 보여준 에러 메시지(왼쪽)와 실제 원인(오른쪽)을 네 줄로 대조한다.
+
+  렌더:
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+      --headless --disable-gpu --hide-scrollbars --force-device-scale-factor=1 \
+      --window-size=1216,640 --screenshot=<out>.png "file://<이 파일 절대경로>"
+    cwebp -q 85 <out>.png -o <out>.webp
+-->
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  /* body에만 배경을 주면 캔버스 여백이 흰색으로 남는다 — html에도 같은 바탕을 깐다. */
+  html { background: #16143a; }
+  body {
+    width: 1216px; height: 640px; position: relative; overflow: hidden;
+    background:
+      linear-gradient(rgba(124,116,214,.07) 1px, transparent 1px) 0 0 / 60px 60px,
+      linear-gradient(90deg, rgba(124,116,214,.07) 1px, transparent 1px) 0 0 / 60px 60px,
+      radial-gradient(900px 600px at 50% 35%, #232057, #16143a 72%);
+    font-family: "Pretendard", "Apple SD Gothic Neo", -apple-system, sans-serif;
+    color: #fff;
+    padding: 46px 58px;
+  }
+  .mark {
+    position: absolute; top: 34px; right: 46px;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: "SF Mono", ui-monospace, monospace; font-size: 18px; font-weight: 600;
+    background: rgba(0,0,0,.34); padding: 7px 15px; border-radius: 40px;
+  }
+  .mdot { width: 9px; height: 9px; border-radius: 50%; background: #2dd4bf; }
+
+  h1 { font-size: 40px; font-weight: 800; letter-spacing: -1px; margin-bottom: 6px; }
+  h1 .hi { background: #b2b6e8; color: #191640; padding: 1px 12px; border-radius: 10px; }
+  .sub { font-size: 19px; color: #a9adda; margin-bottom: 38px; }
+
+  .heads { display: grid; grid-template-columns: 1fr 56px 1fr; gap: 0 16px;
+           font-size: 17px; color: #8d91c4; margin-bottom: 9px; letter-spacing: .3px; }
+  .heads .r { color: #2dd4bf; }
+
+  .row { display: grid; grid-template-columns: 1fr 56px 1fr; gap: 0 16px;
+         align-items: center; margin-bottom: 22px; }
+  .cell {
+    border-radius: 13px; padding: 19px 20px;
+    font-size: 19px; line-height: 1.35;
+  }
+  .said { border: 2px solid #f2536a; background: rgba(120,20,40,.30); color: #ff93a3;
+          font-family: "SF Mono", ui-monospace, monospace; font-size: 17px; }
+  .real { border: 2px solid #4b4596; background: #211d4f; color: #e4e6ff; }
+  .real b { color: #2dd4bf; }
+  .arrow { text-align: center; color: #2dd4bf; font-size: 26px; font-weight: 700; }
+</style>
+
+<span class="mark"><span class="mdot"></span>riririb.dev</span>
+
+<h1>에러 메시지가 <span class="hi">가리키지 않는 곳</span>에 원인이 있었다</h1>
+<div class="sub">인스타 자동화 봇을 Meta 플랫폼에 올리다 막힌 네 지점</div>
+
+<div class="heads">
+  <div>플랫폼이 말한 것</div><div></div><div class="r">실제 원인</div>
+</div>
+
+<div class="row">
+  <div class="cell said">OAuthException 190<br>"user changed their password"</div>
+  <div class="arrow">→</div>
+  <div class="cell real">토큰을 <b>여러 번 재생성</b>해 이전 세션이 죽었다</div>
+</div>
+
+<div class="row">
+  <div class="cell said">테스터 상태 Pending<br>(이유 표시 없음)</div>
+  <div class="arrow">→</div>
+  <div class="cell real">수락 페이지가 <b>그 계정에서 안 열린다</b></div>
+</div>
+
+<div class="row">
+  <div class="cell said">webhook 이벤트 0건<br>(에러도 없음)</div>
+  <div class="arrow">→</div>
+  <div class="cell real">개발 모드 제약 + <b>comments 구독 누락</b></div>
+</div>
+
+<div class="row">
+  <div class="cell said">"Timed out waiting for<br>authorization code"</div>
+  <div class="arrow">→</div>
+  <div class="cell real">localhost 콜백 서버가 <b>이미 종료</b>됐다</div>
+</div>

@@ -99,11 +99,14 @@ _무료 플랜인데도 미국 서버를 하나씩 지정해 설정 파일을 �
 
 내려받은 파일이 정말 미국인지는 엔드포인트 주소로 확인했다.
 
+> 이 글의 외부 IP는 전부 `203.0.113.x`(RFC 5737 문서용 예약 대역)로 바꿔 적었다. 실제 서버 주소가 아니므로 그대로 따라 넣지 말고, **본인 계정에서 받은 설정 파일의 값을 쓰면 된다.** 반면 `100.100.100.100`과 `10.2.0.1`은 누구에게나 동일하게 나타나는 고정값이라 실제 값 그대로 뒀다 — 아래 DNS 문제를 진단할 때 이 숫자 자체가 단서가 된다.
+{: .prompt-info }
+
 ```bash
 $ grep Endpoint pvpnus.conf
-Endpoint = 149.40.62.56:51820
+Endpoint = 203.0.113.56:51820
 
-$ curl -s https://ipinfo.io/149.40.62.56/json
+$ curl -s https://ipinfo.io/203.0.113.56/json
 {
   "city": "Seattle",
   "region": "Washington",
@@ -151,7 +154,7 @@ $ scutil --dns | grep -m8 "nameserver\["
 
 ```bash
 $ dig +short @10.2.0.1 ipinfo.io
-34.117.59.81
+203.0.113.10
 ```
 
 Tailscale을 내리면 해결된다. 둘은 동시에 못 쓴다.

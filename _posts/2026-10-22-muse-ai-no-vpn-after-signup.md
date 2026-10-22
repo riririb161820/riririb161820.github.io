@@ -116,12 +116,15 @@ Proton 앱은 무료 플랜에서 국가를 못 고르니([1편 참고](/posts/m
 
 ```bash
 $ grep Endpoint iphone-muse-us-US-FREE-32.conf
-Endpoint = 149.22.88.59:51820
+Endpoint = 203.0.113.59:51820
 
-$ curl -s https://ipinfo.io/149.22.88.59/json | grep -E '"city"|"country"'
+$ curl -s https://ipinfo.io/203.0.113.59/json | grep -E '"city"|"country"'
   "city": "Seattle",
   "country": "US",
 ```
+
+> 여기 적힌 IP는 `203.0.113.x`(RFC 5737 문서용 예약 대역)로 바꿔 쓴 값이다. 실제 서버 주소가 아니니 **본인 계정에서 받은 설정 파일의 엔드포인트를 그대로 쓰면 된다.**
+{: .prompt-info }
 
 **그런데 결국 쓰지 않았다.** 앞에서 확인했듯 가입이 끝난 계정은 VPN이 아예 필요 없기 때문이다. 게다가 Proton 무료는 동시 1기기라 폰을 붙이면 맥을 내려야 한다. 만들어놓고 버린 경로지만, "VPN이 필요 없다"를 확인하기 전까지는 합리적인 준비였다.
 

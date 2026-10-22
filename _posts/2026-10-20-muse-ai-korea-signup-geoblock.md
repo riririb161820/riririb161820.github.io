@@ -13,7 +13,7 @@ image:
 
 > **이 시리즈**
 > - **1편 — 한국에서 muse.ai 가입하기 (현재 글)**
-> - 2편 — VPN 없이 muse.ai 사용하기 *(곧 발행)*
+> - 2편 — [muse.ai는 VPN 없이 쓸 수 있다 — 지역 차단이 걸리는 진짜 시점](/posts/muse-ai-no-vpn-after-signup/)
 {: .prompt-info }
 
 ## 문제
@@ -200,4 +200,4 @@ You can also continue with your Instagram or Facebook account to confirm your ag
 - 무료 VPN은 "국가 선택 불가"가 기본이지만, **WireGuard 설정 파일을 직접 생성하면 서버를 고정**할 수 있다. 이게 무료 플랜의 실질적인 제약 해제 지점이다.
 - 가입 과정에서 막히는 두 지점은 **DNS 충돌**(Tailscale 등 다른 VPN과 공존 불가)과 **연령 확인**(페이스북 연동이 가장 안정적)이다.
 
-그런데 가입을 마치고 나서 예상 밖의 사실을 하나 더 확인했다. **VPN을 내려도 Muse가 그대로 열린다.** 다음 편에서 다룬다.
+그런데 가입을 마치고 나서 예상 밖의 사실을 하나 더 확인했다. **VPN을 내려도 Muse가 그대로 열린다.** 지역 게이트가 어느 시점에만 걸리는지는 [2편](/posts/muse-ai-no-vpn-after-signup/)에서 다룬다.

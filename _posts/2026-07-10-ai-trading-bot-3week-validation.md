@@ -114,12 +114,10 @@ split 2025-01 → IS +8.20% / OOS -4.75%
 
 ## 더 깊이 — 트러블슈팅 상세
 
-이 여정에서 각각 독립된 글로 풀어낸 기술적 함정들이다. 같은 증상으로 검색해 들어온다면 여기서 재현 가능한 해결을 볼 수 있다.
+이 여정에서 따로 풀어낸 기술적 함정들이다. 같은 증상으로 검색해 들어온다면 여기서 재현 가능한 해결을 볼 수 있다.
 
-- [멀티에셋 백테스트가 수익률을 뻥튀기하는 이유 — 바 인덱스 정렬 함정](/posts/multiasset-backtest-index-alignment-bug/) : +13.84%의 절반이 왜 버그였나
+- [자동매매 봇의 숫자가 틀렸던 세 번](/posts/trading-bot-three-data-traps/) : Yahoo quoteSummary 401로 꺼진 재무 필터, 카카오뱅크 부채비율 오탐, +13.84%의 절반이 버그였던 백테스트 정렬
 - [GitHub Actions cron이 예약대로 안 도는 이유와 상주 러너 이중화](/posts/github-actions-cron-skip-resident-runner/) : 하루 11회 예정 → 1회 실행
-- [Yahoo quoteSummary 401로 재무 데이터가 죽었을 때 — DART API로 교체](/posts/yahoo-quotesummary-401-dart-api/) : 있는데 효과 없는 좀비 피처
-- [재무 필터가 우량 은행을 걸러낼 때 — 부채비율 대신 계정 구조로 판별](/posts/financial-filter-bank-debt-ratio-false-positive/) : 카카오뱅크 오탐 사건
 
 ## 정리
 

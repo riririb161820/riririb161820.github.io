@@ -1,0 +1,75 @@
+<!doctype html>
+<meta charset="utf-8">
+<!--
+  본문 히어로 다이어그램 (1216×640, 1.9:1).
+
+  글: _posts/2026-10-26-trading-bot-three-data-traps.md
+  내용: 봇이 보여준 숫자(왼쪽)와 실제(오른쪽)를 세 줄로 대조한다.
+
+  렌더 (경로의 '#'은 %23으로 인코딩):
+    URL="file://$(pwd | sed 's/#/%23/g')/tools/posts-diagram/trading-bot-three-data-traps.html"
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --disable-gpu \
+      --hide-scrollbars --force-device-scale-factor=1 --window-size=1216,640 \
+      --screenshot=assets/img/posts/trading-bot-three-data-traps-hero.png "$URL"
+    cwebp -quiet -q 85 assets/img/posts/trading-bot-three-data-traps-hero.png \
+      -o assets/img/posts/trading-bot-three-data-traps-hero.webp
+-->
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  /* body에만 배경을 주면 캔버스 여백이 흰색으로 남는다 — html에도 같은 바탕을 깐다. */
+  html { background: #16143a; }
+  body {
+    width: 1216px; height: 640px; position: relative; overflow: hidden;
+    background:
+      linear-gradient(rgba(124,116,214,.07) 1px, transparent 1px) 0 0 / 60px 60px,
+      linear-gradient(90deg, rgba(124,116,214,.07) 1px, transparent 1px) 0 0 / 60px 60px,
+      radial-gradient(900px 600px at 50% 35%, #232057, #16143a 72%);
+    font-family: "Pretendard", "Apple SD Gothic Neo", -apple-system, sans-serif;
+    color: #fff;
+    padding: 46px 58px;
+  }
+  .mark {
+    position: absolute; top: 34px; right: 46px;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: "SF Mono", ui-monospace, monospace; font-size: 18px; font-weight: 600;
+    background: rgba(0,0,0,.34); padding: 7px 15px; border-radius: 40px;
+  }
+  .mdot { width: 9px; height: 9px; border-radius: 50%; background: #2dd4bf; }
+  h1 { font-size: 40px; font-weight: 800; letter-spacing: -1px; margin-bottom: 6px; }
+  h1 .hi { background: #b2b6e8; color: #191640; padding: 1px 12px; border-radius: 10px; }
+  .sub { font-size: 19px; color: #a9adda; margin-bottom: 40px; }
+  .heads { display: grid; grid-template-columns: 1fr 56px 1fr; gap: 0 16px;
+           font-size: 17px; color: #8d91c4; margin-bottom: 10px; }
+  .heads .r { color: #2dd4bf; }
+  .row { display: grid; grid-template-columns: 1fr 56px 1fr; gap: 0 16px;
+         align-items: center; margin-bottom: 30px; }
+  .cell { border-radius: 14px; padding: 30px 22px; font-size: 20px; line-height: 1.4; }
+  .said { border: 2px solid #f2536a; background: rgba(120,20,40,.30); color: #ff93a3; }
+  .said .n { font-family: "SF Mono", ui-monospace, monospace; font-weight: 700; color: #ffb3bf; }
+  .real { border: 2px solid #4b4596; background: #211d4f; color: #e4e6ff; }
+  .real b { color: #2dd4bf; }
+  .arrow { text-align: center; color: #2dd4bf; font-size: 26px; font-weight: 700; }
+</style>
+
+<span class="mark"><span class="mdot"></span>riririb.dev</span>
+
+<h1>에러 없이 <span class="hi">숫자만 틀렸다</span></h1>
+<div class="sub">자동매매 봇 검증 중 발견한 데이터 함정 세 가지</div>
+
+<div class="heads"><div>봇이 보여준 숫자</div><div></div><div class="r">실제</div></div>
+
+<div class="row">
+  <div class="cell said">재무 필터: 24종목 전부 <span class="n">"데이터 없음"</span></div>
+  <div class="arrow">→</div>
+  <div class="cell real">Yahoo quoteSummary가 <b>401</b> — 필터가 꺼져 있었다</div>
+</div>
+<div class="row">
+  <div class="cell said">카카오뱅크 부채비율 <span class="n">1072%</span> → 매수 배제</div>
+  <div class="arrow">→</div>
+  <div class="cell real">은행은 <b>예수금이 부채</b> — 1,000%대가 정상</div>
+</div>
+<div class="row">
+  <div class="cell said">코인+주식 합산 백테스트 <span class="n">+13.84%</span></div>
+  <div class="arrow">→</div>
+  <div class="cell real">날짜로 정렬하니 <b>+7.71%</b> — 절반 가까이가 버그</div>
+</div>

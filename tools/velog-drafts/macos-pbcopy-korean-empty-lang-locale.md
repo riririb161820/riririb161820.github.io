@@ -1,10 +1,10 @@
-`pbcopy < file.txt` 를 실행했는데 붙여넣기가 비어 있다. 에러 메시지도 없고 종료 코드는 0이다. 파일은 멀쩡하다.
+`pbcopy < file.txt`를 실행했는데 붙여넣기가 비어 있다. 에러도 없고 종료 코드는 0이다. 영문은 멀쩡히 복사되고 한글만 사라진다.
 
-권한이나 샌드박스를 의심하며 한참을 헤맸는데, 원인은 전혀 다른 곳에 있었다. **영문은 복사되고 한글만 사라진다**는 걸 확인한 순간 방향이 잡혔다.
+원인은 비어 있는 `$LANG`이다. 로케일이 없으면 pbcopy는 UTF-8이 아닌 인코딩으로 입력을 읽는데, 시스템 언어가 한국어인 맥에서 그 인코딩은 EUC-KR 계열이었다. UTF-8 한글은 거기서 유효하지 않으니 통째로 버려진다. 터미널 앱은 로케일을 알아서 잡아줘서 안 겪고, launchd·CI·에이전트 도구가 띄운 셸에서 나온다.
 
-터미널에서 직접 쓸 때는 거의 안 겪고, CI 러너나 launchd로 뜬 프로세스처럼 로그인 셸을 거치지 않는 환경에서 나오는 문제다.
+로케일 값을 하나씩 바꿔 가며 재 보니 의외인 것도 있었다. `LANG=ko_KR`처럼 `.UTF-8`을 빼면 여전히 0바이트다.
 
-## 문제
+## 문제 — 한글이 0바이트로 복사됐다
 
 한글이 든 텍스트 파일을 클립보드에 넣으려 했다.
 
@@ -26,32 +26,44 @@ wc -c prompt.txt
 #     3872 prompt.txt
 ```
 
-## 원인
+## 해결
 
-처음엔 샌드박스나 권한 문제로 의심했다. 클립보드 접근이 막혔나 싶어 샌드박스를 끄고 다시 해봤다. 똑같이 0바이트. 파일 경로를 의심해 `cat file | pbcopy`로도 해봤다. 역시 0바이트.
-
-그런데 이걸 해보니 갈렸다.
+로케일을 명시한다.
 
 ```bash
-echo "test123" | pbcopy && pbpaste
-# test123        ← 된다
-
-echo "한글테스트" | pbcopy && pbpaste
-#                 ← 빈 줄
+LANG=ko_KR.UTF-8 LC_ALL=ko_KR.UTF-8 pbcopy < prompt.txt
 ```
 
-**영문은 되고 한글은 안 된다.** 권한 문제가 아니라 인코딩 문제다.
+`en_US.UTF-8`이어도 된다. 중요한 건 언어가 아니라 **`.UTF-8`** 부분이다. 꺼낼 때도 마찬가지다.
 
 ```bash
-echo "locale: [$LANG]"
-# locale: []
+LANG=ko_KR.UTF-8 pbpaste > out.txt
 ```
 
-`$LANG`이 비어 있었다.
+그리고 복사한 다음엔 **반드시 검증한다.** 이 버그의 본질은 "조용히 실패한다"는 것이라, 확인하지 않으면 다음 단계까지 빈 클립보드를 들고 간다.
 
-`pbcopy`는 입력 인코딩을 `LANG`/`LC_CTYPE`에서 읽는다. 로케일이 비어 있으면 기본 인코딩(Mac OS Roman 계열)으로 해석하는데, UTF-8 한글 바이트열은 여기서 유효하지 않다. 그래서 **입력을 통째로 버린다.** 그러고도 종료 코드는 0이다.
+![locale이 비어 있음을 확인하고, LANG을 지정해 복사한 뒤 바이트 수를 비교해 OK를 받는 터미널 화면](https://riririb.com/assets/img/posts/macos-pbcopy-korean-empty-lang-locale-terminal.png)
+_진단 → 수정 → 검증. 마지막 줄의 바이트 수 비교가 핵심이다._
 
-터미널을 직접 쓸 때는 `.zshrc`가 로케일을 잡아주니 이 문제를 안 겪는다. 이 버그는 **로그인 셸을 거치지 않는 환경**에서 나온다 — CI 러너, launchd/cron으로 뜬 프로세스, 에이전트 도구가 띄운 셸 등.
+```bash
+LANG=ko_KR.UTF-8 pbcopy < prompt.txt
+[ "$(LANG=ko_KR.UTF-8 pbpaste | wc -c)" = "$(wc -c < prompt.txt)" ] && echo OK || echo MISMATCH
+```
+
+launchd처럼 셸 설정이 없는 환경이면 아예 환경변수로 박아두는 게 낫다.
+
+```xml
+<key>EnvironmentVariables</key>
+<dict>
+  <key>LANG</key>
+  <string>ko_KR.UTF-8</string>
+</dict>
+```
+
+> **🧭 기획자·사업자라면**
+>
+> - **"에러가 없다"와 "성공했다"는 다른 말이다.** 이 버그는 종료 코드 0으로 실패한다. 자동화 파이프라인을 점검할 때 "실패 알림이 안 왔으니 잘 돌고 있다"는 가장 위험한 가정이다.
+> - **한글 환경은 기본값이 아니다.** 해외 도구·CI·SaaS는 ASCII를 기본 가정으로 만들어진다. 영문으로만 테스트하면 이 버그는 아예 안 보인다. 한국어 서비스라면 **테스트 데이터에 한글을 반드시 넣는 것**이 가장 싼 방어선이다. 같은 사고는 클립보드뿐 아니라 파일명·CSV·PDF 생성에서도 같은 형태로 반복된다.
 
 ---
 
@@ -59,4 +71,4 @@ echo "locale: [$LANG]"
 
 이 글은 발췌본입니다. 실패한 시도와 검증 과정까지 포함한 전문은 원문에 있습니다.
 
-👉 **[macOS pbcopy가 한글을 조용히 버릴 때 — 원인은 비어 있는 $LANG](https://riririb.com/posts/macos-pbcopy-korean-empty-lang-locale/)**
+👉 **[macOS pbcopy·pbpaste 사용법 — 한글이 0바이트로 복사될 때 원인은 비어 있는 $LANG](https://riririb.com/posts/macos-pbcopy-korean-empty-lang-locale/)**

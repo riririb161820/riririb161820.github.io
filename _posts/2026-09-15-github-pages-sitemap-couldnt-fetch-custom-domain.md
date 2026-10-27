@@ -183,7 +183,7 @@ TXT  @  google-site-verification=...
 
 사이트맵을 제출하자마자였다.
 
-![Search Console 사이트맵 상태 — 성공, 발견된 페이지 46](/assets/img/posts/github-pages-sitemap-couldnt-fetch-custom-domain-sitemap-success.webp)
+![Search Console 사이트맵 상태 — 성공, 발견된 페이지 46](/assets/img/posts/github-pages-sitemap-couldnt-fetch-custom-domain-gsc-sitemap.webp)
 
 | | 3개월간 | 도메인 연결 직후 |
 |---|---|---|

@@ -1,0 +1,172 @@
+<!doctype html>
+<meta charset="utf-8">
+<!--
+  본문·히어로 다이어그램 3장 (각 1216×640, 1.9:1).
+
+  글: _posts/2026-10-27-claude-code-two-machines-git-ops-channel.md
+  URL 해시로 컷을 고른다: #hero  #flow  #bootout
+
+  렌더 (경로의 '#'은 %23으로 인코딩):
+    URL="file://$(pwd | sed 's/#/%23/g')/tools/posts-diagram/claude-code-ops-channel.html"
+    for c in hero flow bootout; do
+      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --disable-gpu \
+        --hide-scrollbars --force-device-scale-factor=1 --window-size=1216,640 \
+        --screenshot=assets/img/posts/claude-code-ops-channel-$c.png "$URL#$c"
+      cwebp -quiet -q 85 assets/img/posts/claude-code-ops-channel-$c.png \
+        -o assets/img/posts/claude-code-ops-channel-$c.webp
+    done
+-->
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  /* body에만 배경을 주면 캔버스 여백이 흰색으로 남는다 — html에도 같은 바탕을 깐다. */
+  html { background: #16143a; }
+  body {
+    width: 1216px; height: 640px; position: relative; overflow: hidden;
+    background:
+      linear-gradient(rgba(124,116,214,.07) 1px, transparent 1px) 0 0 / 60px 60px,
+      linear-gradient(90deg, rgba(124,116,214,.07) 1px, transparent 1px) 0 0 / 60px 60px,
+      radial-gradient(900px 600px at 50% 35%, #232057, #16143a 72%);
+    font-family: "Pretendard", "Apple SD Gothic Neo", -apple-system, sans-serif;
+    color: #fff;
+  }
+  .cut { display: none; position: absolute; inset: 0; padding: 46px 58px; }
+  .cut.on { display: block; }
+  .mark {
+    position: absolute; top: 34px; right: 46px; z-index: 2;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: "SF Mono", ui-monospace, monospace; font-size: 18px; font-weight: 600;
+    background: rgba(0,0,0,.34); padding: 7px 15px; border-radius: 40px;
+  }
+  .mdot { width: 9px; height: 9px; border-radius: 50%; background: #2dd4bf; }
+  h1 { font-size: 40px; font-weight: 800; letter-spacing: -1px; margin-bottom: 6px; }
+  h1 .hi { background: #b2b6e8; color: #191640; padding: 1px 12px; border-radius: 10px; }
+  .sub { font-size: 19px; color: #a9adda; }
+  .mono { font-family: "SF Mono", ui-monospace, monospace; }
+  .mint { color: #2dd4bf; } .red { color: #ff8a9c; } .amber { color: #f5c36b; }
+
+  /* ── hero ── */
+  #hero .grid { position: absolute; top: 175px; left: 58px; right: 58px;
+    display: grid; grid-template-columns: 260px 1fr 260px; gap: 26px; align-items: center; }
+  .machine { border: 2px solid #4b4596; background: #211d4f; border-radius: 18px; padding: 26px 20px; text-align: center; }
+  .machine .os { font-size: 16px; color: #8d91c4; margin-bottom: 8px; }
+  .machine .nm { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+  .machine .rl { font-size: 16px; color: #a9adda; }
+  .file { border: 2px solid #2dd4bf; border-radius: 16px; background: #141238; padding: 18px 22px;
+    font-family: "SF Mono", ui-monospace, monospace; font-size: 16px; line-height: 1.6; color: #cfd2f2;
+    box-shadow: 0 0 30px rgba(45,212,191,.18); }
+  .file .path { color: #8d91c4; margin-bottom: 8px; font-size: 15px; }
+  .file .k { color: #8d91c4; } .file .h { color: #2dd4bf; font-weight: 700; }
+  .file .open { color: #f5c36b; } .file .done { color: #2dd4bf; }
+  .arrows { position: absolute; left: 58px; right: 58px; top: 520px; display: flex; justify-content: space-between; font-size: 17px; color: #a9adda; }
+
+  /* ── flow ── */
+  #flow .lanes { position: absolute; top: 160px; left: 58px; right: 58px; }
+  .lane { display: grid; grid-template-columns: 150px 1fr; align-items: center; margin-bottom: 18px; }
+  .lane .who { font-size: 20px; font-weight: 800; }
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .st { border: 2px solid #4b4596; background: #211d4f; border-radius: 14px; padding: 14px 14px; font-size: 17px; line-height: 1.4; min-height: 88px; }
+  .st b { color: #2dd4bf; }
+  .st.empty { border: 2px dashed rgba(107,111,168,.45); background: transparent; }
+  .st .n { font-size: 14px; color: #8d91c4; display: block; margin-bottom: 4px; }
+  #flow .rule { position: absolute; left: 58px; right: 58px; bottom: 50px; border-left: 4px solid #f5c36b;
+    background: rgba(120,90,20,.18); padding: 14px 18px; font-size: 18px; color: #f2e2b8; border-radius: 6px; }
+
+  /* ── bootout ── */
+  #bootout .tl { position: absolute; top: 175px; left: 58px; right: 58px; }
+  .row { display: grid; grid-template-columns: 110px 1fr; align-items: center; margin-bottom: 26px; }
+  .row .lb { font-size: 19px; font-weight: 800; }
+  .bar { position: relative; height: 54px; border-radius: 12px; background: #1d1a48; border: 2px solid #3a3580; }
+  .seg { position: absolute; top: 6px; bottom: 6px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; }
+  /* .on 은 컷 표시용(.cut.on)과 이름이 겹치면 컷 전체가 물든다 — 구간 클래스는 seg- 접두사를 쓴다 */
+  .seg-run  { background: rgba(45,212,191,.22); border: 1px solid #2dd4bf; color: #7ff0dc; }
+  .seg-dup  { background: rgba(242,83,106,.25); border: 1px solid #f2536a; color: #ffb3bf; }
+  .seg-off  { background: repeating-linear-gradient(135deg, rgba(141,145,196,.14) 0 10px, transparent 10px 20px); color: #a9adda; }
+  .seg-unk  { border: 1px dashed #6b6fa8; color: #a9adda; }
+  .tick { position: absolute; top: -24px; font-size: 14px; color: #8d91c4; transform: translateX(-50%); white-space: nowrap; }
+  #bootout .cmp { position: absolute; left: 58px; right: 58px; bottom: 46px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .cbox { border-radius: 14px; padding: 16px 20px; font-size: 17px; line-height: 1.5; }
+  .cbox code { font-family: "SF Mono", ui-monospace, monospace; font-weight: 700; }
+  .cbad { border: 2px solid #f2536a; background: rgba(120,20,40,.25); color: #ffb3bf; }
+  .cok  { border: 2px solid #2dd4bf; background: rgba(45,212,191,.08); color: #bff5ea; }
+</style>
+
+<span class="mark"><span class="mdot"></span>riririb.dev</span>
+
+<!-- ─────────────── hero ─────────────── -->
+<div class="cut" id="hero">
+  <h1>Claude 세션 두 개가 <span class="hi">git으로 협업</span>한다</h1>
+  <div class="sub">사람이 복붙하는 대신, 저장소의 요청서 파일 하나로 주고받는다</div>
+  <div class="grid">
+    <div class="machine"><div class="os">macOS</div><div class="nm">맥의 Claude</div><div class="rl">개발·검수<br>요청서를 쓴다</div></div>
+    <div class="file">
+      <div class="path">ops/005-컷오버-활성화.md</div>
+      <div><span class="k">from:</span> mac <span class="k">→ to:</span> windows</div>
+      <div><span class="k">status:</span> <span class="open">open</span> → <span class="done">done</span></div>
+      <div class="h">## 요청</div><div>맥 잡을 내렸다. 이제 활성화해라</div>
+      <div class="h">## 하지 말 것</div><div>공개 발행 금지 · git add -A 금지</div>
+      <div class="h">## 결과</div><div>사람 승인 받고 활성화 → Ready</div>
+    </div>
+    <div class="machine"><div class="os">Windows</div><div class="nm">윈도우의 Claude</div><div class="rl">실행 주체<br>결과를 채운다</div></div>
+  </div>
+  <div class="arrows"><span>→ commit · push</span><span class="mint">2026-08-21 · 2시간 20분 · 요청서 6개</span><span>pull · 결과 채움 ←</span></div>
+</div>
+
+<!-- ─────────────── flow ─────────────── -->
+<div class="cut" id="flow">
+  <h1>요청 하나 = <span class="hi">파일 하나</span></h1>
+  <div class="sub">status 필드 하나로 상태를 넘긴다</div>
+  <div class="lanes">
+    <div class="lane"><div class="who">맥</div>
+      <div class="steps">
+        <div class="st"><span class="n">1</span>요청서 작성<br><b>status: open</b></div>
+        <div class="st"><span class="n">2</span><span class="mono">git add ops/005…</span><br>commit · push</div>
+        <div class="st empty"></div>
+        <div class="st"><span class="n">6</span>pull 해서<br>결과 확인</div>
+      </div>
+    </div>
+    <div class="lane"><div class="who">윈도우</div>
+      <div class="steps">
+        <div class="st empty"></div>
+        <div class="st"><span class="n">3</span>pull → open 파일을<br>번호 순으로</div>
+        <div class="st"><span class="n">4</span>「하지 말 것」 먼저<br>실행 · 결과 채움</div>
+        <div class="st"><span class="n">5</span><b>status: done</b><br>commit · push</div>
+      </div>
+    </div>
+  </div>
+  <div class="rule">요청서는 사람의 승인이 아니다 — 활성화·발행·삭제처럼 바깥으로 나가는 행동은 파일에 적혀 있어도 사람에게 먼저 묻는다</div>
+</div>
+
+<!-- ─────────────── bootout ─────────────── -->
+<div class="cut" id="bootout">
+  <h1>bootout만 하면 <span class="hi">다시 살아난다</span></h1>
+  <div class="sub">리뷰 봇이 어느 기계에서 돌았나 (커밋 기록·launchd 상태 기준)</div>
+  <div class="tl">
+    <div class="row"><div class="lb">맥북</div>
+      <div class="bar">
+        <span class="tick" style="left:4%">~8/21</span>
+        <span class="tick" style="left:12%">8/21 bootout</span>
+        <span class="tick" style="left:70%">10/3 두 기계 동시 수신</span>
+        <span class="tick" style="left:93%">10/26 disable</span>
+        <div class="seg seg-run" style="left:1%;width:10%">가동</div>
+        <div class="seg seg-off" style="left:12%;width:8%">내려감</div>
+        <div class="seg seg-unk" style="left:21%;width:45%">기록 없음 — 언제 다시 올라왔는지 미확인</div>
+        <div class="seg seg-dup" style="left:67%;width:25%">가동 확인</div>
+      </div>
+    </div>
+    <div class="row"><div class="lb">맥미니</div>
+      <div class="bar">
+        <span class="tick" style="left:36%">9/12 이관 · 007 작성</span>
+        <div class="seg seg-run" style="left:35%;width:63%">가동 — 007: "다른 기계는 꺼 달라" (6주 open)</div>
+      </div>
+    </div>
+  </div>
+  <div class="cmp">
+    <div class="cbox cbad"><code>launchctl bootout</code> · <code>unload</code> (‑w 없음)<br>지금 내릴 뿐. plist가 남아 다시 로드될 수 있다</div>
+    <div class="cbox cok"><code>launchctl disable</code> · <code>unload -w</code><br>"재부팅 후에도 유지된다" (man launchctl)</div>
+  </div>
+</div>
+
+<script>
+  const id = (location.hash || '#hero').slice(1);
+  (document.getElementById(id) || document.getElementById('hero')).classList.add('on');
+</script>

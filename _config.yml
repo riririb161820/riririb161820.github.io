@@ -192,6 +192,16 @@ defaults:
     values:
       layout: page
       permalink: /:title/
+  # 블로그 글이 아닌 정적 파일은 사이트맵에서 뺀다(파일 자체는 그대로 배포).
+  # privacy.html은 인스타 DM 봇용 방침, naver*.html은 서치어드바이저 소유확인 파일.
+  - scope:
+      path: "privacy.html"
+    values:
+      sitemap: false
+  - scope:
+      path: "naver*.html"
+    values:
+      sitemap: false
 
 sass:
   style: compressed

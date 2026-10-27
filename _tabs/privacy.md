@@ -4,9 +4,9 @@ icon: fas fa-shield-halved
 order: 5
 ---
 
-본 개인정보처리방침은 기술 블로그 **riri.devlog**(`https://riririb.com`, 이하 "블로그")에 적용됩니다. 기존 주소 `https://riririb161820.github.io`는 현재 주소로 자동 연결됩니다.
+본 개인정보처리방침은 기술 블로그 **riririb.log**(`https://riririb.com`, 이하 "블로그")에 적용됩니다. 기존 주소 `https://riririb161820.github.io`는 현재 주소로 자동 연결됩니다.
 
-최종 업데이트: 2026-09-15
+최종 업데이트: 2026-10-27
 
 ## 1. 수집하는 정보
 
@@ -21,7 +21,7 @@ Google Analytics가 방문 분석 목적의 쿠키를 사용합니다. 방문자
 
 ## 3. 광고
 
-블로그는 향후 **Google AdSense** 광고를 게재할 수 있습니다. Google을 포함한 제3자 광고 사업자는 쿠키를 사용해 방문자의 이전 방문 기록에 기반한 광고를 표시할 수 있습니다. 방문자는 [Google 광고 설정](https://adssettings.google.com)에서 맞춤 광고를 해제할 수 있습니다.
+블로그는 **Google AdSense** 광고 코드를 사용합니다. Google을 포함한 제3자 광고 사업자는 쿠키를 사용해 방문자가 이 블로그와 다른 웹사이트를 방문한 기록에 기반한 광고를 표시할 수 있습니다. 방문자는 [Google 광고 설정](https://adssettings.google.com)에서 맞춤 광고를 해제할 수 있습니다.
 
 ## 4. 제3자 제공
 
@@ -37,4 +37,4 @@ Google Analytics가 방문 분석 목적의 쿠키를 사용합니다. 방문자
 
 ---
 
-인스타그램 자동 응답 서비스(@riri.devlog)의 개인정보처리방침은 [별도 문서](/privacy.html)를 참고하세요.
+인스타그램 자동 응답 서비스(@riririb.dev)의 개인정보처리방침은 [별도 문서](/privacy.html)를 참고하세요.

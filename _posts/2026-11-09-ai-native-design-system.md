@@ -8,7 +8,7 @@ tags: [design-system, design-tokens, mcp, claude-code, shadcn, 기획]
 description: "AI에게 화면을 맡기면 세션마다 버튼·간격·용어가 달라진다. 디자이너도 Figma도 없이 코드 한 파일을 토큰 정본으로 두고, 규칙 세 개를 강제하고, MCP 서버로 Claude와 GPT가 같은 디자인 시스템을 도구로 꺼내 쓰게 만든 과정과 '이런 일이 생기면 이걸 붙인다'는 승급 트리거 표를 정리했다."
 image:
   path: /assets/img/posts/ai-native-design-system-hero.webp
-  alt: 같은 요청으로 만든 화면 세 장을 규칙 없이 만든 경우와 디자인 시스템을 거친 경우로 비교한 와이어프레임
+  alt: 토큰 정본에서 MCP 서버를 거쳐 Claude와 GPT가 같은 규칙으로 화면을 만드는 구조
 ---
 
 ## 문제 — 같은 요청인데 화면이 세 장 다 다르다

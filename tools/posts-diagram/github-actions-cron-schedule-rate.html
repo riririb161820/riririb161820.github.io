@@ -1,0 +1,151 @@
+<!doctype html>
+<meta charset="utf-8">
+<!--
+  본문 다이어그램 2장 (각 1216×640, 1.9:1).
+
+  글: _posts/2026-07-10-github-actions-cron-skip-resident-runner.md
+  URL 해시로 컷을 고른다: #rates  #runners
+  수치 출처: sellbuy 저장소 "Intraday Trading" 워크플로의 schedule 실행 1,000건
+  (gh run list --event schedule, 2026-07-13~10-26 UTC 기준 106일)과 장부 커밋의 시간대(+0900/+0000).
+
+  렌더 (경로의 '#'은 %23으로 인코딩):
+    URL="file://$(pwd | sed 's/#/%23/g')/tools/posts-diagram/github-actions-cron-schedule-rate.html"
+    for c in rates runners; do
+      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --disable-gpu \
+        --hide-scrollbars --force-device-scale-factor=1 --window-size=1216,640 \
+        --screenshot=assets/img/posts/github-actions-cron-skip-resident-runner-$c.png "$URL#$c"
+      cwebp -quiet -q 85 assets/img/posts/github-actions-cron-skip-resident-runner-$c.png \
+        -o assets/img/posts/github-actions-cron-skip-resident-runner-$c.webp
+    done
+-->
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  /* body에만 배경을 주면 캔버스 여백이 흰색으로 남는다 — html에도 같은 바탕을 깐다. */
+  html { background: #16143a; }
+  body {
+    width: 1216px; height: 640px; position: relative; overflow: hidden;
+    background:
+      linear-gradient(rgba(124,116,214,.07) 1px, transparent 1px) 0 0 / 60px 60px,
+      linear-gradient(90deg, rgba(124,116,214,.07) 1px, transparent 1px) 0 0 / 60px 60px,
+      radial-gradient(900px 600px at 50% 35%, #232057, #16143a 72%);
+    font-family: "Pretendard", "Apple SD Gothic Neo", -apple-system, sans-serif;
+    color: #fff;
+  }
+  /* 컷 표시는 .cut.show — 다른 요소 클래스와 이름이 겹치지 않게 한다 */
+  .cut { display: none; position: absolute; inset: 0; padding: 46px 58px; }
+  .cut.show { display: block; }
+  .mark {
+    position: absolute; top: 34px; right: 46px; z-index: 2;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: "SF Mono", ui-monospace, monospace; font-size: 18px; font-weight: 600;
+    background: rgba(0,0,0,.34); padding: 7px 15px; border-radius: 40px;
+  }
+  .mdot { width: 9px; height: 9px; border-radius: 50%; background: #2dd4bf; }
+  h1 { font-size: 40px; font-weight: 800; letter-spacing: -1px; margin-bottom: 6px; }
+  h1 .hi { background: #b2b6e8; color: #191640; padding: 1px 12px; border-radius: 10px; }
+  .sub { font-size: 19px; color: #a9adda; }
+  .mono { font-family: "SF Mono", ui-monospace, monospace; }
+
+  /* rates */
+  .panels { position: absolute; top: 158px; left: 58px; right: 58px; bottom: 44px;
+    display: grid; grid-template-columns: 1.15fr 1fr; gap: 34px; }
+  .panel { border: 2px solid #4b4596; background: rgba(29,26,72,.75); border-radius: 16px; padding: 22px 26px; }
+  .pt { font-size: 17px; color: #8d91c4; margin-bottom: 18px; }
+  .hb { margin-bottom: 20px; }
+  .hb .lb { display: flex; justify-content: space-between; font-size: 18px; margin-bottom: 7px; }
+  .hb .lb b { font-family: "SF Mono", ui-monospace, monospace; font-size: 22px; }
+  .hb .lb small { color: #8d91c4; font-size: 14px; margin-left: 8px; font-weight: 400; }
+  .track { position: relative; height: 22px; border-radius: 6px; background: rgba(124,116,214,.18); }
+  .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 6px; background: #6b64c8; }
+  .fill.key { background: #2dd4bf; }
+  .total { margin-top: 6px; padding-top: 16px; border-top: 1px dashed #4b4596; font-size: 18px; color: #cfd2f2; }
+  .total b { color: #2dd4bf; font-family: "SF Mono", ui-monospace, monospace; font-size: 26px; }
+  .vbars { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; align-items: end; height: 250px; margin-top: 4px; }
+  .vb { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+  .vb .v { font-family: "SF Mono", ui-monospace, monospace; font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .vb .col { width: 64px; border-radius: 8px 8px 0 0; background: #6b64c8; }
+  .vb .m { margin-top: 10px; font-size: 17px; color: #a9adda; }
+  .note { margin-top: 18px; font-size: 15px; color: #8d91c4; line-height: 1.5; }
+
+  /* runners */
+  .tl { position: absolute; top: 200px; left: 58px; right: 58px; }
+  .axis { position: relative; height: 26px; margin-left: 190px; font-size: 16px; color: #8d91c4; }
+  .axis span { position: absolute; transform: translateX(-50%); }
+  .lane { display: grid; grid-template-columns: 190px 1fr; align-items: center; margin-top: 18px; }
+  .lane .ln { font-size: 18px; font-weight: 700; }
+  .lane .ln small { display: block; font-size: 14px; color: #8d91c4; font-weight: 400; margin-top: 3px; }
+  .ltrack { position: relative; height: 64px; border-radius: 10px; background: rgba(124,116,214,.10); }
+  .blk { position: absolute; top: 0; bottom: 0; border-radius: 10px; display: flex; align-items: center;
+    padding: 0 14px; font-size: 16px; font-weight: 700; white-space: nowrap; overflow: hidden; }
+  .b-win { background: #6b64c8; }
+  .b-mac { background: #2dd4bf; color: #10203a; }
+  .b-gap { border: 2px dashed #f2536a; background: rgba(120,20,40,.28); color: #ffb3bf; justify-content: center; }
+  .b-act { background: #f5c36b; color: #2a1d05; }
+  .b-yield { background: rgba(245,195,107,.18); border: 1px solid rgba(245,195,107,.45); color: #f2e2b8; font-weight: 500; }
+  .callout { position: absolute; left: 58px; right: 58px; bottom: 70px; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .co { border-radius: 12px; padding: 14px 18px; font-size: 17px; line-height: 1.45; }
+  .co-red { border: 2px solid #f2536a; background: rgba(120,20,40,.22); color: #ffd0d7; }
+  .co-mint { border: 2px solid #2dd4bf; background: rgba(45,212,191,.08); color: #bff5ea; }
+</style>
+
+<span class="mark"><span class="mdot"></span>riririb.dev</span>
+
+<!-- rates -->
+<div class="cut" id="rates">
+  <h1>예약한 실행의 <span class="hi">35%만 돌았다</span></h1>
+  <div class="sub">GitHub Actions <span class="mono">schedule</span> 실행 1,000건 · 2026-07-13 ~ 10-26 (106일)</div>
+  <div class="panels">
+    <div class="panel">
+      <div class="pt">예약 종류별 — 실제 실행 / 예약 횟수</div>
+      <div class="hb"><div class="lb"><span>평일 장중 30분 간격<small>:07 · :37</small></span><b style="color:#2dd4bf">17.7%</b></div>
+        <div class="track"><div class="fill key" style="width:17.7%"></div></div></div>
+      <div class="hb"><div class="lb"><span>평일 그 외 1시간 간격<small>:07</small></span><b>42.6%</b></div>
+        <div class="track"><div class="fill" style="width:42.6%"></div></div></div>
+      <div class="hb"><div class="lb"><span>주말 1시간 간격<small>:07</small></span><b>50.2%</b></div>
+        <div class="track"><div class="fill" style="width:50.2%"></div></div></div>
+      <div class="total">전체 <b>34.7%</b> &nbsp;— 2,866번 예약 중 995번 실행</div>
+    </div>
+    <div class="panel">
+      <div class="pt">월별 실행률</div>
+      <div class="vbars">
+        <div class="vb"><div class="v">40%</div><div class="col" style="height:40%"></div><div class="m">7월</div></div>
+        <div class="vb"><div class="v">57%</div><div class="col" style="height:57.4%"></div><div class="m">8월</div></div>
+        <div class="vb"><div class="v">22%</div><div class="col" style="height:21.8%"></div><div class="m">9월</div></div>
+        <div class="vb"><div class="v">19%</div><div class="col" style="height:19.2%"></div><div class="m">10월</div></div>
+      </div>
+      <div class="note">정각을 피해 :07 · :37에 예약했는데도 이 수치다.<br>7월은 13일부터, 10월은 26일까지.</div>
+    </div>
+  </div>
+</div>
+
+<!-- runners: 가로축 2026-07-07 ~ 10-27 (112일). 위치 = (날짜 - 7/7) / 112 -->
+<div class="cut" id="runners">
+  <h1>폴백이 너무 조용히 <span class="hi">두 달을 버텼다</span></h1>
+  <div class="sub">장부 커밋의 시간대로 본 "누가 일했나" — <span class="mono">+0900</span> 상주 러너 · <span class="mono">+0000</span> GitHub Actions</div>
+  <div class="tl">
+    <div class="axis">
+      <span style="left:0%">7/7</span><span style="left:22.3%">8/1</span><span style="left:50%">9/1</span>
+      <span style="left:62.5%">9/15</span><span style="left:76.8%">10/1</span><span style="left:100%">10/27</span>
+    </div>
+    <div class="lane"><div class="ln">상주 러너<small>5분 주기 · 주 러너</small></div>
+      <div class="ltrack">
+        <div class="blk b-win" style="left:0;width:1.8%" title="윈도우 7/7~7/8"></div>
+        <div class="blk b-gap" style="left:1.8%;width:60.7%">7/9 ~ 9/14 · 상주 러너 커밋 0건</div>
+        <div class="blk b-mac" style="left:62.5%;width:37.5%">맥미니 (9/15~)</div>
+      </div></div>
+    <div class="lane"><div class="ln">GitHub Actions<small>30분·1시간 · 폴백</small></div>
+      <div class="ltrack">
+        <div class="blk b-act" style="left:1.8%;width:60.7%">이 기간 장부는 전부 Actions가 썼다</div>
+        <div class="blk b-yield" style="left:62.5%;width:37.5%">실행은 되지만 양보하고 종료</div>
+      </div></div>
+  </div>
+  <div class="callout">
+    <div class="co co-red">윈도우 러너의 커밋은 이틀 만에 끊겼다. 장부는 계속 쌓여서<br>겉보기엔 정상 — 알려 주는 경로가 하나도 없었다.</div>
+    <div class="co co-mint">그 두 달 동안 봇은 5분 주기가 아니라<br>"예약의 40~57%만 도는 30분·1시간 주기"로 돌았다.</div>
+  </div>
+</div>
+
+<script>
+  const id = (location.hash || '#rates').slice(1);
+  (document.getElementById(id) || document.getElementById('rates')).classList.add('show');
+</script>

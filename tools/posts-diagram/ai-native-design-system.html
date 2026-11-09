@@ -1,0 +1,245 @@
+<!doctype html>
+<meta charset="utf-8">
+<!--
+  본문 다이어그램 6장 (각 1216×640, 1.9:1). 전부 가상 화면 · 회색 와이어프레임.
+  글: _posts/2026-11-09-ai-native-design-system.md
+  URL 해시로 컷을 고른다: #hero #three #flow #token #promote #triggers
+  강조색은 노랑(#f5c36b)·인디고.
+
+  렌더 (경로의 '#'은 %23으로 인코딩):
+    URL="file://$(pwd | sed 's/#/%23/g')/tools/posts-diagram/ai-native-design-system.html"
+    for c in hero three flow token promote triggers; do
+      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --disable-gpu \
+        --hide-scrollbars --force-device-scale-factor=1 --window-size=1216,640 \
+        --screenshot=assets/img/posts/ai-native-design-system-$c.png "$URL#$c"
+      cwebp -quiet -q 85 assets/img/posts/ai-native-design-system-$c.png \
+        -o assets/img/posts/ai-native-design-system-$c.webp
+    done
+-->
+<style>
+  * { margin: 0; box-sizing: border-box; }
+  html { background: #16143a; }
+  body {
+    width: 1216px; height: 640px; position: relative; overflow: hidden;
+    background:
+      linear-gradient(rgba(124,116,214,.07) 1px, transparent 1px) 0 0 / 60px 60px,
+      linear-gradient(90deg, rgba(124,116,214,.07) 1px, transparent 1px) 0 0 / 60px 60px,
+      radial-gradient(900px 600px at 50% 35%, #232057, #16143a 72%);
+    font-family: "Pretendard", "Apple SD Gothic Neo", -apple-system, sans-serif;
+    color: #fff;
+  }
+  .cut { display: none; position: absolute; inset: 0; padding: 40px 58px; }
+  .cut.show { display: block; }
+  .mark { position: absolute; top: 30px; right: 46px; z-index: 5; display: inline-flex; align-items: center; gap: 8px;
+    font-family: "SF Mono", ui-monospace, monospace; font-size: 18px; font-weight: 600;
+    background: rgba(0,0,0,.34); padding: 7px 15px; border-radius: 40px; }
+  .mdot { width: 9px; height: 9px; border-radius: 50%; background: #f5c36b; }
+  h1 { font-size: 36px; font-weight: 800; letter-spacing: -1px; margin-bottom: 4px; }
+  h1 .hi { background: #b2b6e8; color: #191640; padding: 1px 12px; border-radius: 10px; }
+  .sub { font-size: 18px; color: #a9adda; margin-bottom: 22px; }
+  .mono { font-family: "SF Mono", ui-monospace, monospace; }
+  .y { color: #f5c36b; } .r { color: #ff93a3; } .dim { color: #8d91c4; }
+
+  /* 와이어프레임 화면 */
+  .scr { background: #f3f3f6; border-radius: 10px; padding: 12px 14px; color: #555; position: relative; overflow: hidden; }
+  .ttl { height: 14px; width: 45%; background: #8e8e9c; border-radius: 3px; margin-bottom: 12px; }
+  .line { display: flex; gap: 8px; align-items: center; margin-bottom: 7px; }
+  .cell { height: 9px; background: #d6d6de; border-radius: 2px; }
+  .btns { position: absolute; right: 14px; bottom: 12px; display: flex; gap: 6px; }
+  .b { font-size: 13px; font-weight: 700; padding: 6px 12px; }
+  .b1 { background: #5a5a68; color: #fff; border-radius: 4px; }
+  .b2 { background: #fff; color: #333; border: 2px solid #333; border-radius: 18px; padding: 4px 16px; }
+  .b3 { background: #9a9aa8; color: #fff; border-radius: 0; font-size: 15px; padding: 8px 18px; }
+  .bk { background: #5a5a68; color: #fff; border-radius: 6px; }
+  .bg { background: transparent; color: #5a5a68; border: 1.5px solid #9a9aa8; border-radius: 6px; padding: 5px 11px; }
+  .bi { background: #4c4fd6; color: #fff; border-radius: 6px; }
+  .tag { position: absolute; top: 8px; right: 10px; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 20px; }
+  .tag.tr { background: #f2536a; color: #fff; } .tag.ty { background: #f5c36b; color: #2a1d05; }
+
+  /* 상자·화살표 */
+  .box { border: 2px solid #4b4596; background: rgba(29,26,72,.85); border-radius: 14px; padding: 14px 16px; font-size: 18px; font-weight: 700; text-align: center; }
+  .box small { display: block; font-size: 14px; font-weight: 400; color: #a9adda; margin-top: 4px; }
+  .box.src { border-color: #f5c36b; background: rgba(245,195,107,.10); }
+  .box.bad { border-color: #f2536a; background: rgba(120,20,40,.22); }
+  .arr { color: #b2b6e8; font-size: 26px; font-weight: 700; text-align: center; }
+  .code { font-family: "SF Mono", ui-monospace, monospace; background: #0f0e26; border: 1px solid #4b4596; border-radius: 10px; padding: 14px 16px; font-size: 15px; line-height: 1.7; color: #cfd2f2; text-align: left; }
+  .code .del { color: #ff93a3; } .code .add { color: #f5c36b; }
+</style>
+
+<span class="mark"><span class="mdot"></span>riririb.dev</span>
+
+<!-- ───────── hero ───────── -->
+<div class="cut" id="hero">
+  <h1>AI가 꺼내 쓰는 <span class="hi">디자인 시스템</span></h1>
+  <div class="sub">디자이너·Figma 없이 — 코드 한 곳을 정본으로, MCP로 어느 AI든 같은 규칙을</div>
+  <div style="position:absolute; top:190px; left:58px; right:58px; display:grid; grid-template-columns: 230px 40px 210px 40px 170px 40px 1fr; align-items:center; gap:0 8px;">
+    <div class="box src">tokens.css<small>사람이 고치는<br>유일한 정본</small></div>
+    <div class="arr">→</div>
+    <div class="box">MCP 서버<small>찾기 · 꺼내기<br>검사 · 제안</small></div>
+    <div class="arr">→</div>
+    <div style="display:grid; gap:12px;">
+      <div class="box" style="padding:10px">Claude<small>stdio</small></div>
+      <div class="box" style="padding:10px">GPT<small>HTTP</small></div>
+    </div>
+    <div class="arr">→</div>
+    <div style="display:grid; gap:12px;">
+      <div class="scr" style="height:96px"><div class="ttl"></div><div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:50%"></div></div><div class="btns"><span class="b bg">취소</span><span class="b bk">저장</span></div></div>
+      <div class="scr" style="height:96px"><div class="ttl"></div><div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:40%"></div></div><div class="btns"><span class="b bg">취소</span><span class="b bk">저장</span></div></div>
+      <div class="scr" style="height:96px"><div class="ttl"></div><div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:55%"></div></div><div class="btns"><span class="b bg">취소</span><span class="b bk">저장</span></div></div>
+    </div>
+  </div>
+  <div style="position:absolute; left:58px; bottom:44px; font-size:18px; color:#cfd2f2;">
+    <span class="y">규칙 3</span> 원시값 금지 · 미등록 변형 금지 · 용어는 사전에서만
+  </div>
+</div>
+
+<!-- ───────── three ───────── -->
+<div class="cut" id="three">
+  <h1>같은 요청, <span class="hi">화면 세 장</span></h1>
+  <div class="sub">"목록 화면에 저장 버튼 넣어 줘" — 규칙 없이 세 번 vs 디자인 시스템을 거쳐 세 번 (가상 화면)</div>
+  <div style="display:grid; grid-template-rows:1fr 1fr; gap:16px; height:470px;">
+    <div style="display:grid; grid-template-columns:150px 1fr 1fr 1fr; gap:16px;">
+      <div style="display:flex;flex-direction:column;justify-content:center;font-size:19px;font-weight:800;" class="r">규칙 없이<small style="font-size:14px;font-weight:400;color:#a9adda;margin-top:6px">세션마다<br>새로 정한다</small></div>
+      <div class="scr"><span class="tag tr">간격 8</span><div class="ttl"></div>
+        <div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:50%"></div></div>
+        <div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:40%"></div></div>
+        <div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:55%"></div></div>
+        <div class="btns"><span class="b b1">저장</span></div></div>
+      <div class="scr" style="padding:20px 22px"><span class="tag tr">간격 20</span><div class="ttl" style="width:55%"></div>
+        <div class="line" style="margin-bottom:12px"><div class="cell" style="width:35%"></div><div class="cell" style="width:45%"></div></div>
+        <div class="line" style="margin-bottom:12px"><div class="cell" style="width:35%"></div><div class="cell" style="width:40%"></div></div>
+        <div class="btns"><span class="b b2">확인</span></div></div>
+      <div class="scr" style="padding:6px 8px"><span class="tag tr">간격 4</span><div class="ttl" style="width:35%;margin-bottom:6px"></div>
+        <div class="line" style="margin-bottom:4px"><div class="cell" style="width:25%"></div><div class="cell" style="width:40%"></div></div>
+        <div class="line" style="margin-bottom:4px"><div class="cell" style="width:25%"></div><div class="cell" style="width:38%"></div></div>
+        <div class="line" style="margin-bottom:4px"><div class="cell" style="width:25%"></div><div class="cell" style="width:35%"></div></div>
+        <div class="btns"><span class="b b3">등록</span></div></div>
+    </div>
+    <div style="display:grid; grid-template-columns:150px 1fr 1fr 1fr; gap:16px;">
+      <div style="display:flex;flex-direction:column;justify-content:center;font-size:19px;font-weight:800;" class="y">디자인 시스템<small style="font-size:14px;font-weight:400;color:#a9adda;margin-top:6px">토큰·등록 변형·<br>용어 사전에서 꺼낸다</small></div>
+      <div class="scr"><span class="tag ty">space-3</span><div class="ttl"></div>
+        <div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:50%"></div></div>
+        <div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:40%"></div></div>
+        <div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:55%"></div></div>
+        <div class="btns"><span class="b bg">취소</span><span class="b bk">저장</span></div></div>
+      <div class="scr"><span class="tag ty">space-3</span><div class="ttl"></div>
+        <div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:45%"></div></div>
+        <div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:40%"></div></div>
+        <div class="btns"><span class="b bg">취소</span><span class="b bk">저장</span></div></div>
+      <div class="scr"><span class="tag ty">space-3</span><div class="ttl"></div>
+        <div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:50%"></div></div>
+        <div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:45%"></div></div>
+        <div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:40%"></div></div>
+        <div class="btns"><span class="b bg">취소</span><span class="b bk">저장</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ───────── flow ───────── -->
+<div class="cut" id="flow">
+  <h1>정본이 <span class="hi">어디에 있나</span></h1>
+  <div class="sub">전통 방식은 Figma가 정본, 코드는 번역본 — 이번엔 코드가 정본이고 번역 단계가 없다</div>
+  <div style="position:absolute; top:205px; left:58px; right:58px;">
+    <div style="font-size:17px; color:#8d91c4; margin-bottom:10px;">전통 방식</div>
+    <div style="display:grid; grid-template-columns:1fr 36px 1fr 36px 1fr 36px 1fr; align-items:center; gap:0 6px;">
+      <div class="box">디자이너</div><div class="arr">→</div>
+      <div class="box src">Figma 라이브러리<small>정본</small></div><div class="arr">→</div>
+      <div class="box">개발자가 옮김<small>핸드오프 · 번역</small></div><div class="arr">→</div>
+      <div class="box">코드<small>번역본</small></div>
+    </div>
+    <div style="margin:12px 0 0 0; font-size:16px;" class="r">디자이너가 없으면 → Figma는 아무도 갱신하지 않는 두 번째 정본이 된다</div>
+
+    <div style="font-size:17px; color:#8d91c4; margin:34px 0 10px;">이번 방식</div>
+    <div style="display:grid; grid-template-columns:1fr 36px 1fr 36px 1fr 36px 1fr; align-items:center; gap:0 6px;">
+      <div class="box src">tokens.css + 컴포넌트 코드<small>정본</small></div><div class="arr">→</div>
+      <div class="box">MCP 서버<small>도구로 제공</small></div><div class="arr">→</div>
+      <div class="box">AI가 꺼내 씀<small>Claude · GPT</small></div><div class="arr">→</div>
+      <div class="box">화면<small>정본 그대로</small></div>
+    </div>
+    <div style="margin-top:12px; font-size:16px;" class="y">정본은 한 곳 · AI가 바로 읽는 형태 · "디자인대로 됐나" 확인 단계가 사라진다</div>
+  </div>
+</div>
+
+<!-- ───────── token ───────── -->
+<div class="cut" id="token">
+  <h1>값 하나를 바꾸면 <span class="hi">화면 전체가</span></h1>
+  <div class="sub">정본 한 줄 수정 → 동기화 스크립트 → 그 토큰을 쓰는 모든 화면 (가상 화면)</div>
+  <div style="position:absolute; top:160px; left:58px; right:58px; display:grid; grid-template-columns: 360px 1fr; gap: 30px;">
+    <div style="display:grid; gap:14px; align-content:start;">
+      <div class="code">
+        <span class="dim">/* tokens.css — 정본 */</span><br>
+        <span class="del">- --color-primary: #5a5a68;</span><br>
+        <span class="add">+ --color-primary: #4c4fd6;</span>
+      </div>
+      <div class="arr" style="font-size:16px; font-weight:600; color:#a9adda;">↓ 동기화 스크립트</div>
+      <div class="code" style="font-size:14px;">
+        <span class="dim">/* 자동 생성 · 편집 금지 */</span><br>
+        --x-color-primary: #4c4fd6;<br>
+        <span class="dim">/* shadcn은 참조만 */</span><br>
+        --primary: var(--x-color-primary);
+      </div>
+    </div>
+    <div style="display:grid; grid-template-rows: 1fr 1fr; gap: 14px;">
+      <div style="display:grid; grid-template-columns: 70px 1fr 1fr 1fr; gap: 12px;">
+        <div style="display:flex;align-items:center;font-weight:800;color:#a9adda;">전</div>
+        <div class="scr"><div class="ttl"></div><div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:50%"></div></div><div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:40%"></div></div><div class="btns"><span class="b bg">취소</span><span class="b bk">저장</span></div></div>
+        <div class="scr"><div class="ttl"></div><div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:45%"></div></div><div class="btns"><span class="b bk">검색</span></div></div>
+        <div class="scr"><div class="ttl"></div><div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:55%"></div></div><div class="btns"><span class="b bg">닫기</span><span class="b bk">다음</span></div></div>
+      </div>
+      <div style="display:grid; grid-template-columns: 70px 1fr 1fr 1fr; gap: 12px;">
+        <div style="display:flex;align-items:center;font-weight:800;" class="y">후</div>
+        <div class="scr"><div class="ttl"></div><div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:50%"></div></div><div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:40%"></div></div><div class="btns"><span class="b bg">취소</span><span class="b bi">저장</span></div></div>
+        <div class="scr"><div class="ttl"></div><div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:45%"></div></div><div class="btns"><span class="b bi">검색</span></div></div>
+        <div class="scr"><div class="ttl"></div><div class="line"><div class="cell" style="width:30%"></div><div class="cell" style="width:55%"></div></div><div class="btns"><span class="b bg">닫기</span><span class="b bi">다음</span></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ───────── promote ───────── -->
+<div class="cut" id="promote">
+  <h1>없으면 만들고, <span class="hi">두 곳이면 올린다</span></h1>
+  <div class="sub">토큰 3층 — 코어는 중앙에서, 오버라이드·로컬 컴포넌트는 각 프로젝트가</div>
+  <div style="position:absolute; top:160px; left:58px; right:58px;">
+    <div class="box src" style="padding:16px; text-align:left; display:flex; justify-content:space-between; align-items:center;">
+      <span>0층 코어 <span class="dim" style="font-weight:400; font-size:15px;">— 중앙 저장소 · 관리 담당자가 반영</span></span>
+      <span style="font-size:15px; font-weight:600;">🔒 잠금: 브랜드를 결정하는 값 &nbsp; <span class="dim">|</span> &nbsp; 열린 토큰: 나머지</span>
+    </div>
+    <div style="display:grid; grid-template-columns: 1fr 200px 1fr; gap: 18px; margin-top: 18px; align-items: stretch;">
+      <div style="border:2px dashed #4b4596; border-radius:14px; padding:14px;">
+        <div style="font-weight:800; margin-bottom:10px;">프로젝트 A</div>
+        <div class="box" style="font-size:16px; text-align:left; margin-bottom:10px;">1층 오버라이드 파일<small>열린 토큰은 같은 이름으로 덮어쓴다 ✓<br>🔒 잠금 토큰은 덮어쓰면 경고 → 제안으로</small></div>
+        <div class="box" style="font-size:16px; text-align:left; border-color:#f5c36b;">2층 로컬 컴포넌트 <span class="y">tag-chip</span><small>없어서 로컬로 만듦 · 값은 토큰만 · lint 통과</small></div>
+      </div>
+      <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; gap:10px; text-align:center;">
+        <div class="arr" style="font-size:40px;">↑</div>
+        <div style="font-size:17px; font-weight:800;" class="y">두 프로젝트에서<br>쓰이면 올린다</div>
+        <div style="font-size:14px; color:#a9adda; line-height:1.5;">제안 → 검토<br>→ 반영</div>
+      </div>
+      <div style="border:2px dashed #4b4596; border-radius:14px; padding:14px;">
+        <div style="font-weight:800; margin-bottom:10px;">프로젝트 B</div>
+        <div class="box" style="font-size:16px; text-align:left; margin-bottom:10px;">1층 오버라이드 파일<small>이 프로젝트만 달라야 하는 값</small></div>
+        <div class="box" style="font-size:16px; text-align:left; border-color:#f5c36b;">2층 로컬 컴포넌트 <span class="y">tag-chip</span><small>같은 걸 또 만들었다 → 승급 대상</small></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ───────── triggers ───────── -->
+<div class="cut" id="triggers">
+  <h1>미리 다 갖추지 않는다 — <span class="hi">조건이 오면 장착</span></h1>
+  <div class="sub">승급 트리거 표: 이 일이 생기면, 그때 이걸 붙인다</div>
+  <div style="position:absolute; left:58px; right:58px; bottom:40px; height:430px; display:grid; grid-template-columns: repeat(6, 1fr); gap: 12px; align-items:end;">
+    <div class="box src" style="height:90px; display:flex; flex-direction:column; justify-content:center; font-size:16px;">지금<small>코드 정본 +<br>쇼케이스 한 장</small></div>
+    <div style="height:150px; display:flex; flex-direction:column; justify-content:flex-end; gap:8px;"><div style="font-size:14px; color:#a9adda; text-align:center; line-height:1.4;">개발자 합류 또는<br>컴포넌트 수십 개</div><div class="box" style="flex:1; display:flex; align-items:center; justify-content:center; font-size:17px;">Storybook</div></div>
+    <div style="height:210px; display:flex; flex-direction:column; justify-content:flex-end; gap:8px;"><div style="font-size:14px; color:#a9adda; text-align:center; line-height:1.4;">의도 밖 깨짐이<br>한 번 노출</div><div class="box" style="flex:1; display:flex; align-items:center; justify-content:center; font-size:17px;">시각 회귀<br>테스트</div></div>
+    <div style="height:270px; display:flex; flex-direction:column; justify-content:flex-end; gap:8px;"><div style="font-size:14px; color:#a9adda; text-align:center; line-height:1.4;">앱마다 다른<br>버전 필요</div><div class="box" style="flex:1; display:flex; align-items:center; justify-content:center; font-size:17px;">패키지<br>semver 릴리스</div></div>
+    <div style="height:330px; display:flex; flex-direction:column; justify-content:flex-end; gap:8px;"><div style="font-size:14px; color:#a9adda; text-align:center; line-height:1.4;">디자이너<br>합류</div><div class="box" style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:17px;">코드 토큰 →<br>Figma 생성<small class="y" style="color:#f5c36b">정본은 코드에</small></div></div>
+    <div style="height:390px; display:flex; flex-direction:column; justify-content:flex-end; gap:8px;"><div style="font-size:14px; color:#a9adda; text-align:center; line-height:1.4;">두 번째<br>브랜드</div><div class="box" style="flex:1; display:flex; align-items:center; justify-content:center; font-size:17px;">다중 테마<br>파이프라인</div></div>
+  </div>
+</div>
+
+<script>
+  const id = (location.hash || '#hero').slice(1);
+  (document.getElementById(id) || document.getElementById('hero')).classList.add('show');
+</script>

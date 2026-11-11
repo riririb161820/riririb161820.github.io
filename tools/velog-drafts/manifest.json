@@ -229,7 +229,7 @@
   },
   {
     "slug": "github-actions-cron-skip-resident-runner",
-    "title": "GitHub Actions cron이 예약대로 안 도는 이유 (하루 11회 중 1회 실행)",
+    "title": "GitHub Actions cron이 예약대로 안 도는 이유 — 석 달 실측 35%, 상주 러너 이중화",
     "tags": [
       "github-actions",
       "cron",

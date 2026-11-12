@@ -1,14 +1,52 @@
-스케줄을 5~30분마다 돌게 해뒀는데 실행 이력을 보니 **하루 11회 예정 중 실제로는 1회**만 돌았다. 그마저 예정 시각보다 27분 늦었다.
+자동매매 봇을 GitHub Actions `schedule`로 평일 장중 30분마다, 그 밖엔 1시간마다 돌게 해뒀다. 첫날 실행 이력을 보니 **그날 예정된 11번 중 실제로 돈 건 1번**이었다. 실패 기록도 없었다. GitHub이 시작 자체를 안 한 것이다.
 
-버그를 의심했지만 아니었다. **GitHub Actions의 cron은 원래 best-effort다.** 문서에 적혀 있는 동작인데, 이걸 모르고 시간에 민감한 작업을 얹으면 조용히 망가진다.
+하루치로는 운인지 구분이 안 돼서, 석 달 넘게 쌓인 실행 기록 1,000건으로 실제 실행률을 셌다. **예약한 실행의 35%만 돌았다.** 왜 그런지와 석 달 실측 결과를 옮긴다. 상주 러너를 주로 쓰고 Actions를 폴백으로 둔 이중화 구성과 그 과정에서 생긴 함정 두 가지는 원문에 있다.
 
-## 원인
+## 원인 — schedule은 약속이 아니다
 
-GitHub의 공식 문서에 답이 있었다. **`schedule` 이벤트는 best-effort**다:
+GitHub 공식 문서에 답이 있다(2026-10 확인). `schedule` 이벤트는 GitHub Actions 부하가 높을 때 늦어질 수 있고, 매시 정각이 대표적인 고부하 시간이며, 부하가 충분히 높으면 대기 중인 작업 일부가 **버려질 수 있다**고 적혀 있다.
 
-> "The schedule event can be delayed during periods of high loads of GitHub Actions workflow runs. High load times include the start of every hour. If there is a sufficient delay, the run may be skipped entirely."
+> "If the load is sufficiently high enough, some queued jobs may be dropped."
+> — [GitHub Docs, Events that trigger workflows](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
 
-즉 cron은 "예약"이 아니라 **"희망사항"**이다. 부하가 높으면 지연되고, 충분히 밀리면 **아예 건너뛴다.** 특히 매시 정각은 전 세계 워크플로가 몰려 최악이다. 일반적인 배치 작업이면 몇 번 스킵돼도 무해하지만, **정시성이 생명인 트레이딩 봇에는 치명적**이다.
+문서가 권하는 대책은 정각을 피해 다른 분에 예약하는 것이다. 이 봇은 처음부터 정각을 피해 **매시 7분·37분**에 예약했다. 그런데도 11번 중 1번이었다.
+
+같은 문서에서 함께 알아 둘 것:
+
+- 가장 짧은 예약 간격은 **5분**이다.
+- 예약 실행은 **기본 브랜치**에서만 돈다. 다른 브랜치에 워크플로 파일을 고쳐 넣으면 반영되지 않는다.
+- 기본 시간대는 **UTC**다. 지금은 `timezone: "Asia/Seoul"`처럼 IANA 시간대를 지정할 수 있다.
+- **공개 저장소**는 60일 동안 저장소 활동이 없으면 예약 실행이 자동으로 꺼진다.
+
+## 석 달 실측 — 예약한 실행의 35%만 돌았다
+
+첫날 하루치로는 "운이 나빴다"와 구분이 안 된다. 이 워크플로는 석 달 넘게 계속 돌고 있어서, 쌓인 실행 기록 1,000건으로 실제 실행률을 셌다.
+
+```bash
+gh run list --workflow "Intraday Trading" --event schedule \
+  --limit 1000 --json createdAt,conclusion
+```
+
+기간은 2026-07-13~10-26(UTC 기준 106일)이다. 날짜마다 cron 설정상 예약 횟수(평일 31번, 주말 17번)와 실제 실행 횟수를 비교했다.
+
+![예약 종류별·월별 GitHub Actions schedule 실행률](https://riririb.com/assets/img/posts/github-actions-cron-skip-resident-runner-rates.webp)
+
+| 예약 종류 | 실제 실행 / 예약 | 실행률 |
+|---|---|---|
+| 평일 장중 30분 간격 (:07·:37) | 188 / 1,064 | **17.7%** |
+| 평일 그 외 1시간 간격 (:07) | 551 / 1,292 | 42.6% |
+| 주말 1시간 간격 (:07) | 256 / 510 | 50.2% |
+| **전체** | **995 / 2,866** | **34.7%** |
+
+숫자에서 읽히는 것 세 가지:
+
+1. **정각을 피하는 것만으로는 부족하다.** 처음부터 :07·:37에 예약했는데도 전체 실행률이 35%다.
+2. **촘촘하게 예약할수록 더 많이 빠진다.** 평일 장중 30분 간격이 17.7%로 가장 낮다. 30분마다 돌리려고 예약을 늘려도 실제로는 2시간 반에 한 번꼴로 돈 셈이다.
+3. **달마다 들쭉날쭉하다.** 월별 실행률은 7월 40% → 8월 57% → 9월 22% → 10월 19%였다. 설정은 한 번도 바꾸지 않았다. 지난달 수치로 이번 달을 예상할 수 없다.
+
+실행 사이 가장 긴 공백은 **13.5시간**(10/10)이었다. 그 시간대는 원래 예약 공백이 7시간이니, 6시간 넘게 예약이 통째로 빠졌다.
+
+> 이 수치는 이 저장소 한 곳의 측정이다. GitHub 전체 부하와 시기에 따라 다를 수 있다. 다만 "가끔 늦는다" 수준이 아니라는 건 분명하다.
 
 ---
 
@@ -16,4 +54,4 @@ GitHub의 공식 문서에 답이 있었다. **`schedule` 이벤트는 best-effo
 
 이 글은 발췌본입니다. 실패한 시도와 검증 과정까지 포함한 전문은 원문에 있습니다.
 
-👉 **[GitHub Actions cron이 예약대로 안 도는 이유와 상주 러너 이중화](https://riririb.com/posts/github-actions-cron-skip-resident-runner/)**
+👉 **[GitHub Actions cron이 예약대로 안 도는 이유 — 석 달 실측 35%, 상주 러너 이중화](https://riririb.com/posts/github-actions-cron-skip-resident-runner/)**

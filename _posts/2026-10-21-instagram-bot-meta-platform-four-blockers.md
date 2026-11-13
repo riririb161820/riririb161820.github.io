@@ -13,7 +13,7 @@ image:
 
 ## 문제 — 에러 메시지가 원인을 가리키지 않는다
 
-인스타그램 댓글에 반응해 DM을 보내는 봇을 만들었다. 발행 파이프라인([블로그→인스타 자동화 (4) 발행](/posts/blog-to-instagram-automation-4-publish/))까지는 순탄했는데, 댓글·DM 영역([(5) DM의 벽](/posts/blog-to-instagram-automation-5-dm-wall/))에 들어가자 네 군데에서 연달아 막혔다.
+인스타그램 댓글에 반응해 DM을 보내는 봇을 만들었다. 발행 파이프라인([블로그→인스타 자동화 (3) 발행](/posts/blog-to-instagram-automation-4-publish/))까지는 순탄했는데, 댓글·DM 영역([(4) DM의 벽](/posts/blog-to-instagram-automation-5-dm-wall/))에 들어가자 네 군데에서 연달아 막혔다.
 
 네 개를 따로 적어뒀다가 한 편으로 합쳤다. 따로 보면 제각각인데, 모아놓으니 **공통점이 하나 있었다. 넷 다 에러 메시지가 엉뚱한 곳을 가리켰다.**
 

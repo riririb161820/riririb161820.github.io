@@ -225,7 +225,7 @@ grant_type=refresh_token → 새 access_token 발급 (expires_in 3600)
 
 `articleUrl`이 등록된 글의 주소다. 자동화에서는 이 값을 저장해 두면 나중에 확인·수정 대상 추적이 쉽다.
 
-실패할 때는 주의할 점이 있다. 문서의 실패 예시는 **HTTP 상태는 `403 Forbidden`인데 본문의 `status`는 `"500"`**이다. 상태코드 하나만 보고 분기하지 말고 본문의 `error.code`까지 읽어야 원인이 나온다.
+실패할 때는 주의할 점이 있다. 문서의 실패 예시(카페 가입 API 호출)는 **HTTP 상태는 `403 Forbidden`인데 본문의 `status`는 `"500"`**이다. 상태코드 하나만 보고 분기하지 말고 본문의 `error.code`까지 읽어야 원인이 나온다.
 
 ```json
 {"message":

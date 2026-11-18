@@ -15,6 +15,21 @@ image:
 > [1편 JS click이 안 먹히는 버튼](/posts/naver-buddy-automation-1-js-vs-real-click/) · **2편 (현재 글)** · [3편 웹훅은 없다](/posts/naver-buddy-automation-3-no-webhook-polling/) · [4편 토큰 99% 줄이기](/posts/naver-buddy-automation-4-browser-token-diet/) · [5편 자동화 티는 어디서 나는가](/posts/naver-buddy-automation-5-automation-tell/)
 {: .prompt-info }
 
+## 먼저 한눈에 — 카페 글쓰기 API 준비물
+
+이 글은 실제로 막혔다 뚫은 순서대로 적었다. 바로 쓰려는 사람을 위해 필요한 것만 먼저 모았다.
+
+| 준비물 | 어디서 얻나 | 빠지면 |
+|---|---|---|
+| 애플리케이션 + **카페 API 권한** | 개발자센터 → 내 애플리케이션 → API 설정에 `카페` 추가 | 403 (API 권한 없음) |
+| **로그인 오픈 API 서비스 환경**(Callback URL) | 같은 화면 → 로그인 오픈 API 서비스 환경 → PC 웹 | OAuth 인증 자체를 시작 못 함 ([원인](#원인)) |
+| 동의 항목 **`카페가입, 글쓰기`** | OAuth 동의 화면에서 체크 | 글쓰기 API 사용 불가 ([2단계](#2-oauth-인증)) |
+| access_token | 인가 코드 → 토큰 교환 ([2~4단계](#2-oauth-인증)) | 401 |
+| **clubid** (카페 고유 숫자) | 카페 관리 페이지 등 주소의 `clubid=숫자` | AP006 (카페 없음) 등 |
+| **menuid** (게시판 번호) | 게시판 링크 주소의 `search.menuid=숫자` | AP001 (파라미터 오류) 등 |
+
+전체 흐름은 `앱 설정 → authorize → code → token → POST /v1/cafe/{clubid}/menu/{menuid}/articles` 다섯 단계다. 요청 변수 전체와 에러 코드는 [아래 레퍼런스](#요청-변수-전체--공개-범위-기본값을-조심)에 정리했다.
+
 ## 문제
 
 [1편](/posts/naver-buddy-automation-1-js-vs-real-click/)에서 카페 글쓰기를 **스마트에디터에 실제 키보드로 타이핑**해서 해결했다. 동작은 했지만 취약했다. 스냅샷으로 문단 uid를 찾고, 캐럿을 옮기고, 한 글자씩 넣는다. 에디터 DOM이 조금만 바뀌어도 깨진다.
@@ -140,6 +155,8 @@ req.add_header("Content-Type", "application/x-www-form-urlencoded")
 quote_plus(quote_plus(s))   # 이걸로 그대로 동작했다
 ```
 
+하나 걸리는 점이 있다. 같은 문서에 실린 **공식 Python 예제는 `urllib.parse.quote()`를 한 번만** 쓴다. 문서 설명(이중)과 예제(한 번)가 다르다. 나는 이중 인코딩으로 한글 제목·본문이 정상 등록되는 것을 확인했고, 한 번만 인코딩한 경우는 검증하지 않았다. 한글이 깨지면 이중 인코딩부터 시도해 보길 권한다.
+
 ### 렌더 검증 — `·` 이 깨진 줄 알았다
 
 발행된 글을 API로 다시 읽어보니 본문이 이랬다.
@@ -172,6 +189,109 @@ grant_type=refresh_token → 새 access_token 발급 (expires_in 3600)
   client_id / client_secret / refresh_token / access_token
 ```
 
+## 레퍼런스 — 공식 문서에서 확인한 것
+
+여기부터는 [네이버 카페 API 공식 문서](https://developers.naver.com/docs/login/cafe-api/cafe-api.md)와 [공통 에러 코드 문서](https://developers.naver.com/docs/common/openapiguide/errorcode.md)를 2026-11-18에 다시 읽고 정리한 것이다. 내가 직접 호출해 확인한 것은 따로 표시했다.
+
+### 요청 변수 전체 — 공개 범위 기본값을 조심
+
+| 변수 | 필수 | 기본값 | 설명 |
+|---|---|---|---|
+| `subject` | Y | | 제목. URL 인코딩([인코딩 함정](#인코딩-함정--ms949-재인코딩의-실체) 참고) |
+| `content` | Y | | 본문. HTML 사용 가능(줄바꿈은 `<br>`). `<script>` 불가, `<iframe>`·`<embed>`는 신뢰 사이트만 |
+| `image` | N | | 이미지 파일. 쓰려면 multipart로 보내고, 여러 장이면 변수를 반복 |
+| `openyn` | N | **false** | `true` 전체 공개 / `false` **멤버 공개** |
+| `searchopen` | N | true | 네이버 검색 허용. `openyn=true`면 자동으로 `true` |
+| `replyyn` | N | true | 댓글 허용 |
+| `scrapyn` | N | true | 스크랩 허용 |
+| `metoo` | N | true | 블로그·카페 보내기 허용 |
+| `autosourcing` | N | true | 자동 출처 |
+| `rclick` | N | true | 마우스 오른쪽 버튼 허용 |
+| `ccl` | N | true | CCL 사용 |
+
+> **`openyn` 기본값이 `false`(멤버 공개)다.** 아무 옵션 없이 올리면 카페 멤버가 아닌 사람에게는 글이 안 보일 수 있다. 외부 노출이 목적이면 `openyn=true`를 명시하자. 또 **상품 게시판에는 API로 글을 쓸 수 없다**(문서 명시).
+{: .prompt-warning }
+
+### 응답 형식 — HTTP 코드와 본문 status가 다를 수 있다
+
+문서의 성공 응답 예시는 `message`로 한 겹 감싸져 있다.
+
+```json
+{"message":
+  {"@type":"response","@service":"korea.naverkoreaservice.community.cafe","@version":"1.0.0",
+   "status":"200",
+   "result":{"msg":"Success","cafeUrl":"{카페 URL}","articleId":4,"articleUrl":"https://cafe.naver.com/{카페 URL}/4"}}}
+```
+
+`articleUrl`이 등록된 글의 주소다. 자동화에서는 이 값을 저장해 두면 나중에 확인·수정 대상 추적이 쉽다.
+
+실패할 때는 주의할 점이 있다. 문서의 실패 예시는 **HTTP 상태는 `403 Forbidden`인데 본문의 `status`는 `"500"`**이다. 상태코드 하나만 보고 분기하지 말고 본문의 `error.code`까지 읽어야 원인이 나온다.
+
+```json
+{"message":{ ..., "status":"500",
+  "error":{"code":"CA003","msg":"공개 및 바로 가입 가능한 카페만, 가입이 가능합니다."}}}
+```
+
+### 에러 코드 — 글쓰기에서 만날 수 있는 것
+
+카페 API 전용 코드(전부 HTTP 403, 999만 500)다. 가입 API 전용 코드(CA·NN 계열)는 뺐다.
+
+| 코드 | 의미 | 먼저 볼 곳 |
+|---|---|---|
+| `0005` | 비공개 카페, 멤버만 접근 가능 | 토큰 주인 계정이 그 카페 멤버인지 |
+| `AP001` | 요청 파라미터가 유효하지 않음 | clubid·menuid 숫자, 필수 변수 누락 |
+| `AP002` | 접근 제한 중인 게시판 | 게시판 설정 |
+| `AP003` | 특정 등급 멤버만 쓸 수 있는 게시판 | 내 카페 등급과 게시판 쓰기 권한 |
+| `AP004` | 글쓰기 허용 불가 메뉴 | menuid가 글을 쓸 수 있는 게시판인지(상품 게시판은 불가) |
+| `AP005` | 금칙어·스팸 자동차단으로 스팸 보관함 이동 | 본문의 링크·반복 문구 |
+| `AP006` | 카페가 존재하지 않음 | clubid |
+| `AP007` | 카페 활동 정지 상태 | 카페 운영진 조치 |
+| `AP008` | 아이디 이용 정지 상태 | 네이버 계정 상태 |
+| `999` (HTTP 500) | 서버 내부 오류 | 재시도 후 개발자 포럼 |
+
+공통 에러 코드 문서 기준으로는 다음도 흔하다.
+
+| HTTP | 원인 |
+|---|---|
+| 401 | 접근 토큰이 없거나 만료됨, 또는 API 권한 미설정 → [refresh_token으로 재발급](#6-무인-자동화의-조건--refresh_token) |
+| 403 | HTTPS가 아닌 HTTP로 호출, 필수 변수 누락, URL 인코딩 누락 |
+| 404 | 요청 URL 오류 |
+| 405 | POST가 아닌 메서드로 호출 |
+| 429 | 하루 호출 허용량 초과 |
+
+> `AP005`는 에러지만 글이 사라진 게 아니라 **스팸 보관함으로 간 것**이다(문서 메시지 기준). 같은 글을 바로 다시 보내기 전에 스팸 보관함부터 확인하자. 자동 재시도 로직이 있다면 AP005는 재시도 대상에서 빼는 편이 안전하다.
+{: .prompt-tip }
+
+### 이미지 첨부 — multipart
+
+이미지는 `application/x-www-form-urlencoded`로는 못 보낸다. `multipart/form-data`로 보내고, 여러 장이면 `image`를 반복한다. 공식 Python 예제의 구조는 이렇다(나는 텍스트 글만 실측했고, 이미지 첨부는 직접 호출해 보지 않았다).
+
+```python
+import requests
+from urllib.parse import quote
+
+url = f"https://openapi.naver.com/v1/cafe/{clubid}/menu/{menuid}/articles"
+data = {"subject": quote(subject), "content": quote(content)}
+files = [
+    ("image", ("a.jpg", open("a.jpg", "rb"), "image/jpeg")),
+    ("image", ("b.jpg", open("b.jpg", "rb"), "image/jpeg")),
+]
+res = requests.post(url, headers={"Authorization": "Bearer " + token},
+                    data=data, files=files)
+```
+
+### curl 한 줄로 확인하기
+
+코드 전에 토큰과 ID가 맞는지만 보고 싶다면 문서의 curl 예시가 가장 빠르다. 영문 제목으로 먼저 성공을 확인하면 인코딩 문제와 권한 문제를 분리할 수 있다.
+
+```bash
+curl "https://openapi.naver.com/v1/cafe/{clubid}/menu/{menuid}/articles" \
+  -H "Authorization: Bearer {접근 토큰}" \
+  -d "subject=api test&content=hello"
+```
+
+영문은 되고 한글만 깨지면 인코딩 문제, 영문부터 403이면 위 에러 코드표에서 권한·ID 쪽을 보면 된다.
+
 ## 사용한 기술
 
 - **네이버 카페 API** — `POST /v1/cafe/{clubid}/menu/{menuid}/articles` (로그인 방식 오픈API)
@@ -190,3 +310,4 @@ grant_type=refresh_token → 새 access_token 발급 (expires_in 3600)
 - 카페 글쓰기 공식 API는 존재한다. 못 쓰고 있었던 건 **로그인 오픈 API 서비스 환경(Callback URL) 미등록** 때문이었다.
 - **콜백 서버는 안 띄워도 된다.** 리다이렉트가 실패해도 DevTools 네트워크 로그에 `?code=` 가 남는다.
 - 문서의 "MS949 재인코딩"은 사실상 **이중 URL 인코딩**이다. `quote_plus(quote_plus(s))` 로 동작한다.
+- `openyn` 기본값은 **멤버 공개**다. 실패 응답은 HTTP 코드와 본문 `status`가 다를 수 있으니 `error.code`(AP001~AP008)로 분기한다.

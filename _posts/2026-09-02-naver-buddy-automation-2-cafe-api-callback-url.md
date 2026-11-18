@@ -228,8 +228,10 @@ grant_type=refresh_token → 새 access_token 발급 (expires_in 3600)
 실패할 때는 주의할 점이 있다. 문서의 실패 예시는 **HTTP 상태는 `403 Forbidden`인데 본문의 `status`는 `"500"`**이다. 상태코드 하나만 보고 분기하지 말고 본문의 `error.code`까지 읽어야 원인이 나온다.
 
 ```json
-{"message":{ ..., "status":"500",
-  "error":{"code":"CA003","msg":"공개 및 바로 가입 가능한 카페만, 가입이 가능합니다."}}}
+{"message":
+  {"@type":"response","@service":"korea.naverkoreaservice.community.cafe","@version":"1.0.0",
+   "status":"500",
+   "error":{"code":"CA003","msg":"공개 및 바로 가입 가능한 카페만, 가입이 가능합니다."}}}
 ```
 
 ### 에러 코드 — 글쓰기에서 만날 수 있는 것

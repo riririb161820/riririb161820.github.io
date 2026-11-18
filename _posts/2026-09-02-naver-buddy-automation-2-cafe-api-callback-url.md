@@ -75,7 +75,7 @@ POST https://openapi.naver.com/v1/cafe/{clubid}/menu/{menuid}/articles
 
 저장하니 내부 상태가 이렇게 바뀌고, 빨간 경고가 사라졌다.
 
-```json
+```text
 serviceEnvUrlList      : {"openapi_web":"http://localhost","pcweb":"http://localhost"}
 serviceEnvCallbackList : {"pcweb":["http://localhost:8080/callback"], ...}
 ```
@@ -137,7 +137,7 @@ req.add_header("Authorization", "Bearer " + token)
 req.add_header("Content-Type", "application/x-www-form-urlencoded")
 ```
 
-```json
+```text
 {"result":{"msg":"Success","articleId":XXXXXX,"articleUrl":"https://cafe.naver.com/..."}}
 ```
 

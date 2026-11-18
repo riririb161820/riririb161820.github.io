@@ -5,12 +5,13 @@
 
     python3 tools/post_lint.py _posts/2026-09-02-foo.md [...]
     python3 tools/post_lint.py --changed      # git에서 바뀐(스테이징 포함) 글만
+    python3 tools/post_lint.py --staged       # 커밋 대기 글만(pre-commit 훅이 사용)
     python3 tools/post_lint.py --all          # 전체
 
 ERROR가 하나라도 있으면 종료코드 1. WARN은 보고만 한다.
 
 기밀 금칙어: 저장소에 넣지 않는다. 환경변수 BLOG_LINT_TERMS(파일 경로, 여러 개면 os.pathsep 구분)
-로 지정한 파일을 읽는다. 한 줄에 단어 하나, '#'으로 시작하면 주석. 지정이 없으면 기밀 검사는 건너뛰고 WARN.
+또는 git config blog.lintTerms <경로>(기계별 로컬 설정, 푸시 안 됨)로 지정한 파일을 읽는다. 한 줄에 단어 하나, '#'으로 시작하면 주석. 지정이 없으면 기밀 검사는 건너뛰고 WARN.
 """
 from __future__ import annotations
 
@@ -175,6 +176,9 @@ def ids_of_post(path: Path) -> set[str]:
 
 def load_terms() -> list[str] | None:
     spec = os.environ.get("BLOG_LINT_TERMS", "")
+    if not spec:  # 기계별 로컬 설정: git config blog.lintTerms <경로> (.git/config라 푸시되지 않음)
+        spec = subprocess.run(["git", "-C", str(ROOT), "config", "--get", "blog.lintTerms"],
+                              capture_output=True, text=True).stdout.strip()
     if not spec:
         return None
     terms = []
@@ -324,6 +328,12 @@ def lint(path: Path, terms: list[str] | None) -> Report:
     return r
 
 
+def staged_posts() -> list[Path]:
+    out = subprocess.run(["git", "-C", str(ROOT), "diff", "--cached", "--name-only", "--diff-filter=ACMR"],
+                         capture_output=True, text=True).stdout
+    return [ROOT / p for p in out.splitlines() if p.startswith("_posts/") and p.endswith(".md") and (ROOT / p).exists()]
+
+
 def changed_posts() -> list[Path]:
     out = subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain"], capture_output=True, text=True).stdout
     files = []
@@ -340,12 +350,15 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="블로그 글 검사기")
     ap.add_argument("files", nargs="*")
     ap.add_argument("--changed", action="store_true", help="git에서 바뀐 글만")
+    ap.add_argument("--staged", action="store_true", help="커밋 대기(스테이징)된 글만 — pre-commit용")
     ap.add_argument("--all", action="store_true", help="_posts 전체")
     ap.add_argument("--quiet", action="store_true", help="WARN 숨김")
     a = ap.parse_args(argv)
 
     if a.all:
         files = sorted(POSTS.glob("*.md"))
+    elif a.staged:
+        files = staged_posts()
     elif a.changed:
         files = changed_posts()
     else:

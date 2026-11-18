@@ -1,0 +1,8 @@
+#!/bin/sh
+# 블로그 글 검사기(tools/post_lint.py)를 커밋 직전에 실행한다.
+# 설치(기계마다 1회): git config core.hooksPath tools/hooks
+# 기밀 금칙어 사전 경로(기계마다 1회, 푸시 안 됨): git config blog.lintTerms <경로>
+# 급할 때 우회: git commit --no-verify  (우회했다면 반드시 이유를 남길 것)
+PY=$(command -v python3 || command -v python)
+[ -z "$PY" ] && { echo "post_lint: python 없음 — 검사 건너뜀"; exit 0; }
+exec "$PY" "$(git rev-parse --show-toplevel)/tools/post_lint.py" --staged --quiet

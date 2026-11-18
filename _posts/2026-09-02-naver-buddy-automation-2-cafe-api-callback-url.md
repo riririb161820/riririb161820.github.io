@@ -1,11 +1,11 @@
 ---
-title: "네이버 카페 글쓰기 API 뚫기 (2) — Callback URL 하나 때문에 막혀 있었다"
+title: "네이버 카페 글쓰기 API 사용법 — 앱 등록·OAuth 토큰·글 등록까지 실측 정리"
 headline: "카페 API 글쓰기 성공"
 highlight: "성공"
 date: 2026-09-02 22:20:00 +0900
 categories: [개발, 자동화]
 tags: [naver-buddy-automation, 네이버카페, openapi, oauth, 네이버로그인]
-description: "네이버 카페 글쓰기 공식 API는 존재하는데 쓰지 못하고 있었다. 원인은 앱 설정의 Callback URL 미등록. 콜백 서버 없이 인가 코드를 회수하는 방법과 문서에 적힌 MS949 이중 인코딩의 실체까지 실측으로 정리했다."
+description: "네이버 카페 글쓰기 공식 API(naver cafe api)를 실제로 호출해 글을 올리기까지의 전 과정. 로그인 오픈 API 앱 등록과 Callback URL 설정, 콜백 서버 없이 인가 코드 받기, 토큰 교환, 글쓰기 POST, 문서에 적힌 MS949 이중 인코딩의 실체, refresh_token 무인 자동화까지 실측으로 정리했다."
 image:
   path: /assets/img/posts/naver-buddy-automation-2-cafe-api-callback-url-hero.png
   alt: 앱 설정에서 Callback URL 등록, OAuth 인증, 인가 코드 회수, 토큰 교환, 글쓰기 POST로 이어지는 5단계 흐름

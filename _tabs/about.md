@@ -28,7 +28,7 @@ order: 4
 - **네이버 블로그 자동화** — [스마트에디터 Playwright 함정]({% post_url 2026-07-23-naver-smarteditor-playwright-pitfalls %}), [발행 자동화]({% post_url 2026-07-28-naver-blog-publish-automation %}), 서로이웃 자동화 시리즈
 - **블로그 운영과 검색 노출** — [GitHub Pages 사이트맵 '가져올 수 없음' 해결]({% post_url 2026-09-15-github-pages-sitemap-couldnt-fetch-custom-domain %}), IndexNow, 이미지 최적화
 - **숏폼 영상 자동 제작** — ffmpeg 자막·음량, 나레이션과 컷 길이 맞추기
-- **API 연동 트러블슈팅** — Instagram Graph API, 외부 API 검증, macOS 명령줄 도구
+- **API 연동 트러블슈팅** — Instagram Graph API, 외부 API 연동 검증, macOS 명령줄 도구
 
 글 전체는 [카테고리](/categories/)와 [아카이브](/archives/)에서 볼 수 있습니다.
 

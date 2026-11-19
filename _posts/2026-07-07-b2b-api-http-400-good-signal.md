@@ -4,7 +4,7 @@ headline: "400이 반가운 신호"
 highlight: "400"
 date: 2026-07-07 07:00:00 +0900
 categories: [개발, 트러블슈팅]
-tags: [api, oauth, http-status, client-credentials, logistics-api, integration]
+tags: [api, oauth, http-status, client-credentials, integration]
 description: 파트너 API에 첫 호출을 던졌더니 HTTP 400 Bad Request. 인증 실패인 줄 알았지만, 400은 오히려 인증을 통과해 백엔드까지 도달했다는 신호였다. OAuth Client Credentials 토큰 발급부터 200 빈 배열까지, 연동 검증의 상태코드 읽는 법.
 image:
   path: /assets/img/posts/b2b-api-http-400-good-signal-hero.png
@@ -13,7 +13,7 @@ image:
 
 ## 문제
 
-글로벌 물류기업 A사의 배송 추적 API를 연동하려고, 개발자 포털에서
+한 글로벌 물류기업의 배송 추적 API를 연동하려고, 개발자 포털에서
 OAuth 애플리케이션을 만들고 Client Credentials 방식으로 액세스 토큰을 발급받았다.
 발급까지는 순조로웠다. 그리고 첫 API 호출을 던졌다.
 

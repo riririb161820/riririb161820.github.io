@@ -1,11 +1,11 @@
 ---
-title: "A사 API 포털, 회원가입 없이 스펙 전부 받아내기 (WSO2 Devportal)"
+title: "WSO2 API 포털(Devportal), 회원가입 없이 스펙 전부 받아내기"
 headline: "가입 없이 API 스펙 확보"
 highlight: "가입 없이"
 date: 2026-07-06 15:00:00 +0900
 categories: [개발, 트러블슈팅]
-tags: [logistics-api, wso2, api-manager, devportal, openapi, swagger]
-description: 글로벌 물류기업 A사의 개발자 API 포털은 WSO2 API Manager 기반이다. 회원가입·로그인이 막혔을 때 익명 REST 엔드포인트로 API 21개 목록과 OpenAPI(Swagger) 스펙 전문을 받아내는 방법. 포털의 'MCP Servers' 메뉴 정체도 함께 정리했다.
+tags: [wso2, api-manager, devportal, openapi, swagger]
+description: 연동해야 할 파트너사의 개발자 API 포털이 WSO2 API Manager 기반이었다. 회원가입·로그인이 막혔을 때 익명 REST 엔드포인트로 API 21개 목록과 OpenAPI(Swagger) 스펙 전문을 받아내는 방법. 포털의 'MCP Servers' 메뉴 정체도 함께 정리했다.
 image:
   path: /assets/img/posts/wso2-devportal-api-no-login-hero.png
   alt: WSO2 개발자 포털 - 화면은 잠겨도 REST 데이터 API는 열려 있다
@@ -13,20 +13,23 @@ image:
 
 ## 문제
 
-글로벌 물류기업 **A사**의 배송 추적 API를 연동해야 하는
-프로젝트였다. A사은 개발자 API 포털(`portal.api.example.com`)을
+한 글로벌 물류기업의 배송 추적 API를 연동해야 하는
+프로젝트였다. 그 회사는 개발자 API 포털(`portal.api.example.com`)을
 운영하고 있어서 들어가 봤더니, 화면에 보이는 건 로그인 폼뿐이었다.
 
 - 포털 첫 화면 타이틀: `[DevPortal]WSO2 APIM`
 - 회원가입을 시도했지만 진행이 막혔다 (승인제인지 오류인지조차 알 수 없는 상태)
 - 계정이 언제 발급될지 모르는데, 연동 개발 일정은 이미 잡혀 있었다
 
+> 이 글에서 회사 이름과 실제 도메인은 가렸다(`example.com`). `/api/am/devportal/v3/...` 경로는 WSO2 표준이라 어느 WSO2 포털이든 같다.
+{: .prompt-info }
+
 API 스펙 없이는 연동 모듈의 요청·응답 타입 설계 자체를 시작할 수 없다. 계정을
 하염없이 기다리는 것 말고 방법이 없을까?
 
 ## 원인 (이라기보다 구조)
 
-포털 타이틀의 `WSO2 APIM`이 결정적인 힌트였다. A사의 이 포털은
+포털 타이틀의 `WSO2 APIM`이 결정적인 힌트였다. 이 포털은
 처음부터 만든 자체 웹앱이 아니라, **WSO2 API Manager**라는 오픈소스 API 관리
 플랫폼의 개발자 포털(Devportal) 컴포넌트를 그대로 띄운 것이었다.
 

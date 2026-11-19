@@ -4,7 +4,7 @@
 
 ## 원인 (이라기보다 구조)
 
-포털 타이틀의 `WSO2 APIM`이 결정적인 힌트였다. A사의 이 포털은
+포털 타이틀의 `WSO2 APIM`이 결정적인 힌트였다. 이 포털은
 처음부터 만든 자체 웹앱이 아니라, **WSO2 API Manager**라는 오픈소스 API 관리
 플랫폼의 개발자 포털(Devportal) 컴포넌트를 그대로 띄운 것이었다.
 
@@ -22,4 +22,4 @@ WSO2 Devportal은 **화면(프론트엔드 SPA)과 데이터(백엔드 REST API)
 
 이 글은 발췌본입니다. 실패한 시도와 검증 과정까지 포함한 전문은 원문에 있습니다.
 
-👉 **[A사 API 포털, 회원가입 없이 스펙 전부 받아내기 (WSO2 Devportal)](https://riririb.com/posts/wso2-devportal-api-no-login/)**
+👉 **[WSO2 API 포털(Devportal), 회원가입 없이 스펙 전부 받아내기](https://riririb.com/posts/wso2-devportal-api-no-login/)**

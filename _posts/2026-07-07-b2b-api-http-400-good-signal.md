@@ -4,7 +4,7 @@ headline: "400이 반가운 신호"
 highlight: "400"
 date: 2026-07-07 07:00:00 +0900
 categories: [개발, 트러블슈팅]
-tags: [api, oauth, http-status, client-credentials, kuehne-nagel, integration]
+tags: [api, oauth, http-status, client-credentials, integration]
 description: 파트너 API에 첫 호출을 던졌더니 HTTP 400 Bad Request. 인증 실패인 줄 알았지만, 400은 오히려 인증을 통과해 백엔드까지 도달했다는 신호였다. OAuth Client Credentials 토큰 발급부터 200 빈 배열까지, 연동 검증의 상태코드 읽는 법.
 image:
   path: /assets/img/posts/b2b-api-http-400-good-signal-hero.png
@@ -13,19 +13,19 @@ image:
 
 ## 문제
 
-글로벌 물류기업 Kuehne+Nagel의 배송 추적 API를 연동하려고, 개발자 포털에서
+한 글로벌 물류기업의 배송 추적 API를 연동하려고, 개발자 포털에서
 OAuth 애플리케이션을 만들고 Client Credentials 방식으로 액세스 토큰을 발급받았다.
 발급까지는 순조로웠다. 그리고 첫 API 호출을 던졌다.
 
 ```bash
 curl -H "Authorization: Bearer <access_token>" \
-  "https://gateway.api.kuehne-nagel.com/track-trace/shipment/v2/shipments"
+  "https://gateway.api.example.com/track-trace/shipment/v2/shipments"
 ```
 
 돌아온 건 이거였다.
 
 ```json
-{"timestamp":"...","status":400,"error":"Bad Request","path":"/tracking-overviews/external/api/knite/track-trace/shipments"}
+{"timestamp":"...","status":400,"error":"Bad Request","path":"/tracking-overviews/external/api/svc/track-trace/shipments"}
 ```
 
 **HTTP 400 Bad Request.** 순간 "토큰이 잘못됐나? 인증이 안 먹었나?" 싶었다.
@@ -44,7 +44,7 @@ curl -H "Authorization: Bearer <access_token>" \
 
 결정적 단서는 400 응답 본문의 `path`였다. 내가 호출한 건
 `/track-trace/shipment/v2/shipments`인데, 에러에 찍힌 경로는
-`/tracking-overviews/external/api/knite/...`로 **내부 서비스 주소로 치환돼**
+`/tracking-overviews/external/api/svc/...`로 **내부 서비스 주소로 치환돼**
 있었다. 게이트웨이가 요청을 내부로 라우팅했다는 뜻 — 즉 인증·구독·라우팅이
 전부 정상 작동했다는 증거다.
 
@@ -56,7 +56,7 @@ curl -H "Authorization: Bearer <access_token>" \
 ### 1. 토큰 발급 (Client Credentials)
 
 ```bash
-curl -X POST "https://portal.api.kuehne-nagel.com/oauth2/token" \
+curl -X POST "https://portal.api.example.com/oauth2/token" \
   -u "<ConsumerKey>:<ConsumerSecret>" \
   -d "grant_type=client_credentials"
 ```
@@ -71,7 +71,7 @@ curl -X POST "https://portal.api.kuehne-nagel.com/oauth2/token" \
 필드가 없는 **검색 엔드포인트**로 연결만 확인했다.
 
 ```bash
-curl -X POST "https://gateway.api.kuehne-nagel.com/track-trace/shipment/v2/shipments-search" \
+curl -X POST "https://gateway.api.example.com/track-trace/shipment/v2/shipments-search" \
   -H "Authorization: Bearer <access_token>" \
   -H "Content-Type: application/json" \
   -d '{"pagination":{"pageNumber":1,"pageSize":10},"filters":{}}'
@@ -90,8 +90,8 @@ curl -X POST "https://gateway.api.kuehne-nagel.com/track-trace/shipment/v2/shipm
 ### 3. 함정: 익명 스펙의 서버 URL
 
 한 가지 더 삽질 포인트. 로그인 없이 받은 OpenAPI 스펙의 `servers`에는
-`https://internal.api.kuehne-nagel.com/...` 내부 주소가 적혀 있었다. 실제
-호출 주소는 로그인 후 포털에서 받은 스펙의 `https://gateway.api.kuehne-nagel.com/...`
+`https://internal.api.example.com/...` 내부 주소가 적혀 있었다. 실제
+호출 주소는 로그인 후 포털에서 받은 스펙의 `https://gateway.api.example.com/...`
 였다. 내부 주소로 쏘면 당연히 안 닿는다. (이 익명 스펙 이야기는
 [회원가입 없이 스펙 받아내기](/posts/wso2-devportal-api-no-login/)에 정리했다.)
 

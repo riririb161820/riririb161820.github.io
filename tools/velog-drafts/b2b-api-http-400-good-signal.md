@@ -14,7 +14,7 @@
 
 결정적 단서는 400 응답 본문의 `path`였다. 내가 호출한 건
 `/track-trace/shipment/v2/shipments`인데, 에러에 찍힌 경로는
-`/tracking-overviews/external/api/knite/...`로 **내부 서비스 주소로 치환돼**
+`/tracking-overviews/external/api/svc/...`로 **내부 서비스 주소로 치환돼**
 있었다. 게이트웨이가 요청을 내부로 라우팅했다는 뜻 — 즉 인증·구독·라우팅이
 전부 정상 작동했다는 증거다.
 

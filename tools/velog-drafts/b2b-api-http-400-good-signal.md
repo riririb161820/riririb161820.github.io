@@ -27,4 +27,4 @@
 
 이 글은 발췌본입니다. 실패한 시도와 검증 과정까지 포함한 전문은 원문에 있습니다.
 
-👉 **[B2B API 연동 검증에서 HTTP 400이 반가운 신호인 이유 (401 vs 400 vs 200)](https://riririb.com/posts/b2b-api-http-400-good-signal/)**
+👉 **[외부 API 연동 검증에서 HTTP 400이 반가운 신호인 이유 (401 vs 400 vs 200)](https://riririb.com/posts/b2b-api-http-400-good-signal/)**

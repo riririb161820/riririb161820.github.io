@@ -33,6 +33,7 @@ DESC_WARN = 160         # description이 이보다 길면 검색결과에서 잘
 
 REQUIRED_FM = ["title", "date", "categories", "tags", "description"]
 
+OWN_PATH_RE = re.compile(r"(?:https?://(?:www\.)?riririb\.com)?/(?:posts|assets)/[^\s)\"']*")
 FENCE_RE = re.compile(r"^(\s*)(`{3,}|~{3,})(.*)$")
 
 
@@ -320,7 +321,8 @@ def lint(path: Path, terms: list[str] | None) -> Report:
         r.warn(1, "기밀 금칙어 검사 건너뜀 — BLOG_LINT_TERMS 미설정")
     else:
         for no, line in enumerate(text.split("\n"), 1):
-            low = line.lower()
+            # 이 사이트의 기존 URL·파일 경로는 바꾸면 색인·링크가 깨지므로 예외(2026-11-19 사용자 결정)
+            low = OWN_PATH_RE.sub("", line).lower()
             for t in terms:
                 if t.lower() in low:
                     r.error(no, "기밀 금칙어 포함 (단어는 출력하지 않음 — 사전 대조 필요)")

@@ -41,6 +41,21 @@ jobs:
           # If using the 'assets' git submodule from Chirpy Starter, uncomment above
           # (See: https://github.com/cotes2020/chirpy-starter/tree/main/assets)
 
+      # 하네스 2단계: 이번 푸시에서 바뀐 글만 검사, ERROR면 배포 중단.
+      # 기밀 금칙어 사전은 저장소에 없으므로 여기선 그 항목만 빠진다(로컬 pre-commit에서 검사).
+      - name: Lint changed posts
+        if: github.event_name == 'push'
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: |
+          if [ -z "$BEFORE" ] || [ "$BEFORE" = "0000000000000000000000000000000000000000" ] || ! git cat-file -e "$BEFORE" 2>/dev/null; then
+            echo "비교 기준 커밋 없음 — 검사 건너뜀"; exit 0
+          fi
+          FILES=$(git diff --name-only --diff-filter=ACMR "$BEFORE" "$AFTER" -- '_posts/*.md')
+          if [ -z "$FILES" ]; then echo "바뀐 글 없음"; exit 0; fi
+          python3 tools/post_lint.py --quiet $FILES
+
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5

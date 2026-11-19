@@ -43,6 +43,12 @@ def fetch(url: str, method: str = "GET") -> tuple[int, str]:
         return e.code, ""
 
 
+def norm(t: str) -> str:
+    """Jekyll(kramdown smart quotes)이 바꾼 따옴표·공백을 되돌려 비교한다."""
+    t = t.translate(str.maketrans({"\u2018": "'", "\u2019": "'", "\u201c": '"', "\u201d": '"', "\u2026": "...", "\u00a0": " "}))
+    return re.sub(r"\s+", " ", t).strip()
+
+
 def find_post(arg: str) -> Path:
     p = Path(arg)
     if p.suffix == ".md" and p.exists():
@@ -86,12 +92,12 @@ def main() -> int:
 
     m = re.search(r"<title>(.*?)</title>", body, re.S)
     live_title = html.unescape(m.group(1)).strip() if m else ""
-    if not live_title.startswith(fm.get("title", "\0")):
+    if not norm(live_title).startswith(norm(fm.get("title", "\0"))):
         fails.append(f"title 불일치: 라이브='{live_title[:60]}'")
     m = re.search(r'<meta name="description" content="([^"]*)"', body)
     live_desc = html.unescape(m.group(1)) if m else ""
     want_desc = fm.get("description", "")
-    if want_desc and live_desc.strip() != want_desc.strip():
+    if want_desc and norm(live_desc) != norm(want_desc):
         fails.append("description 불일치(배포 전 버전이 캐시됐을 수 있음 — 1~2분 뒤 재시도)")
 
     ids = set(re.findall(r'\bid="([^"]+)"', body))

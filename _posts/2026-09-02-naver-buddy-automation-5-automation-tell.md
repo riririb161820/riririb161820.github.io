@@ -12,7 +12,7 @@ image:
 ---
 
 > **시리즈 「네이버 서이추 자동화」**
-> [1편](/posts/naver-buddy-automation-1-js-vs-real-click/) · [2편](/posts/naver-buddy-automation-2-cafe-api-callback-url/) · [3편](/posts/naver-buddy-automation-3-no-webhook-polling/) · [4편](/posts/naver-buddy-automation-4-browser-token-diet/) · **5편 (현재 글)**
+> [1편](/posts/naver-buddy-automation-1-js-vs-real-click/) · [2편 카페 글쓰기 API](/posts/naver-buddy-automation-2-cafe-api-callback-url/) · [3편](/posts/naver-buddy-automation-3-no-webhook-polling/) · [4편](/posts/naver-buddy-automation-4-browser-token-diet/) · **5편 (현재 글)**
 {: .prompt-info }
 
 ## 문제

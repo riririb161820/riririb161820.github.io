@@ -4,8 +4,8 @@ headline: "카페 API 글쓰기 성공"
 highlight: "성공"
 date: 2026-09-02 22:20:00 +0900
 categories: [개발, 자동화]
-tags: [naver-buddy-automation, 네이버카페, openapi, oauth, 네이버로그인]
-description: "네이버 카페 글쓰기 공식 API(naver cafe api)를 실제로 호출해 글을 올리기까지의 전 과정. 로그인 오픈 API 앱 등록과 Callback URL 설정, 콜백 서버 없이 인가 코드 받기, 토큰 교환, 글쓰기 POST, 문서에 적힌 MS949 이중 인코딩의 실체, refresh_token 무인 자동화까지 실측으로 정리했다."
+tags: [naver-buddy-automation, 네이버카페, naver-openapi, oauth, 네이버로그인]
+description: "네이버 카페 글쓰기 API(naver cafe api) 사용법. 로그인 오픈 API Callback URL 등록, OAuth 인가 코드·토큰 발급, 글 등록 POST, 이중 URL 인코딩, openyn 기본값, AP001~AP008 에러 코드까지 실측과 공식 문서로 정리했다."
 image:
   path: /assets/img/posts/naver-buddy-automation-2-cafe-api-callback-url-hero.png
   alt: 앱 설정에서 Callback URL 등록, OAuth 인증, 인가 코드 회수, 토큰 교환, 글쓰기 POST로 이어지는 5단계 흐름
@@ -21,8 +21,8 @@ image:
 
 | 준비물 | 어디서 얻나 | 빠지면 |
 |---|---|---|
-| 애플리케이션 + **카페 API 권한** | 개발자센터 → 내 애플리케이션 → API 설정에 `카페` 추가 | 403 (API 권한 없음) |
-| **로그인 오픈 API 서비스 환경**(Callback URL) | 같은 화면 → 로그인 오픈 API 서비스 환경 → PC 웹 | OAuth 인증 자체를 시작 못 함 ([원인](#원인)) |
+| 애플리케이션 + **카페 API 권한** | 개발자센터 → 내 애플리케이션 → API 설정에 `카페` 추가 | 403 (카페 문서 기준. 공통 에러 문서는 같은 원인을 401로 안내) |
+| **로그인 오픈 API 서비스 환경**(Callback URL) | 같은 화면 → 로그인 오픈 API 서비스 환경 → PC 웹 | OAuth 인증 자체를 시작 못 함 ([원인](#원인--로그인-오픈-api-서비스-환경callback-url-미등록)) |
 | 동의 항목 **`카페가입, 글쓰기`** | OAuth 동의 화면에서 체크 | 글쓰기 API 사용 불가 ([2단계](#2-oauth-인증)) |
 | access_token | 인가 코드 → 토큰 교환 ([2~4단계](#2-oauth-인증)) | 401 |
 | **clubid** (카페 고유 숫자) | 카페 관리 페이지 등 주소의 `clubid=숫자` | AP006 (카페 없음) 등 |
@@ -32,7 +32,7 @@ image:
 
 ## 문제
 
-[1편](/posts/naver-buddy-automation-1-js-vs-real-click/)에서 카페 글쓰기를 **스마트에디터에 실제 키보드로 타이핑**해서 해결했다. 동작은 했지만 취약했다. 스냅샷으로 문단 uid를 찾고, 캐럿을 옮기고, 한 글자씩 넣는다. 에디터 DOM이 조금만 바뀌어도 깨진다.
+[1편](/posts/naver-buddy-automation-1-js-vs-real-click/)에서 카페 글쓰기를 **스마트에디터에 실제 키보드로 타이핑**해서 해결했다. 동작은 했지만 취약했다. 스냅샷으로 문단 uid를 찾고, 캐럿을 옮기고, 한 글자씩 넣는다. 에디터 DOM이 조금만 바뀌어도 깨진다. 에디터 자동화가 조용히 틀어지는 지점은 [스마트에디터 Playwright 함정](/posts/naver-smarteditor-playwright-pitfalls/)에 따로 모았다.
 
 그런데 공식 API 카탈로그를 다시 보니 이런 게 있었다.
 
@@ -44,7 +44,7 @@ POST https://openapi.naver.com/v1/cafe/{clubid}/menu/{menuid}/articles
 
 처음엔 "쓸 수 없다"고 결론 냈다. 앱 설정을 열어보니 **OAuth 인증을 시작할 수가 없었기** 때문이다.
 
-## 원인
+## 원인 — 로그인 오픈 API 서비스 환경(Callback URL) 미등록
 
 앱 설정 화면을 뜯어보니 상태가 이랬다.
 
@@ -97,8 +97,6 @@ https://nid.naver.com/oauth2.0/authorize
 
 ### 3. 콜백 서버 없이 인가 코드 회수하기
 
-여기가 이 글의 핵심이다.
-
 `redirect_uri`를 `http://localhost:8080/callback`으로 잡았지만 **거기엔 아무 서버도 안 띄웠다.** 당연히 리다이렉트는 실패한다.
 
 ```
@@ -106,9 +104,9 @@ GET http://localhost:8080/callback?code=XXXXXXXX&state=XXXX
 → net::ERR_CONNECTION_REFUSED
 ```
 
-**그런데 실패한 요청의 URL에 인가 코드가 그대로 들어 있다.** DevTools 네트워크 로그에서 그 요청을 찾으면 `?code=...` 를 바로 읽을 수 있다.
+**그런데 실패한 요청의 URL에 인가 코드가 그대로 들어 있다.** DevTools(F12) → Network 탭에서 `callback`으로 필터하면 실패한 요청이 보이고, 그 URL의 `?code=...` 를 바로 읽을 수 있다.
 
-즉 **콜백을 받아줄 서버를 만들 필요가 없다.** 로컬 자동화 목적이라면 Express 띄우고 라우트 만들 이유가 없었다.
+즉 **콜백을 받아줄 서버를 만들 필요가 없다.** 로컬 자동화 목적이라면 Express 띄우고 라우트 만들 이유가 없었다. 반대로 콜백 서버를 띄웠는데 state가 어긋나 실패하는 사례는 [인스타 자동화 봇이 막히는 네 지점](/posts/instagram-bot-meta-platform-four-blockers/)의 ④에 정리했다.
 
 ![리다이렉트가 ERR_CONNECTION_REFUSED로 실패해도 네트워크 로그에 남은 요청 URL에서 인가 코드를 회수하는 흐름](/assets/img/posts/naver-buddy-automation-2-cafe-api-callback-url-code.png)
 _실패한 리다이렉트가 인가 코드를 그대로 실어 나른다_
@@ -127,19 +125,35 @@ https://nid.naver.com/oauth2.0/token
 ### 5. 실제 글쓰기 — 첫 시도에 200
 
 ```python
+import json
+from urllib.parse import quote_plus
+from urllib.request import Request, urlopen
+
+token  = "..."        # 4단계에서 받은 access_token
+clubid = "12345678"   # 카페 고유 숫자 (준비물 표 참고)
+menuid = "1"          # 게시판 번호
+subject, content = "제목", "본문<br>두 번째 줄"
+
 def enc2(s):                                   # 문서 규칙 = 이중 URL 인코딩
     return quote_plus(quote_plus(s))
 
 url  = f"https://openapi.naver.com/v1/cafe/{clubid}/menu/{menuid}/articles"
-body = f"subject={enc2(subject)}&content={enc2(content)}".encode()
-req  = Request(url, data=body, method="POST")
+body = f"subject={enc2(subject)}&content={enc2(content)}"
+# body += "&openyn=true"   # 전체 공개로 올리려면 (기본값은 멤버 공개 — 아래 레퍼런스)
+req  = Request(url, data=body.encode(), method="POST")
 req.add_header("Authorization", "Bearer " + token)
 req.add_header("Content-Type", "application/x-www-form-urlencoded")
+with urlopen(req) as res:
+    print(json.load(res))
 ```
+
+요청 구조(헤더·이중 인코딩·form 본문)는 실측에 쓴 그대로이고, 값과 출력 부분만 예시로 채웠다.
 
 ```text
 {"result":{"msg":"Success","articleId":XXXXXX,"articleUrl":"https://cafe.naver.com/..."}}
 ```
+
+응답 중 결과 부분만 옮겼고 글 번호·주소는 가렸다. 응답 전체가 어떤 모양으로 오는지는 [응답 형식](#응답-형식--http-코드와-본문-status가-다를-수-있다)의 문서 예시를 보면 된다.
 
 ### 인코딩 함정 — "MS949 재인코딩"의 실체
 
@@ -174,11 +188,15 @@ quote_plus(quote_plus(s))   # 이걸로 그대로 동작했다
 
 `access_token`은 1시간짜리다. 예약 작업이 매번 사람 손을 빌릴 순 없다.
 
-```
-grant_type=refresh_token → 새 access_token 발급 (expires_in 3600)
+```text
+https://nid.naver.com/oauth2.0/token
+  ?grant_type=refresh_token
+  &client_id={ID}&client_secret={SECRET}
+  &refresh_token={4단계에서 받은 refresh_token}
+→ 새 access_token 발급 (expires_in 3600)
 ```
 
-**정상 동작을 확인했다.** 이걸로 무인 자동화가 가능해졌다.
+**정상 동작을 확인했다.** 요청 변수는 [네이버 로그인 개발 가이드](https://developers.naver.com/docs/login/devguide/devguide.md)의 갱신 요청과 같다. refresh_token 자체의 유효기간은 확인하지 못했다. 사용자 로그인이 없는 Client Credentials 방식에서는 refresh_token을 아예 주지 않는데, 그 차이는 [외부 API 연동 검증 글의 토큰 재발급 규칙](/posts/b2b-api-http-400-good-signal/#토큰-만료와-재발급--client-credentials의-규칙)에 정리했다.
 
 ### 자격증명 취급
 
@@ -189,7 +207,7 @@ grant_type=refresh_token → 새 access_token 발급 (expires_in 3600)
   client_id / client_secret / refresh_token / access_token
 ```
 
-## 레퍼런스 — 공식 문서에서 확인한 것
+## 레퍼런스 — 카페 글쓰기 API 요청 변수·응답·에러 코드
 
 여기부터는 [네이버 카페 API 공식 문서](https://developers.naver.com/docs/login/cafe-api/cafe-api.md)와 [공통 에러 코드 문서](https://developers.naver.com/docs/common/openapiguide/errorcode.md)를 2026-11-18에 다시 읽고 정리한 것이다. 내가 직접 호출해 확인한 것은 따로 표시했다.
 
@@ -255,18 +273,20 @@ grant_type=refresh_token → 새 access_token 발급 (expires_in 3600)
 
 | HTTP | 원인 |
 |---|---|
-| 401 | 접근 토큰이 없거나 만료됨, 또는 API 권한 미설정 → [refresh_token으로 재발급](#6-무인-자동화의-조건--refresh_token) |
+| 401 | 접근 토큰이 없거나 만료됨, 또는 API 권한 미설정(카페 문서는 이 경우를 403으로 안내) → [refresh_token으로 재발급](#6-무인-자동화의-조건--refresh_token) |
 | 403 | HTTPS가 아닌 HTTP로 호출, 필수 변수 누락, URL 인코딩 누락 |
 | 404 | 요청 URL 오류 |
 | 405 | POST가 아닌 메서드로 호출 |
 | 429 | 하루 호출 허용량 초과 |
+
+필수 변수 누락과 URL 인코딩 누락은 공통 문서에서 400·500으로도 안내한다. 같은 원인이라도 코드가 하나로 정해져 있지 않으니 본문 메시지까지 확인하자.
 
 > `AP005`는 에러지만 글이 사라진 게 아니라 **스팸 보관함으로 간 것**이다(문서 메시지 기준). 같은 글을 바로 다시 보내기 전에 스팸 보관함부터 확인하자. 자동 재시도 로직이 있다면 AP005는 재시도 대상에서 빼는 편이 안전하다.
 {: .prompt-tip }
 
 ### 이미지 첨부 — multipart
 
-이미지는 `application/x-www-form-urlencoded`로는 못 보낸다. `multipart/form-data`로 보내고, 여러 장이면 `image`를 반복한다. 공식 Python 예제의 구조는 이렇다(나는 텍스트 글만 실측했고, 이미지 첨부는 직접 호출해 보지 않았다).
+이미지는 `application/x-www-form-urlencoded`로는 못 보낸다. `multipart/form-data`로 보내고, 여러 장이면 `image`를 반복한다. 공식 Python 예제의 구조는 이렇다(나는 텍스트 글만 실측했고, 이미지 첨부는 직접 호출해 보지 않았다). 예제는 `quote()`를 한 번만 쓰는데, 한글이 깨지면 위 [인코딩 함정](#인코딩-함정--ms949-재인코딩의-실체)처럼 이중 인코딩으로 바꿔 보자.
 
 ```python
 import requests
@@ -284,7 +304,7 @@ res = requests.post(url, headers={"Authorization": "Bearer " + token},
 
 ### curl 한 줄로 확인하기
 
-코드 전에 토큰과 ID가 맞는지만 보고 싶다면 문서의 curl 예시가 가장 빠르다. 영문 제목으로 먼저 성공을 확인하면 인코딩 문제와 권한 문제를 분리할 수 있다.
+코드 전에 토큰과 ID가 맞는지만 보고 싶다면 curl 한 줄이 가장 빠르다. 아래는 문서의 curl 예시를 줄인 것이다. 영문 제목으로 먼저 성공을 확인하면 인코딩 문제와 권한 문제를 분리할 수 있다.
 
 ```bash
 curl "https://openapi.naver.com/v1/cafe/{clubid}/menu/{menuid}/articles" \
@@ -303,7 +323,7 @@ curl "https://openapi.naver.com/v1/cafe/{clubid}/menu/{menuid}/articles" \
 
 > **🧭 기획자·사업자라면**
 > - **"안 된다"의 상당수는 설정 한 줄이다.** 권한은 켜져 있는데 입구(Callback URL)가 닫혀 있어서 못 쓰는 상태였다. 기능 불가로 판단하기 전에 **콘솔의 경고 문구부터 읽어야** 한다. 여기서 며칠이 갈릴 수 있다.
-> - **공식 API가 있으면 우회 자동화보다 항상 낫다.** 1편의 실키보드 방식은 DOM이 바뀌면 깨지지만, API는 계약이라 스펙이 유지된다. **처음부터 공식 경로를 확인하는 게 총비용이 싸다.**
+> - **공식 API가 있으면 대체로 우회 자동화보다 낫다.** 1편의 실키보드 방식은 DOM이 바뀌면 깨지지만, 공개 API는 바뀔 때 공지·버전 관리를 거치는 경우가 많다. **처음부터 공식 경로를 확인하면 유지보수 비용을 줄일 수 있다.**
 > - **무인 운영의 진짜 관문은 토큰 갱신이다.** access token만 되고 refresh가 안 되면 그건 자동화가 아니라 "사람이 매시간 붙어야 하는 반자동"이다. 견적에 반드시 포함할 항목.
 {: .prompt-tip }
 

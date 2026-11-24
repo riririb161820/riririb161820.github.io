@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""발행 후 검증 (하네스 3단계). 표준 라이브러리만, mac/win 공용.
+"""발행 후 검증 (하네스 3단계). 표준 라이브러리만.
 
     python3 tools/post_verify.py <slug 또는 _posts/파일.md> [--shot DIR] [--indexnow]
 
@@ -17,7 +17,6 @@ from __future__ import annotations
 import argparse
 import html
 import os
-import platform
 import re
 import shutil
 import subprocess
@@ -60,16 +59,8 @@ def find_post(arg: str) -> Path:
 
 
 def chrome_path() -> str | None:
-    cands = {
-        "Darwin": ["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"],
-        "Windows": [os.path.expandvars(r"%ProgramFiles%\Google\Chrome\Application\chrome.exe"),
-                    os.path.expandvars(r"%ProgramFiles(x86)%\Google\Chrome\Application\chrome.exe"),
-                    os.path.expandvars(r"%LocalAppData%\Google\Chrome\Application\chrome.exe")],
-    }.get(platform.system(), [])
-    for c in cands:
-        if Path(c).exists():
-            return c
-    return shutil.which("google-chrome") or shutil.which("chromium") or shutil.which("chrome")
+    mac = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+    return mac if Path(mac).exists() else shutil.which("google-chrome")
 
 
 def main() -> int:

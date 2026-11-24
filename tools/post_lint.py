@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """블로그 글 검사기 (하네스 1단계).
 
-글(.md)을 넣으면 발행 전에 잡아야 할 문제를 찾는다. 표준 라이브러리만 쓴다(mac/win 공용).
+글(.md)을 넣으면 발행 전에 잡아야 할 문제를 찾는다. 표준 라이브러리만 쓴다.
 
     python3 tools/post_lint.py _posts/2026-09-02-foo.md [...]
     python3 tools/post_lint.py --changed      # git에서 바뀐(스테이징 포함) 글만
